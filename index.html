@@ -38,6 +38,95 @@
         radial-gradient(circle at bottom right, rgba(84, 199, 255, 0.08), transparent 28%),
         linear-gradient(180deg, var(--bg), var(--bg2) 72%);
       overflow: hidden;
+      position: relative;
+    }
+
+    .animated-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(141, 240, 160, 0.10), transparent 22%),
+        radial-gradient(circle at 80% 15%, rgba(84, 199, 255, 0.10), transparent 20%),
+        radial-gradient(circle at 50% 78%, rgba(255, 213, 106, 0.08), transparent 24%),
+        linear-gradient(180deg, rgba(3, 6, 5, 0.92), rgba(5, 11, 8, 0.96));
+    }
+
+    .animated-bg::before,
+    .animated-bg::after {
+      content: "";
+      position: absolute;
+      inset: -35%;
+      background-repeat: no-repeat;
+      filter: blur(32px) saturate(1.3);
+      opacity: 0.85;
+      animation: bgDrift 12s ease-in-out infinite alternate, bgHue 22s linear infinite;
+    }
+
+    .animated-bg::before {
+      background-image:
+        radial-gradient(circle at 14% 24%, rgba(255, 93, 184, 0.30), transparent 18%),
+        radial-gradient(circle at 42% 18%, rgba(84, 199, 255, 0.32), transparent 19%),
+        radial-gradient(circle at 78% 24%, rgba(141, 240, 160, 0.30), transparent 20%),
+        radial-gradient(circle at 24% 78%, rgba(255, 213, 106, 0.24), transparent 22%),
+        radial-gradient(circle at 72% 74%, rgba(160, 102, 255, 0.28), transparent 20%);
+      transform-origin: center;
+    }
+
+    .animated-bg::after {
+      background-image:
+        radial-gradient(circle at 18% 52%, rgba(84, 199, 255, 0.20), transparent 16%),
+        radial-gradient(circle at 52% 34%, rgba(255, 120, 120, 0.16), transparent 15%),
+        radial-gradient(circle at 82% 58%, rgba(141, 240, 160, 0.20), transparent 16%),
+        radial-gradient(circle at 50% 92%, rgba(255, 255, 255, 0.05), transparent 24%);
+      animation-duration: 16s, 28s;
+      animation-direction: alternate-reverse, normal;
+      opacity: 0.7;
+    }
+
+    .animated-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(circle at center, black 22%, transparent 78%);
+      opacity: 0.25;
+      animation: gridFloat 20s linear infinite;
+    }
+
+    .animated-scanline {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%);
+      background-size: 100% 220px;
+      opacity: 0.13;
+      mix-blend-mode: screen;
+      animation: scanMove 7s linear infinite;
+    }
+
+    @keyframes bgDrift {
+      0% { transform: translate3d(-2%, -1%, 0) scale(1.02) rotate(0deg); }
+      50% { transform: translate3d(1.8%, 1.4%, 0) scale(1.08) rotate(6deg); }
+      100% { transform: translate3d(-1%, 2%, 0) scale(1.04) rotate(-5deg); }
+    }
+
+    @keyframes bgHue {
+      0% { filter: blur(32px) saturate(1.3) hue-rotate(0deg); }
+      100% { filter: blur(32px) saturate(1.45) hue-rotate(360deg); }
+    }
+
+    @keyframes gridFloat {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(64px, 64px, 0); }
+    }
+
+    @keyframes scanMove {
+      0% { transform: translateY(-220px); }
+      100% { transform: translateY(220px); }
     }
 
     button, input, textarea { font: inherit; }
@@ -48,14 +137,16 @@
       grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.85fr);
       gap: 16px;
       padding: 16px;
+      position: relative;
+      z-index: 2;
     }
 
     .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
+      background: rgba(10, 18, 14, 0.42);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
       overflow: hidden;
       min-height: 0;
     }
@@ -118,7 +209,7 @@
     }
 
     .ghost-btn {
-      border: 1px solid var(--line);
+      border: 1px solid rgba(255,255,255,0.08);
       background: rgba(255,255,255,0.04);
       color: var(--text);
       padding: 9px 12px;
@@ -130,7 +221,7 @@
 
     .ghost-btn:hover {
       transform: translateY(-1px);
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
       border-color: rgba(255,255,255,0.18);
     }
 
@@ -154,7 +245,7 @@
       margin: 0 0 12px;
       padding: 12px 14px;
       border-radius: 18px;
-      border: 1px solid var(--line);
+      border: 1px solid rgba(255,255,255,0.08);
       line-height: 1.55;
       white-space: pre-wrap;
       word-wrap: break-word;
@@ -236,7 +327,7 @@
       min-height: 52px;
       max-height: 160px;
       resize: none;
-      border: 1px solid var(--line);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 16px;
       padding: 14px;
       outline: none;
@@ -307,7 +398,7 @@
 
     .tab-btn {
       width: 100%;
-      border: 1px solid var(--line);
+      border: 1px solid rgba(255,255,255,0.10);
       background: rgba(255,255,255,0.04);
       color: var(--text);
       padding: 11px 14px;
@@ -316,11 +407,12 @@
       transition: transform .12s ease, background .12s ease, border-color .12s ease, opacity .12s ease;
       font-size: 13px;
       text-align: left;
+      backdrop-filter: blur(6px);
     }
 
     .tab-btn:hover {
       transform: translateY(-1px);
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
     }
 
     .tab-btn.active {
@@ -336,7 +428,8 @@
 
     .section {
       padding: 16px;
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.01);
     }
     .section:last-child { border-bottom: 0; }
 
@@ -361,7 +454,7 @@
       width: 100%;
       height: 12px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
       overflow: hidden;
       border: 1px solid rgba(255,255,255,0.08);
     }
@@ -412,9 +505,9 @@
     }
 
     .setting {
-      border: 1px solid var(--line);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 16px;
-      background: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.01);
       padding: 12px;
       margin-bottom: 12px;
     }
@@ -459,8 +552,8 @@
     .preset-btn {
       padding: 8px 10px;
       border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.01);
       color: var(--text);
       cursor: pointer;
       font-size: 12px;
@@ -493,9 +586,9 @@
     }
 
     .settings-mini {
-      border: 1px solid var(--line);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 16px;
-      background: rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.01);
       padding: 14px;
       margin-bottom: 12px;
     }
@@ -508,6 +601,10 @@
   </style>
 </head>
 <body>
+  <div class="animated-bg" aria-hidden="true">
+    <div class="animated-grid"></div>
+    <div class="animated-scanline"></div>
+  </div>
   <div class="app">
     <section class="panel chat-panel">
       <div class="topbar">
@@ -572,13 +669,10 @@
           </div>
 
           <div class="section">
-            <div class="card-title">Facts</div>
-            <div class="footer-note">
-              Have you ever had a dream that that you um you had you'd you would you could you'd do you wi you wants you you could do you you'd do you could you you want you want him to do you so much you could do anything?
-              <br><br>
-              (by Greg version testing)
-            </div>
+            <div class="card-title">Tip</div>
+            <div class="footer-note">If the page is served from Netlify, your Python server must be public or routed through a backend host, and CORS must allow the site.</div>
           </div>
+        </div>
 
         <div class="settings-pane" id="settingsPane">
           <div class="section">
@@ -609,7 +703,7 @@
   </div>
 
   <script>
-    const API_URL = "https://thats-respond-gold-rolled.trycloudflare.com/chat";
+    const API_URL = "https://allied-informed-placement-gets.trycloudflare.com/chat";
     const STORAGE_KEY = 'greg_ui_api_v2';
 
     const DEFAULT_PARAMS = {
