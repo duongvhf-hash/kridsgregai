@@ -601,6 +601,9 @@
   </style>
 </head>
 <body>
+  <audio id="bgMusic" autoplay loop>
+    <source src="bgmusic.mp3" type="audio/mpeg">
+  </audio>
   <div class="animated-bg" aria-hidden="true">
     <div class="animated-grid"></div>
     <div class="animated-scanline"></div>
@@ -703,7 +706,21 @@
   </div>
 
   <script>
-    const API_URL = "https://allied-informed-placement-gets.trycloudflare.com/chat";
+    const bgMusic = document.getElementById("bgMusic");
+
+    bgMusic.volume = 0.15; // quiet ambient volume
+
+    bgMusic.play().catch(() => {
+        console.log("Browser blocked autoplay. Click anywhere to start music.");
+    });
+
+    document.addEventListener("click", () => {
+        if (bgMusic.paused) {
+            bgMusic.play();
+        }
+    }, { once: true });
+    
+    const API_URL = "https://leisure-emerging-lot-hardware.trycloudflare.com/chat";
     const STORAGE_KEY = 'greg_ui_api_v2';
 
     const DEFAULT_PARAMS = {
