@@ -879,7 +879,7 @@
     }
     requestAnimationFrame(drawCanvasBg);
 
-    const API_URL = "https://recommended-points-prince-filters.trycloudflare.com/chat";
+    const API_URL = "https://some-leave-shortcuts-lexmark.trycloudflare.com/chat";
     const STORAGE_KEY = 'greg_ui_api_v2';
 
     const DEFAULT_PARAMS = {
@@ -1003,6 +1003,7 @@
     function gregSpeak(text) {
       try {
         if (!voiceModeEnabled) return;
+
         const speechText = String(text || '').trim();
         if (!speechText) return;
 
@@ -1019,6 +1020,7 @@
           speechSynthesis.cancel();
           speechSynthesis.speak(utterance);
         }
+
       } catch (err) {
         console.warn('Voice failed:', err);
       }
@@ -1147,7 +1149,7 @@
         console.error(err);
         typing.remove();
         connected = false;
-        await addGregBubble('Greg could not reply. Check the server and CORS settings.', 'API');
+        await addGregBubble('Uh Oh! Server is having problems', 'API');
       } finally {
         isSending = false;
         updateUI();
