@@ -41,6 +41,15 @@
       position: relative;
     }
 
+    #bgCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
     .animated-bg {
       position: fixed;
       inset: 0;
@@ -593,6 +602,75 @@
       margin-bottom: 12px;
     }
 
+    .voice-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 12px;
+      background: rgba(255,255,255,0.02);
+      margin-top: 12px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 26px;
+      flex: none;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: rgba(255,255,255,0.16);
+      transition: .2s;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .slider:before {
+      content: "";
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      top: 3px;
+      background: white;
+      transition: .2s;
+      border-radius: 50%;
+    }
+
+    .switch input:checked + .slider {
+      background: rgba(141,240,160,0.45);
+    }
+
+    .switch input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+
+    .voice-button {
+      margin-top: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .voice-button:hover { background: rgba(255,255,255,0.09); }
+
     @media (max-width: 980px) {
       body { overflow: auto; }
       .app { height: auto; min-height: 100vh; grid-template-columns: 1fr; }
@@ -608,6 +686,7 @@
     <div class="animated-grid"></div>
     <div class="animated-scanline"></div>
   </div>
+  <canvas id="bgCanvas"></canvas>
   <div class="app">
     <section class="panel chat-panel">
       <div class="topbar">
@@ -638,8 +717,7 @@
           <span id="memoryHint">Ready</span>
         </div>
       </div>
-
-      </section>
+    </section>
 
     <aside class="panel sidebar">
       <div class="tabs-side">
@@ -681,13 +759,25 @@
           </div>
         </div>
 
-        <div class="section">
-          <div class="card-title">  Tip</div>
-          <div class="footer-note" id="factText">
-            The model cant do websearches.
-            </span>
+        <div class="settings-pane" id="settingsPane">
+          <div class="section">
+            <div class="card-title">Voice Mode</div>
+            <div class="voice-toggle-row">
+              <div>
+                <div style="font-size:13px;color:#dbeee2;font-weight:700;">Greg voice</div>
+                <div class="footer-note" style="margin-top:4px;">Shows play buttons and auto-speaks Greg replies.</div>
+              </div>
+              <label class="switch" aria-label="Voice Mode">
+                <input id="voiceModeSwitch" type="checkbox">
+                <span class="slider"></span>
+              </label>
+            </div>
           </div>
-        </div>
+
+          <div class="section">
+            <div class="card-title">Tip</div>
+            <div class="footer-note" id="factText">The model cant do websearches.</div>
+          </div>
 
           <div class="section">
             <div class="card-title">Generation</div>
@@ -711,22 +801,85 @@
     </aside>
   </div>
 
+  <script src="voice/samjs.js"></script>
   <script>
     const bgMusic = document.getElementById("bgMusic");
+    const canvas = document.getElementById("bgCanvas");
+    const ctx = canvas.getContext("2d");
 
-    bgMusic.volume = 0.2; // quiet ambient volume
-
+    bgMusic.volume = 0.2;
     bgMusic.play().catch(() => {
-        console.log("Browser blocked autoplay. Click anywhere to start music.");
+      console.log("Browser blocked autoplay. Click anywhere to start music.");
     });
 
     document.addEventListener("click", () => {
-        if (bgMusic.paused) {
-            bgMusic.play();
-        }
+      if (bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+      }
     }, { once: true });
-    
-    const API_URL = "https://combat-cape-mandate-alien.trycloudflare.com/chat";
+
+    function resizeCanvas() {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const particles = Array.from({ length: 42 }, (_, i) => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+      r: 18 + Math.random() * 55,
+      vx: (Math.random() - 0.5) * 0.22,
+      vy: (Math.random() - 0.5) * 0.18,
+      hue: Math.floor(Math.random() * 360),
+      alpha: 0.05 + Math.random() * 0.18,
+      pulse: Math.random() * Math.PI * 2,
+    }));
+
+    function drawCanvasBg() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      const g = ctx.createLinearGradient(0, 0, w, h);
+      g.addColorStop(0, 'rgba(10,18,14,0.10)');
+      g.addColorStop(1, 'rgba(3,6,5,0.14)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.pulse += 0.018;
+        if (p.x < -120) p.x = w + 120;
+        if (p.x > w + 120) p.x = -120;
+        if (p.y < -120) p.y = h + 120;
+        if (p.y > h + 120) p.y = -120;
+
+        const r = p.r + Math.sin(p.pulse) * 10;
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
+        grad.addColorStop(0, `hsla(${p.hue}, 95%, 72%, ${p.alpha})`);
+        grad.addColorStop(0.45, `hsla(${(p.hue + 40) % 360}, 95%, 62%, ${p.alpha * 0.45})`);
+        grad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+
+      requestAnimationFrame(drawCanvasBg);
+    }
+    requestAnimationFrame(drawCanvasBg);
+
+    const API_URL = "https://organizational-lovers-between-rental.trycloudflare.com/chat";
     const STORAGE_KEY = 'greg_ui_api_v2';
 
     const DEFAULT_PARAMS = {
@@ -761,12 +914,21 @@
       settingsStatusLabel: document.getElementById('settingsStatusLabel'),
       defaultPreset: document.getElementById('defaultPreset'),
       fastPreset: document.getElementById('fastPreset'),
-      smartPreset: document.getElementById('smartPreset')
+      smartPreset: document.getElementById('smartPreset'),
+      voiceModeSwitch: document.getElementById('voiceModeSwitch')
     };
 
     let state = loadState();
     let isSending = false;
     let connected = false;
+    let voiceModeEnabled = false;
+    const samOptions = {
+      debug: 1,
+      pitch: 64,
+      speed: 72,
+      mouth: 128,
+      throat: 128
+    };
 
     function loadState() {
       try {
@@ -838,6 +1000,30 @@
       }
     }
 
+    function gregSpeak(text) {
+      try {
+        if (!voiceModeEnabled) return;
+        const speechText = String(text || '').trim();
+        if (!speechText) return;
+
+        if (typeof SamJs === 'function') {
+          new SamJs(samOptions).speak(speechText);
+          return;
+        }
+
+        if ('speechSynthesis' in window) {
+          const utterance = new SpeechSynthesisUtterance(speechText);
+          utterance.rate = 1;
+          utterance.pitch = 1;
+          utterance.volume = 1;
+          speechSynthesis.cancel();
+          speechSynthesis.speak(utterance);
+        }
+      } catch (err) {
+        console.warn('Voice failed:', err);
+      }
+    }
+
     async function addGregBubble(text, meta = 'API') {
       const div = document.createElement('div');
       div.className = 'bubble greg';
@@ -855,6 +1041,16 @@
       await typeText(textBox, text);
       cursor.remove();
       el.messages.scrollTop = el.messages.scrollHeight;
+
+      if (voiceModeEnabled) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'voice-button';
+        btn.textContent = 'Play voice';
+        btn.addEventListener('click', () => gregSpeak(text));
+        div.appendChild(btn);
+        setTimeout(() => gregSpeak(text), 120);
+      }
       return div;
     }
 
@@ -988,8 +1184,17 @@
       addBubble('greg', 'Smart preset will come back later.');
     }
 
+    function setVoiceMode(enabled) {
+      voiceModeEnabled = !!enabled;
+      if (el.voiceModeSwitch) el.voiceModeSwitch.checked = voiceModeEnabled;
+      if (!voiceModeEnabled) {
+        document.querySelectorAll('.voice-button').forEach((btn) => btn.remove());
+      }
+    }
+
     replayRecent();
     updateUI();
+    setVoiceMode(false);
 
     el.sendBtn.addEventListener('click', sendMessage);
     el.clearBtn.addEventListener('click', clearChat);
@@ -1000,6 +1205,10 @@
     el.defaultPreset.addEventListener('click', presetDefaults);
     el.fastPreset.addEventListener('click', presetFast);
     el.smartPreset.addEventListener('click', presetSmart);
+
+    if (el.voiceModeSwitch) {
+      el.voiceModeSwitch.addEventListener('change', (e) => setVoiceMode(e.target.checked));
+    }
 
     el.input.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
