@@ -879,7 +879,7 @@
     }
     requestAnimationFrame(drawCanvasBg);
 
-    const API_URL = "https://offshore-stud-quantity-stunning.trycloudflare.com/chat";
+    const API_URL = "https://extending-shoe-both-penalty.trycloudflare.com/chat";
     const STORAGE_KEY = 'greg_ui_api_v2';
 
     const DEFAULT_PARAMS = {
@@ -1007,18 +1007,17 @@
         const speechText = String(text || '').trim();
         if (!speechText) return;
 
-        if (typeof SamJs === "function") {
-          new SamJs({
-            debug: 1,
-            pitch: 64,
-            speed: 72,
-            mouth: 128,
-            throat: 128
-          }).speak(speechText);
+        if (typeof SamJs === 'function') {
+          const sam = new SamJs(samOptions);
 
-        } else {
-          console.error("SamJs failed to load");
+          // lower volume here (0.0 - 1.0)
+          sam.volume = 0.5;
+
+          sam.speak(speechText);
+          return;
         }
+
+        console.warn("Better SAM not loaded, using browser voice");
 
       } catch (err) {
         console.warn("Voice failed:", err);
