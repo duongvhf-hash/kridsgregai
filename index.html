@@ -801,13 +801,13 @@
     </aside>
   </div>
 
-  <script src="voice/samjs.js"></script>
+  <script src="dist/samjs.js"></script>
   <script>
     const bgMusic = document.getElementById("bgMusic");
     const canvas = document.getElementById("bgCanvas");
     const ctx = canvas.getContext("2d");
 
-    bgMusic.volume = 0.2;
+    bgMusic.volume = 0.3;
     bgMusic.play().catch(() => {
       console.log("Browser blocked autoplay. Click anywhere to start music.");
     });
@@ -879,7 +879,7 @@
     }
     requestAnimationFrame(drawCanvasBg);
 
-    const API_URL = "https://some-leave-shortcuts-lexmark.trycloudflare.com/chat";
+    const API_URL = "https://offshore-stud-quantity-stunning.trycloudflare.com/chat";
     const STORAGE_KEY = 'greg_ui_api_v2';
 
     const DEFAULT_PARAMS = {
@@ -1007,22 +1007,21 @@
         const speechText = String(text || '').trim();
         if (!speechText) return;
 
-        if (typeof SamJs === 'function') {
-          new SamJs(samOptions).speak(speechText);
-          return;
-        }
+        if (typeof SamJs === "function") {
+          new SamJs({
+            debug: 1,
+            pitch: 64,
+            speed: 72,
+            mouth: 128,
+            throat: 128
+          }).speak(speechText);
 
-        if ('speechSynthesis' in window) {
-          const utterance = new SpeechSynthesisUtterance(speechText);
-          utterance.rate = 1;
-          utterance.pitch = 1;
-          utterance.volume = 1;
-          speechSynthesis.cancel();
-          speechSynthesis.speak(utterance);
+        } else {
+          console.error("SamJs failed to load");
         }
 
       } catch (err) {
-        console.warn('Voice failed:', err);
+        console.warn("Voice failed:", err);
       }
     }
 
