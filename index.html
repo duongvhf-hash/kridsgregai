@@ -879,7 +879,7 @@
     }
     requestAnimationFrame(drawCanvasBg);
 
-    const API_URL = "https://spending-influenced-seeing-discover.trycloudflare.com/chat";
+    const API_URL = "https://news-saying-anna-precious.trycloudflare.com/chat";
     const STORAGE_KEY = 'greg_ui_api_v2';
 
     const DEFAULT_PARAMS = {
@@ -1004,23 +1004,98 @@
       try {
         if (!voiceModeEnabled) return;
 
-        const speechText = String(text || '').trim();
+        let speechText = String(text || '').trim();
+
         if (!speechText) return;
 
+
+        // =====================================
+        // CLEAN TEXT FOR VOICE
+        // =====================================
+
+        speechText = speechText
+          // remove markdown
+          .replace(/[*_`#]/g, "")
+
+          // new lines become pauses
+          .replace(/\n+/g, ". ")
+
+          // symbols to words
+          .replace(/&/g, " and ")
+          .replace(/@/g, " at ")
+          .replace(/#/g, " hashtag ")
+          .replace(/\$/g, " dollar ")
+          .replace(/%/g, " percent ")
+          .replace(/\+/g, " plus ")
+          .replace(/=/g, " equals ")
+          .replace(/</g, " less than ")
+          .replace(/>/g, " greater than ")
+
+          // brackets
+          .replace(/\(/g, " open parenthesis ")
+          .replace(/\)/g, " close parenthesis ")
+
+          // quotes
+          .replace(/"/g, " quote ")
+          .replace(/'/g, " apostrophe ")
+
+          // question/exclamation
+          .replace(/\?/g, " question mark. ")
+          .replace(/!/g, " exclamation mark. ")
+
+          // commas create small pause
+          .replace(/,/g, ", ")
+
+          // keep dots as pauses
+          .replace(/\.{3,}/g, "...")
+
+          // avoid huge spaces
+          .replace(/\s+/g, " ")
+          .trim();
+
+
+        // =====================================
+        // SAM VOICE
+        // =====================================
+
         if (typeof SamJs === 'function') {
+
           const sam = new SamJs(samOptions);
 
-          // lower volume here (0.0 - 1.0)
+          // lower volume
           sam.volume = 0.5;
 
           sam.speak(speechText);
+
           return;
         }
 
+
+        // =====================================
+        // FALLBACK BROWSER VOICE
+        // =====================================
+
         console.warn("Better SAM not loaded, using browser voice");
 
+        const utterance = new SpeechSynthesisUtterance(
+          speechText
+        );
+
+        utterance.rate = 1;
+        utterance.pitch = 1;
+
+        speechSynthesis.speak(
+          utterance
+        );
+
+
       } catch (err) {
-        console.warn("Voice failed:", err);
+
+        console.warn(
+          "Voice failed:",
+          err
+        );
+
       }
     }
 
