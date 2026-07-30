@@ -879,7 +879,8 @@
     }
     requestAnimationFrame(drawCanvasBg);
 
-    const API_URL = "https://kenneth-incentive-ion-consists.trycloudflare.com/chat";
+    const API_URL = "https://garage-doug-promoted-harder.trycloudflare.com/chat";
+    const HEALTH_URL = API_URL.replace('/chat', '/health');
     const STORAGE_KEY = 'greg_ui_api_v2';
 
     const DEFAULT_PARAMS = {
@@ -889,6 +890,33 @@
       top_k: 40,
       repetition_penalty: 1.2,
       no_repeat_ngram_size: 4
+    };
+
+    const PRESET_PARAMS = {
+      default: {
+        max_new_tokens: 150,
+        temperature: 0.6,
+        top_p: 0.85,
+        top_k: 40,
+        repetition_penalty: 1.2,
+        no_repeat_ngram_size: 4
+      },
+      fast: {
+        max_new_tokens: 80,
+        temperature: 0.5,
+        top_p: 0.8,
+        top_k: 30,
+        repetition_penalty: 1.15,
+        no_repeat_ngram_size: 3
+      },
+      smart: {
+        max_new_tokens: 220,
+        temperature: 0.7,
+        top_p: 0.9,
+        top_k: 50,
+        repetition_penalty: 1.25,
+        no_repeat_ngram_size: 4
+      }
     };
 
     const el = {
@@ -1169,10 +1197,8 @@
       isSending = true;
       updateUI();
       try {
-        const res = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: 'hello' })
+        const res = await fetch(HEALTH_URL, {
+          method: 'GET'
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         connected = true;
@@ -1206,7 +1232,10 @@
         const res = await fetch(API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: userText }),
+          body: JSON.stringify({
+          message: userText,
+          params: state.params
+        }),
           signal: controller.signal
         });
 
@@ -1266,16 +1295,23 @@
     }
 
     function presetDefaults() {
-      addBubble('greg', 'Default settings will come back later.');
+      state.params = { ...PRESET_PARAMS.default };
+      saveState();
+      addBubble('greg', 'Preset changed to Default.');
     }
 
     function presetFast() {
-      addBubble('greg', 'Fast preset will come back later.');
+      state.params = { ...PRESET_PARAMS.fast };
+      saveState();
+      addBubble('greg', 'Preset changed to Fast.');
     }
 
     function presetSmart() {
-      addBubble('greg', 'Smart preset will come back later.');
+      state.params = { ...PRESET_PARAMS.smart };
+      saveState();
+      addBubble('greg', 'Preset changed to Smart.');
     }
+
 
     function setVoiceMode(enabled) {
       voiceModeEnabled = !!enabled;
