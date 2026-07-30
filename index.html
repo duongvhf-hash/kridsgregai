@@ -879,7 +879,7 @@
     }
     requestAnimationFrame(drawCanvasBg);
 
-    const API_URL = "https://hypothesis-lips-conservation-creatures.trycloudflare.com/chat";
+    const API_URL = "https://attempted-pam-vocals-identifies.trycloudflare.com/chat";
     const STORAGE_KEY = 'greg_ui_api_v2';
 
     const DEFAULT_PARAMS = {
@@ -1200,15 +1200,33 @@
       saveState();
 
       try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 180000);
+
         const res = await fetch(API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: userText })
+          body: JSON.stringify({ message: userText }),
+          signal: controller.signal
         });
 
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        const reply = (data.reply || '').trim() || "I'm still here.";
+        clearTimeout(timeout);
+
+        const raw = await res.text();
+        let data = null;
+        try {
+          data = JSON.parse(raw);
+        } catch {
+          data = { reply: raw };
+        }
+
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}: ${(data && (data.reply || raw)) || 'Request failed'}`);
+        }
+
+        const reply = String(
+          (data && (data.reply || data.response || data.message)) || raw || "I'm still here."
+        ).trim() || "I'm still here.";
 
         state.conversation.push({ role: 'user', content: userText });
         state.conversation.push({ role: 'assistant', content: reply });
@@ -1222,7 +1240,7 @@
         console.error(err);
         typing.remove();
         connected = false;
-        await addGregBubble('Uh Oh! Server is having problems', 'API');
+        await addGregBubble(err && err.name === 'AbortError' ? 'Request timed out.' : 'Uh Oh! Server is having problems', 'API');
       } finally {
         isSending = false;
         updateUI();
