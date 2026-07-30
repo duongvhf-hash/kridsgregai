@@ -879,8 +879,7 @@
     }
     requestAnimationFrame(drawCanvasBg);
 
-    const API_URL = "https://moderator-teacher-chen-considering.trycloudflare.com/chat";
-    const HEALTH_URL = API_URL.replace('/chat', '/health');
+    const API_URL = "https://humanity-evanescence-increasingly-develop.trycloudflare.com/chat";
     const STORAGE_KEY = 'greg_ui_api_v2';
 
     const DEFAULT_PARAMS = {
@@ -1197,8 +1196,20 @@
       isSending = true;
       updateUI();
       try {
-        const res = await fetch(HEALTH_URL, {
-          method: 'GET'
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: 'ping',
+            params: {
+              max_new_tokens: 1,
+              temperature: 0.01,
+              top_p: 0.01,
+              top_k: 1,
+              repetition_penalty: 1.0,
+              no_repeat_ngram_size: 0
+            }
+          })
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         connected = true;
