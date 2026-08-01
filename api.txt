@@ -1,1 +1,1 @@
-https://albuquerque-facility-beauty-referred.trycloudflare.com/chat
+https://api.trycloudflare.com/chat
