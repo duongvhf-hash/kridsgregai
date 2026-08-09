@@ -879,7 +879,7 @@
     }
     requestAnimationFrame(drawCanvasBg);
 
-    const API_URL = "https://freebsd-infants-destination-nelson.trycloudflare.com/chat";
+    const API_URL = "https://argue-defensive-ccd-nirvana.trycloudflare.com/chat";
     const STORAGE_KEY = 'greg_ui_api_v2';
 
     const DEFAULT_PARAMS = {
@@ -1163,20 +1163,47 @@
       const div = document.createElement('div');
       div.className = 'bubble greg';
 
+      // ========================================================
+      // HEADER
+      // ========================================================
+
+      const header = document.createElement('span');
+      header.className = 'small';
+      header.textContent = `Greg · ${meta} · ${nowTime()}`;
+
+      div.appendChild(header);
+
+      el.messages.appendChild(div);
+      el.messages.scrollTop = el.messages.scrollHeight;
+
+
+      // ========================================================
+      // IMAGE RESPONSE
+      // ========================================================
+      // IMPORTANT:
+      // Images NEVER use typeText().
+      // Images NEVER get a typing cursor.
+      // Images NEVER get voice.
+      // ========================================================
+
       if (isImage) {
         const img = document.createElement('img');
-        img.src = content;
+
+        img.src = String(content);
         img.alt = 'Greg generated image';
+
         img.style.display = 'block';
         img.style.maxWidth = '100%';
         img.style.maxHeight = '600px';
         img.style.width = 'auto';
         img.style.height = 'auto';
         img.style.borderRadius = '14px';
+        img.style.marginTop = '6px';
         img.style.objectFit = 'contain';
 
         img.onload = () => {
-          el.messages.scrollTop = el.messages.scrollHeight;
+          el.messages.scrollTop =
+            el.messages.scrollHeight;
         };
 
         img.onerror = () => {
@@ -1184,42 +1211,67 @@
 
           const error = document.createElement('span');
           error.className = 'greg-text';
-          error.textContent = 'Could not load the image.';
+          error.textContent = 'Could not load the generated image.';
+
           div.appendChild(error);
         };
 
         div.appendChild(img);
-        el.messages.appendChild(div);
-        el.messages.scrollTop = el.messages.scrollHeight;
+
         return div;
       }
 
-      div.innerHTML = `
-        <span class="small">Greg · ${escapeHtml(meta)} · ${nowTime()}</span>
-        <span class="greg-text"></span><span class="type-cursor">▍</span>
-      `;
 
-      el.messages.appendChild(div);
-      el.messages.scrollTop = el.messages.scrollHeight;
+      // ========================================================
+      // NORMAL TEXT RESPONSE
+      // ========================================================
 
+      const textBox = document.createElement('span');
+      textBox.className = 'greg-text';
+
+      const cursor = document.createElement('span');
+      cursor.className = 'type-cursor';
+      cursor.textContent = '▍';
+
+      div.appendChild(textBox);
+      div.appendChild(cursor);
+
+      // Keep the normal Greg typing delay
       await sleep(320);
 
-      const textBox = div.querySelector('.greg-text');
-      const cursor = div.querySelector('.type-cursor');
-
-      await typeText(textBox, content);
+      await typeText(
+        textBox,
+        content
+      );
 
       cursor.remove();
-      el.messages.scrollTop = el.messages.scrollHeight;
+
+      el.messages.scrollTop =
+        el.messages.scrollHeight;
+
+
+      // ========================================================
+      // VOICE ONLY FOR NORMAL TEXT
+      // ========================================================
 
       if (voiceModeEnabled) {
         const btn = document.createElement('button');
+
         btn.type = 'button';
         btn.className = 'voice-button';
         btn.textContent = 'Play voice';
-        btn.addEventListener('click', () => gregSpeak(content));
+
+        btn.addEventListener(
+          'click',
+          () => gregSpeak(content)
+        );
+
         div.appendChild(btn);
-        setTimeout(() => gregSpeak(content), 120);
+
+        setTimeout(
+          () => gregSpeak(content),
+          120
+        );
       }
 
       return div;
@@ -1300,91 +1352,271 @@
 
     async function sendMessage() {
       const text = el.input.value.trim();
-      if (!text || isSending) return;
+
+      if (!text || isSending) {
+        return;
+      }
 
       const userText = text;
+
       el.input.value = '';
-      addBubble('user', userText);
+
+      addBubble(
+        'user',
+        userText
+      );
 
       const typing = addTyping();
+
       isSending = true;
+
       updateUI();
       saveState();
 
+      let timeout = null;
+
       try {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 180000);
 
-        const res = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: userText,
-            params: state.params
-          }),
-          signal: controller.signal
-        });
+        timeout = setTimeout(
+          () => controller.abort(),
+          180000
+        );
+
+        // ======================================================
+        // SEND TO SERVER
+        // ======================================================
+
+        const res = await fetch(
+          API_URL,
+          {
+            method: 'POST',
+
+            headers: {
+              'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify({
+              message: userText,
+              params: state.params
+            }),
+
+            signal: controller.signal
+          }
+        );
 
         clearTimeout(timeout);
+        timeout = null;
+
+
+        // ======================================================
+        // READ RESPONSE
+        // ======================================================
 
         const raw = await res.text();
 
-        let data = null;
+        let data;
+
         try {
           data = JSON.parse(raw);
         } catch {
-          data = { reply: raw };
+          data = {
+            reply: raw
+          };
         }
+
+
+        // ======================================================
+        // SERVER ERROR
+        // ======================================================
 
         if (!res.ok) {
           throw new Error(
-            `HTTP ${res.status}: ${(data && (data.reply || raw)) || 'Request failed'}`
+            `HTTP ${res.status}: ${
+              (data &&
+                (data.reply || raw)) ||
+              'Request failed'
+            }`
           );
         }
 
-        const reply = String(
-          (data && (data.reply || data.response || data.message)) || raw || "I'm still here."
-        ).trim() || "I'm still here.";
 
-        const imageSrc =
-          normalizeImageSrc(data && data.image) ||
-          extractImageSrcFromReply(reply);
+        // ======================================================
+        // IMAGE RESPONSE
+        //
+        // THIS MUST BE CHECKED BEFORE NORMAL TEXT.
+        // ======================================================
 
-        const isImage = Boolean(imageSrc);
+        if (
+          data &&
+          data.image_requested === true
+        ) {
 
-        state.conversation.push({ role: 'user', content: userText });
-        state.conversation.push({
-          role: 'assistant',
-          content: isImage ? imageSrc : reply,
-          isImage
-        });
+          // Remove "Greg · thinking..."
+          typing.remove();
 
-        state.conversation = state.conversation.slice(-24);
-        saveState();
 
-        typing.remove();
+          // ====================================================
+          // REAL GENERATED IMAGE
+          // ====================================================
 
-        if (isImage) {
-          await addGregBubble(imageSrc, 'API', true);
-        } else {
-          await addGregBubble(reply, 'API', false);
+          if (
+            data.image_generated === true &&
+            data.image
+          ) {
+
+            await addGregBubble(
+              data.image,
+              'IMAGE',
+              true
+            );
+
+          }
+
+
+          // ====================================================
+          // IMAGE DETECTED BUT GENERATOR NOT CONNECTED
+          //
+          // Don't show the server's empty reply.
+          // ====================================================
+
+          else {
+
+            const div =
+              document.createElement('div');
+
+            div.className =
+              'bubble greg';
+
+            const header =
+              document.createElement('span');
+
+            header.className =
+              'small';
+
+            header.textContent =
+              `Greg · IMAGE · ${nowTime()}`;
+
+            div.appendChild(header);
+
+
+            const status =
+              document.createElement('span');
+
+            status.className =
+              'greg-text';
+
+            status.textContent =
+              'Image generator is not connected yet.';
+
+            div.appendChild(status);
+
+            el.messages.appendChild(div);
+
+            el.messages.scrollTop =
+              el.messages.scrollHeight;
+          }
+
+
+          connected = true;
+
+          return;
         }
 
-        connected = true;
-      } catch (err) {
-        console.error(err);
+
+        // ======================================================
+        // NORMAL TEXT RESPONSE
+        // ======================================================
+
+        const reply = String(
+          (data && (
+            data.reply ||
+            data.response ||
+            data.message
+          )) ||
+          raw ||
+          "I'm still here."
+        ).trim() || "I'm still here.";
+
+
+        // ======================================================
+        // SAVE NORMAL CHAT ONLY
+        // ======================================================
+
+        state.conversation.push({
+          role: 'user',
+          content: userText
+        });
+
+        state.conversation.push({
+          role: 'assistant',
+          content: reply
+        });
+
+        state.conversation =
+          state.conversation.slice(-24);
+
+        saveState();
+
+
+        // ======================================================
+        // REMOVE THINKING
+        // ======================================================
+
         typing.remove();
-        connected = false;
+
+
+        // ======================================================
+        // NORMAL TEXT
+        //
+        // typeText() happens INSIDE addGregBubble()
+        // ======================================================
 
         await addGregBubble(
-          err && err.name === 'AbortError'
-            ? 'Request timed out.'
-            : 'Uh Oh! Server is having problems',
+          reply,
           'API',
           false
         );
+
+        connected = true;
+
+      } catch (err) {
+
+        console.error(err);
+
+
+        // Remove thinking bubble
+        if (
+          typing &&
+          typing.parentNode
+        ) {
+          typing.remove();
+        }
+
+        connected = false;
+
+
+        const errorMessage =
+          err &&
+          err.name === 'AbortError'
+            ? 'Request timed out.'
+            : 'Uh Oh! Server is having problems';
+
+
+        await addGregBubble(
+          errorMessage,
+          'API',
+          false
+        );
+
       } finally {
+
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+
         isSending = false;
+
         updateUI();
       }
     }
