@@ -879,7 +879,7 @@
     }
     requestAnimationFrame(drawCanvasBg);
 
-    const API_URL = "https://ballet-she-rides-decide.trycloudflare.com/chat";
+    const API_URL = "https://freebsd-infants-destination-nelson.trycloudflare.com/chat";
     const STORAGE_KEY = 'greg_ui_api_v2';
 
     const DEFAULT_PARAMS = {
@@ -1126,13 +1126,79 @@
       }
     }
 
-    async function addGregBubble(text, meta = 'API') {
+    function normalizeImageSrc(src) {
+      if (!src) return null;
+
+      let value = String(src).trim();
+
+      if (/^data:image\/[a-z0-9.+-]+;base64,/i.test(value)) {
+        return value;
+      }
+
+      if (/^https?:\/\/\S+\.(png|jpe?g|gif|webp|bmp|svg)(\?\S*)?$/i.test(value)) {
+        return value;
+      }
+
+      // Raw base64 coming from your Python backend
+      if (/^[A-Za-z0-9+/=\s]{100,}$/.test(value)) {
+        value = value.replace(/\s+/g, "");
+        return `data:image/png;base64,${value}`;
+      }
+
+      return null;
+    }
+
+    function extractImageSrcFromReply(reply) {
+      const value = String(reply || "").trim();
+
+      const markdown = value.match(/!\[[^\]]*]\(([^)]+)\)/i);
+      if (markdown) {
+        return normalizeImageSrc(markdown[1]);
+      }
+
+      return normalizeImageSrc(value);
+    }
+
+    async function addGregBubble(content, meta = 'API', isImage = false) {
       const div = document.createElement('div');
       div.className = 'bubble greg';
+
+      if (isImage) {
+        const img = document.createElement('img');
+        img.src = content;
+        img.alt = 'Greg generated image';
+        img.style.display = 'block';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '600px';
+        img.style.width = 'auto';
+        img.style.height = 'auto';
+        img.style.borderRadius = '14px';
+        img.style.objectFit = 'contain';
+
+        img.onload = () => {
+          el.messages.scrollTop = el.messages.scrollHeight;
+        };
+
+        img.onerror = () => {
+          img.remove();
+
+          const error = document.createElement('span');
+          error.className = 'greg-text';
+          error.textContent = 'Could not load the image.';
+          div.appendChild(error);
+        };
+
+        div.appendChild(img);
+        el.messages.appendChild(div);
+        el.messages.scrollTop = el.messages.scrollHeight;
+        return div;
+      }
+
       div.innerHTML = `
-        <span class="small">Greg · ${meta} · ${nowTime()}</span>
+        <span class="small">Greg · ${escapeHtml(meta)} · ${nowTime()}</span>
         <span class="greg-text"></span><span class="type-cursor">▍</span>
       `;
+
       el.messages.appendChild(div);
       el.messages.scrollTop = el.messages.scrollHeight;
 
@@ -1140,7 +1206,9 @@
 
       const textBox = div.querySelector('.greg-text');
       const cursor = div.querySelector('.type-cursor');
-      await typeText(textBox, text);
+
+      await typeText(textBox, content);
+
       cursor.remove();
       el.messages.scrollTop = el.messages.scrollHeight;
 
@@ -1149,10 +1217,11 @@
         btn.type = 'button';
         btn.className = 'voice-button';
         btn.textContent = 'Play voice';
-        btn.addEventListener('click', () => gregSpeak(text));
+        btn.addEventListener('click', () => gregSpeak(content));
         div.appendChild(btn);
-        setTimeout(() => gregSpeak(text), 120);
+        setTimeout(() => gregSpeak(content), 120);
       }
+
       return div;
     }
 
@@ -1182,13 +1251,18 @@
       el.memoryHint.textContent = connected ? 'Greg is online' : 'Waiting for connection';
     }
 
-    function replayRecent() {
+    async function replayRecent() {
       if (!state.conversation.length) {
         addBubble('greg', 'Greg is ready. Press Test API or send a message.');
         return;
       }
+
       for (const item of state.conversation.slice(-12)) {
-        addBubble(item.role === 'user' ? 'user' : 'greg', item.content);
+        if (item.role === 'user') {
+          addBubble('user', item.content);
+        } else {
+          await addGregBubble(item.content, 'API', !!item.isImage);
+        }
       }
     }
 
@@ -1231,6 +1305,7 @@
       const userText = text;
       el.input.value = '';
       addBubble('user', userText);
+
       const typing = addTyping();
       isSending = true;
       updateUI();
@@ -1244,15 +1319,16 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-          message: userText,
-          params: state.params
-        }),
+            message: userText,
+            params: state.params
+          }),
           signal: controller.signal
         });
 
         clearTimeout(timeout);
 
         const raw = await res.text();
+
         let data = null;
         try {
           data = JSON.parse(raw);
@@ -1261,26 +1337,52 @@
         }
 
         if (!res.ok) {
-          throw new Error(`HTTP ${res.status}: ${(data && (data.reply || raw)) || 'Request failed'}`);
+          throw new Error(
+            `HTTP ${res.status}: ${(data && (data.reply || raw)) || 'Request failed'}`
+          );
         }
 
         const reply = String(
           (data && (data.reply || data.response || data.message)) || raw || "I'm still here."
         ).trim() || "I'm still here.";
 
+        const imageSrc =
+          normalizeImageSrc(data && data.image) ||
+          extractImageSrcFromReply(reply);
+
+        const isImage = Boolean(imageSrc);
+
         state.conversation.push({ role: 'user', content: userText });
-        state.conversation.push({ role: 'assistant', content: reply });
+        state.conversation.push({
+          role: 'assistant',
+          content: isImage ? imageSrc : reply,
+          isImage
+        });
+
         state.conversation = state.conversation.slice(-24);
         saveState();
 
         typing.remove();
-        await addGregBubble(reply, 'API');
+
+        if (isImage) {
+          await addGregBubble(imageSrc, 'API', true);
+        } else {
+          await addGregBubble(reply, 'API', false);
+        }
+
         connected = true;
       } catch (err) {
         console.error(err);
         typing.remove();
         connected = false;
-        await addGregBubble(err && err.name === 'AbortError' ? 'Request timed out.' : 'Uh Oh! Server is having problems', 'API');
+
+        await addGregBubble(
+          err && err.name === 'AbortError'
+            ? 'Request timed out.'
+            : 'Uh Oh! Server is having problems',
+          'API',
+          false
+        );
       } finally {
         isSending = false;
         updateUI();
