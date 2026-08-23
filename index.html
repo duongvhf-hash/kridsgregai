@@ -1262,13 +1262,13 @@
         7px;
 
       min-height:
-        18px;
+        20px;
 
       color:
         #858d87;
 
       font-size:
-        12px;
+        13px;
 
       font-weight:
         700;
@@ -1330,6 +1330,48 @@
 
       align-items:
         center;
+
+      font-size:
+        13px;
+    }
+
+
+    .thinking-label-char {
+
+      display:
+        inline-block;
+
+      white-space:
+        pre;
+
+      animation:
+        thinkingLabelWave 1.4s ease-in-out infinite;
+
+      animation-delay:
+        var(--thinking-delay);
+    }
+
+
+    @keyframes thinkingLabelWave {
+
+      0%,
+      100% {
+
+        transform:
+          translateY(0);
+
+        opacity:
+          .55;
+      }
+
+      50% {
+
+        transform:
+          translateY(-2px);
+
+        opacity:
+          1;
+      }
     }
 
 
@@ -1355,81 +1397,6 @@
 
       overflow-wrap:
         anywhere;
-    }
-
-
-    .thinking-char {
-
-      display:
-        inline-block;
-
-      white-space:
-        pre;
-
-      animation:
-        thinkingWave 1.45s ease-in-out infinite;
-
-      animation-delay:
-        var(--thinking-delay);
-    }
-
-
-    @keyframes thinkingWave {
-
-      0%,
-      100% {
-
-        transform:
-          translateY(0);
-
-        opacity:
-          .52;
-      }
-
-      50% {
-
-        transform:
-          translateY(-2px);
-
-        opacity:
-          1;
-      }
-    }
-
-
-    .thinking-char.appear {
-
-      animation:
-        thinkingCharAppear .25s cubic-bezier(.2,.8,.2,1) both,
-        thinkingWave 1.45s ease-in-out infinite;
-
-      animation-delay:
-        0s,
-        var(--thinking-delay);
-    }
-
-
-    @keyframes thinkingCharAppear {
-
-      from {
-
-        opacity:
-          0;
-
-        transform:
-          translateY(5px)
-          scale(.97);
-      }
-
-      to {
-
-        opacity:
-          .7;
-
-        transform:
-          translateY(0)
-          scale(1);
-      }
     }
 
 
@@ -2996,7 +2963,7 @@
        API
        ======================================================== */
 
-    const API_URL = "https://pharmacies-scuba-solve-victoria.trycloudflare.com";
+    const API_URL = "https://improved-basename-star-latin.trycloudflare.com";
 
 
     /* ========================================================
@@ -3397,7 +3364,7 @@
 
 
         span.className =
-          "thinking-char appear";
+          "thinking-label-char";
 
 
         span.textContent =
@@ -3406,8 +3373,8 @@
 
         const waveDelay =
           (
-            (index % 20) *
-            0.035
+            index *
+            0.06
           );
 
 
@@ -3446,16 +3413,8 @@
       }
 
 
-      stream.thinkingCharIndex =
-        buildWavyText(
-
-          stream.thinkingContent,
-
-          text,
-
-          stream.thinkingCharIndex
-
-        );
+      stream.thinkingContent.textContent +=
+        text;
 
 
       stream.thinkingPanel.classList.add(
@@ -3491,12 +3450,8 @@
         false;
 
 
-      stream.thinkingContent.innerHTML =
+      stream.thinkingContent.textContent =
         "";
-
-
-      stream.thinkingCharIndex =
-        0;
 
 
       stream.thinkingLabel.innerHTML =
@@ -3850,12 +3805,15 @@
           stream.thinkingBuffer
         );
 
+
         stream.thinkingBuffer =
           "";
+
 
         finishThinkingUI(
           stream
         );
+
 
         return;
 
@@ -6525,6 +6483,7 @@
         }`;
 
     }
+
 
     el.presetButton.addEventListener(
       "click",
