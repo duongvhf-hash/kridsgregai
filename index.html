@@ -33,11 +33,11 @@
 
       --line: rgba(255,255,255,0.08);
 
-      --panel:
-        rgba(8, 14, 11, 0.90);
+      --code-bg: #0a0d0c;
+      --code-header: #111614;
+      --code-line: rgba(255,255,255,0.06);
 
-      --shadow:
-        0 22px 60px rgba(0,0,0,0.42);
+      --shadow: 0 22px 60px rgba(0,0,0,0.42);
 
       --sans:
         Inter,
@@ -47,6 +47,15 @@
         Roboto,
         Arial,
         sans-serif;
+
+      --mono:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        "Liberation Mono",
+        monospace;
     }
 
 
@@ -253,8 +262,7 @@
           transparent 1px
         );
 
-      background-size:
-        64px 64px;
+      background-size: 64px 64px;
 
       mask-image:
         radial-gradient(
@@ -347,13 +355,11 @@
     @keyframes gridFloat {
 
       from {
-
         transform:
           translate3d(0,0,0);
       }
 
       to {
-
         transform:
           translate3d(64px,64px,0);
       }
@@ -363,13 +369,11 @@
     @keyframes scanMove {
 
       from {
-
         transform:
           translateY(-220px);
       }
 
       to {
-
         transform:
           translateY(220px);
       }
@@ -573,7 +577,8 @@
       display:
         flex;
 
-      gap: 7px;
+      gap:
+        7px;
     }
 
 
@@ -619,16 +624,19 @@
 
 
     /* ========================================================
-       CHAT AREA
+       CHAT
        ======================================================== */
 
     .chat-shell {
 
-      position: relative;
+      position:
+        relative;
 
-      flex: 1;
+      flex:
+        1;
 
-      min-height: 0;
+      min-height:
+        0;
 
       display:
         flex;
@@ -641,20 +649,26 @@
     .chat-column {
 
       width:
-        min(920px, 100%);
+        min(920px,100%);
 
-      height: 100%;
+      height:
+        100%;
 
-      min-height: 0;
+      min-height:
+        0;
     }
 
 
     .messages {
 
-      width: 100%;
-      height: 100%;
+      width:
+        100%;
 
-      overflow-y: auto;
+      height:
+        100%;
+
+      overflow-y:
+        auto;
 
       padding:
         30px 24px 220px;
@@ -810,7 +824,7 @@
         22px 0 8px;
 
       font-size:
-        clamp(30px, 5vw, 48px);
+        clamp(30px,5vw,48px);
 
       letter-spacing:
         -.04em;
@@ -842,7 +856,7 @@
         grid;
 
       grid-template-columns:
-        repeat(2, minmax(0,1fr));
+        repeat(2,minmax(0,1fr));
 
       gap:
         10px;
@@ -926,7 +940,7 @@
 
 
     /* ========================================================
-       MESSAGE
+       MESSAGE ROWS
        ======================================================== */
 
     .message-row {
@@ -988,7 +1002,8 @@
       width: 32px;
       height: 32px;
 
-      flex: none;
+      flex:
+        none;
 
       border-radius:
         11px;
@@ -1045,7 +1060,7 @@
     .message-content {
 
       max-width:
-        min(760px, calc(100% - 52px));
+        min(760px,calc(100% - 52px));
 
       min-width:
         0;
@@ -1112,44 +1127,8 @@
     }
 
 
-    .stream-cursor {
-
-      display:
-        inline-block;
-
-      width:
-        7px;
-
-      height:
-        18px;
-
-      margin-left:
-        4px;
-
-      vertical-align:
-        -3px;
-
-      border-radius:
-        2px;
-
-      background:
-        rgba(236,247,239,.8);
-
-      animation:
-        cursorBlink .85s steps(1) infinite;
-    }
-
-
-    @keyframes cursorBlink {
-
-      50% {
-        opacity: 0;
-      }
-    }
-
-
     /* ========================================================
-       THINKING
+       THINKING DOTS
        ======================================================== */
 
     .typing-dots {
@@ -1223,6 +1202,351 @@
 
 
     /* ========================================================
+       TYPEWRITER CURSOR
+       ======================================================== */
+
+    .stream-cursor {
+
+      display:
+        inline-block;
+
+      width:
+        7px;
+
+      height:
+        18px;
+
+      margin-left:
+        4px;
+
+      vertical-align:
+        -3px;
+
+      border-radius:
+        2px;
+
+      background:
+        rgba(236,247,239,.8);
+
+      animation:
+        cursorBlink .85s steps(1) infinite;
+    }
+
+
+    @keyframes cursorBlink {
+
+      50% {
+        opacity:
+          0;
+      }
+    }
+
+
+    /* ========================================================
+       CODE BLOCK
+       ======================================================== */
+
+    .code-block {
+
+      width:
+        100%;
+
+      margin:
+        13px 0;
+
+      border:
+        1px solid
+        rgba(255,255,255,0.09);
+
+      border-radius:
+        15px;
+
+      overflow:
+        hidden;
+
+      background:
+        var(--code-bg);
+
+      box-shadow:
+        0 12px 28px
+        rgba(0,0,0,0.22);
+
+      transform-origin:
+        top center;
+
+      animation:
+        codeBlockAppear
+        .42s
+        cubic-bezier(.16,1,.3,1)
+        both;
+    }
+
+
+    /*
+     * The block itself grows into place instead of simply
+     * appearing instantly.
+     */
+
+    @keyframes codeBlockAppear {
+
+      0% {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(12px)
+          scaleY(.78)
+          scaleX(.985);
+
+        filter:
+          brightness(.7)
+          blur(1px);
+      }
+
+      55% {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(-2px)
+          scaleY(1.015)
+          scaleX(1);
+
+        filter:
+          brightness(1.08)
+          blur(0);
+      }
+
+      100% {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0)
+          scaleY(1)
+          scaleX(1);
+
+        filter:
+          brightness(1)
+          blur(0);
+      }
+    }
+
+
+    /*
+     * The header slides in a tiny bit after the box begins.
+     */
+
+    .code-header {
+
+      min-height:
+        38px;
+
+      padding:
+        0 10px 0 13px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        10px;
+
+      border-bottom:
+        1px solid
+        var(--code-line);
+
+      background:
+        var(--code-header);
+
+      animation:
+        codeHeaderIn
+        .35s
+        .06s
+        ease both;
+    }
+
+
+    @keyframes codeHeaderIn {
+
+      from {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(-5px);
+      }
+
+      to {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0);
+      }
+    }
+
+
+    .code-language {
+
+      color:
+        #aab9b1;
+
+      font-family:
+        var(--mono);
+
+      font-size:
+        11px;
+
+      font-weight:
+        700;
+
+      text-transform:
+        lowercase;
+    }
+
+
+    .code-copy {
+
+      border:
+        1px solid
+        rgba(255,255,255,0.08);
+
+      background:
+        rgba(255,255,255,0.04);
+
+      color:
+        #c8d2cc;
+
+      border-radius:
+        8px;
+
+      padding:
+        5px 8px;
+
+      cursor:
+        pointer;
+
+      font-size:
+        11px;
+
+      transition:
+        background .12s ease,
+        transform .12s ease;
+    }
+
+
+    .code-copy:hover {
+
+      background:
+        rgba(255,255,255,0.09);
+
+      transform:
+        translateY(-1px);
+    }
+
+
+    .code-content {
+
+      overflow-x:
+        auto;
+
+      padding:
+        14px;
+
+      color:
+        #d7e8dd;
+
+      font-family:
+        var(--mono);
+
+      font-size:
+        13px;
+
+      line-height:
+        1.6;
+
+      white-space:
+        pre;
+
+      tab-size:
+        4;
+
+      animation:
+        codeContentIn
+        .38s
+        .08s
+        ease both;
+    }
+
+
+    @keyframes codeContentIn {
+
+      from {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(5px);
+      }
+
+      to {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0);
+      }
+    }
+
+
+    .code-content::-webkit-scrollbar {
+
+      height:
+        8px;
+    }
+
+
+    .code-content::-webkit-scrollbar-thumb {
+
+      background:
+        rgba(255,255,255,0.12);
+
+      border-radius:
+        999px;
+    }
+
+
+    /* ========================================================
+       LIVE CODE BLOCK
+       ======================================================== */
+
+    .code-block.live {
+
+      border-color:
+        rgba(141,240,160,0.17);
+
+      box-shadow:
+        0 12px 28px
+        rgba(0,0,0,0.22),
+        0 0 0 1px
+        rgba(141,240,160,0.035);
+    }
+
+
+    /* ========================================================
        COMPOSER
        ======================================================== */
 
@@ -1231,11 +1555,17 @@
       position:
         fixed;
 
-      left: 0;
-      right: 0;
-      bottom: 0;
+      left:
+        0;
 
-      z-index: 10;
+      right:
+        0;
+
+      bottom:
+        0;
+
+      z-index:
+        10;
 
       display:
         flex;
@@ -1780,7 +2110,8 @@
 
       .composer-left {
 
-        width: 100%;
+        width:
+          100%;
 
         justify-content:
           space-between;
@@ -1819,7 +2150,7 @@
 
 
   <!-- ========================================================
-       BACKGROUND MUSIC
+       AUDIO
        ======================================================== -->
 
   <audio
@@ -1837,7 +2168,7 @@
 
 
   <!-- ========================================================
-       ANIMATED BACKGROUND
+       BACKGROUND
        ======================================================== -->
 
   <div
@@ -1858,7 +2189,7 @@
 
 
   <!-- ========================================================
-       APPLICATION
+       APP
        ======================================================== -->
 
   <div class="app">
@@ -1964,6 +2295,7 @@
 
           <div class="composer-glow"></div>
 
+
           <div class="composer">
 
 
@@ -2002,11 +2334,15 @@
 
                     <span class="preset-dot"></span>
 
-                    <span id="presetButtonText">
+                    <span
+                      id="presetButtonText"
+                    >
                       Default
                     </span>
 
-                    <span>▾</span>
+                    <span>
+                      ▾
+                    </span>
 
                   </button>
 
@@ -2130,7 +2466,7 @@
 
 
     /* ========================================================
-       BACKGROUND MUSIC
+       AUDIO
        ======================================================== */
 
     const bgMusic =
@@ -2164,13 +2500,14 @@
 
       },
       {
-        once: true
+        once:
+          true
       }
     );
 
 
     /* ========================================================
-       BACKGROUND CANVAS
+       CANVAS BACKGROUND
        ======================================================== */
 
     const canvas =
@@ -2242,7 +2579,8 @@
     const particles =
       Array.from(
         {
-          length: 42
+          length:
+            42
         },
         () => ({
 
@@ -2493,23 +2831,9 @@
 
     /* ========================================================
        API ROOT
-       ========================================================
-       
-       IMPORTANT:
-       setuper.py now writes ONLY the Cloudflare root here.
-
-       It should look like:
-       
-       https://something.trycloudflare.com
-
-       NOT:
-       
-       https://something.trycloudflare.com/chat
-       
-       The code below adds /chat and /chat/stream itself.
        ======================================================== */
 
-    const API_URL = "https://formerly-wonderful-solved-highlighted.trycloudflare.com";
+    const API_URL = "https://interviews-betty-differ-dodge.trycloudflare.com";
 
 
     /* ========================================================
@@ -2517,7 +2841,7 @@
        ======================================================== */
 
     const STORAGE_KEY =
-      "greg_ui_api_v3";
+      "greg_ui_api_v5";
 
 
     /* ========================================================
@@ -2543,6 +2867,7 @@
 
       no_repeat_ngram_size:
         4
+
     };
 
 
@@ -2770,6 +3095,7 @@
 
         };
 
+
       } catch {
 
         return {
@@ -2809,8 +3135,23 @@
 
 
     /* ========================================================
-       RESIZE TEXTAREA
+       HELPERS
        ======================================================== */
+
+    function sleep(
+      ms
+    ) {
+
+      return new Promise(
+        resolve =>
+          setTimeout(
+            resolve,
+            ms
+          )
+      );
+
+    }
+
 
     function resizeInput() {
 
@@ -2827,16 +3168,6 @@
 
     }
 
-
-    el.input.addEventListener(
-      "input",
-      resizeInput
-    );
-
-
-    /* ========================================================
-       SCROLL
-       ======================================================== */
 
     function scrollBottom(
       smooth = true
@@ -3005,10 +3336,6 @@
     }
 
 
-    /* ========================================================
-       REMOVE WELCOME
-       ======================================================== */
-
     function removeWelcome() {
 
       const welcome =
@@ -3035,7 +3362,8 @@
 
 
         setTimeout(
-          () => welcome.remove(),
+          () =>
+            welcome.remove(),
           250
         );
 
@@ -3045,7 +3373,7 @@
 
 
     /* ========================================================
-       ADD USER MESSAGE
+       USER MESSAGE
        ======================================================== */
 
     function addUserMessage(
@@ -3100,7 +3428,7 @@
 
 
     /* ========================================================
-       THINKING BUBBLE
+       THINKING
        ======================================================== */
 
     function addThinkingMessage() {
@@ -3124,10 +3452,7 @@
         <div class="message-content">
 
           <div class="message-name">
-            Greg · ${new Date().toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit"
-            })}
+            Greg
           </div>
 
           <div class="typing-dots">
@@ -3157,10 +3482,10 @@
 
 
     /* ========================================================
-       STREAMING BUBBLE
+       GREG STREAM CONTAINER
        ======================================================== */
 
-    function addStreamingMessage() {
+    function createGregStream() {
 
       const row =
         document.createElement(
@@ -3181,14 +3506,11 @@
         <div class="message-content">
 
           <div class="message-name">
-            Greg · ${new Date().toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit"
-            })}
+            Greg
           </div>
 
           <div
-            class="message-text"
+            class="greg-output"
           ></div>
 
           <span
@@ -3213,9 +3535,9 @@
         row:
           row,
 
-        text:
+        output:
           row.querySelector(
-            ".message-text"
+            ".greg-output"
           ),
 
         cursor:
@@ -3229,33 +3551,8 @@
 
 
     /* ========================================================
-       OLD TYPEWRITER EFFECT
-       ========================================================
-       
-       THIS IS THE SAME STYLE AS YOUR OLD TYPE_TEXT FUNCTION.
-
-       The server sends WORDS.
-
-       The browser hides those raw words and types each
-       streamed word LETTER-BY-LETTER.
-
-       Punctuation has the old extra pauses.
+       OLD TYPEWRITER
        ======================================================== */
-
-    function sleep(
-      ms
-    ) {
-
-      return new Promise(
-        resolve =>
-          setTimeout(
-            resolve,
-            ms
-          )
-      );
-
-    }
-
 
     async function typeText(
       element,
@@ -3287,45 +3584,47 @@
           delay;
 
 
-        /*
-         * EXACT OLD PAUSE STYLE
-         */
-
         if (
           ch === " "
         ) {
 
-          wait += 10;
+          wait +=
+            10;
 
         } else if (
           ch === ","
         ) {
 
-          wait += 40;
+          wait +=
+            40;
 
         } else if (
           ch === "."
         ) {
 
-          wait += 80;
+          wait +=
+            80;
 
         } else if (
           ch === "!"
         ) {
 
-          wait += 90;
+          wait +=
+            90;
 
         } else if (
           ch === "?"
         ) {
 
-          wait += 90;
+          wait +=
+            90;
 
         } else if (
           ch === "\n"
         ) {
 
-          wait += 120;
+          wait +=
+            120;
 
         }
 
@@ -3340,75 +3639,249 @@
 
 
     /* ========================================================
-       STREAM WORD QUEUE
-       ========================================================
-       
-       This is the important part.
-
-       Network:
-       
-           word 1 -> queue
-           word 2 -> queue
-           word 3 -> queue
-
-       Display:
-       
-           type word 1 letter-by-letter
-           type word 2 letter-by-letter
-           type word 3 letter-by-letter
-
-       The raw server words NEVER appear directly on screen.
+       CODE BLOCK CREATOR
        ======================================================== */
 
-    async function consumeWordQueue(
-      streamBubble,
-      wordQueue,
-      stateObject
+    function createCodeBlock(
+      language
     ) {
 
-      while (
-        !stateObject.finished ||
-        wordQueue.length > 0
+      const block =
+        document.createElement(
+          "div"
+        );
+
+
+      block.className =
+        "code-block live";
+
+
+      const header =
+        document.createElement(
+          "div"
+        );
+
+
+      header.className =
+        "code-header";
+
+
+      const languageLabel =
+        document.createElement(
+          "span"
+        );
+
+
+      languageLabel.className =
+        "code-language";
+
+
+      languageLabel.textContent =
+        language ||
+        "code";
+
+
+      const copyButton =
+        document.createElement(
+          "button"
+        );
+
+
+      copyButton.className =
+        "code-copy";
+
+
+      copyButton.type =
+        "button";
+
+
+      copyButton.textContent =
+        "Copy";
+
+
+      const codeContent =
+        document.createElement(
+          "div"
+        );
+
+
+      codeContent.className =
+        "code-content";
+
+
+      codeContent.textContent =
+        "";
+
+
+      copyButton.addEventListener(
+        "click",
+        async () => {
+
+          try {
+
+            await navigator.clipboard.writeText(
+              codeContent.textContent
+            );
+
+
+            copyButton.textContent =
+              "Copied!";
+
+
+            setTimeout(
+              () =>
+                copyButton.textContent =
+                  "Copy",
+              1200
+            );
+
+
+          } catch {
+
+            copyButton.textContent =
+              "Copy failed";
+
+
+            setTimeout(
+              () =>
+                copyButton.textContent =
+                  "Copy",
+              1200
+            );
+
+          }
+
+        }
+      );
+
+
+      header.appendChild(
+        languageLabel
+      );
+
+
+      header.appendChild(
+        copyButton
+      );
+
+
+      block.appendChild(
+        header
+      );
+
+
+      block.appendChild(
+        codeContent
+      );
+
+
+      return {
+
+        block:
+          block,
+
+        languageLabel:
+          languageLabel,
+
+        codeContent:
+          codeContent
+
+      };
+
+    }
+
+
+    /* ========================================================
+       STREAM PARSER
+       ========================================================
+       
+       ```python
+       starts code mode.
+
+       ```
+       ends code mode.
+
+       Backticks are never shown.
+       ======================================================== */
+
+    function createStreamParser(
+      stream
+    ) {
+
+      const parser = {
+
+        mode:
+          "text",
+
+        pending:
+          "",
+
+        codeBlock:
+          null,
+
+        output:
+          stream.output,
+
+        normalQueue:
+          Promise.resolve(),
+
+        waitingForLanguage:
+          false
+
+      };
+
+
+      /*
+       * Normal text is typed asynchronously.
+       * Incoming network data is NOT blocked by that typing.
+       */
+
+      function queueNormalText(
+        text
       ) {
 
         if (
-          wordQueue.length === 0
+          !text
         ) {
 
-          await new Promise(
-            resolve => {
-              stateObject.wake =
-                resolve;
-            }
-          );
-
-          continue;
+          return;
 
         }
 
 
-        const word =
-          wordQueue.shift();
+        parser.normalQueue =
+          parser.normalQueue.then(
+            () =>
+              typeNormalText(
+                text
+              )
+          );
+
+      }
 
 
-        /*
-         * IMPORTANT:
-         *
-         * Each server chunk normally ends at whitespace.
-         *
-         * Example:
-         *
-         * "Hello "
-         * "there "
-         * "Greg."
-         *
-         * We type the exact chunk, including its space,
-         * so punctuation and spacing remain natural.
-         */
+      async function typeNormalText(
+        text
+      ) {
+
+        const span =
+          document.createElement(
+            "span"
+          );
+
+
+        span.className =
+          "message-text";
+
+
+        parser.output.appendChild(
+          span
+        );
+
 
         await typeText(
-          streamBubble.text,
-          word,
+          span,
+          text,
           25
         );
 
@@ -3419,25 +3892,411 @@
 
       }
 
+
+      function addCodeBlock(
+        language
+      ) {
+
+        parser.codeBlock =
+          createCodeBlock(
+            language
+          );
+
+
+        parser.output.appendChild(
+          parser.codeBlock.block
+        );
+
+
+        /*
+         * The browser must have a layout frame before the
+         * animation visibly starts, so force the animation
+         * to begin after insertion.
+         */
+
+        requestAnimationFrame(
+          () => {
+
+            parser.codeBlock.block.style.willChange =
+              "transform, opacity, filter";
+
+          }
+        );
+
+
+        scrollBottom(
+          false
+        );
+
+      }
+
+
+      function appendCodeText(
+        text
+      ) {
+
+        if (
+          parser.codeBlock &&
+          text
+        ) {
+
+          parser.codeBlock.codeContent.textContent +=
+            text;
+
+
+          scrollBottom(
+            false
+          );
+
+        }
+
+      }
+
+
+      function closeCodeBlock() {
+
+        if (
+          parser.codeBlock
+        ) {
+
+          parser.codeBlock.block.classList.remove(
+            "live"
+          );
+
+
+          parser.codeBlock.block.style.willChange =
+            "auto";
+
+
+          parser.codeBlock =
+            null;
+
+        }
+
+      }
+
+
+      /*
+       * Feed any new network text.
+       */
+
+      async function feed(
+        incoming
+      ) {
+
+        parser.pending +=
+          incoming;
+
+
+        while (
+          parser.pending.length
+        ) {
+
+
+          /* ==================================================
+             TEXT MODE
+             ================================================== */
+
+          if (
+            parser.mode ===
+            "text"
+          ) {
+
+            const marker =
+              parser.pending.indexOf(
+                "```"
+              );
+
+
+            if (
+              marker === -1
+            ) {
+
+              /*
+               * Hold two characters in case the next network
+               * packet completes a split ``` marker.
+               */
+
+              if (
+                parser.pending.length <= 2
+              ) {
+
+                return;
+
+              }
+
+
+              const safe =
+                parser.pending.slice(
+                  0,
+                  -2
+                );
+
+
+              parser.pending =
+                parser.pending.slice(
+                  -2
+                );
+
+
+              queueNormalText(
+                safe
+              );
+
+
+              return;
+
+            }
+
+
+            const before =
+              parser.pending.slice(
+                0,
+                marker
+              );
+
+
+            if (
+              before
+            ) {
+
+              queueNormalText(
+                before
+              );
+
+            }
+
+
+            parser.pending =
+              parser.pending.slice(
+                marker + 3
+              );
+
+
+            parser.mode =
+              "language";
+
+
+            continue;
+
+          }
+
+
+          /* ==================================================
+             LANGUAGE MODE
+             ================================================== */
+
+          if (
+            parser.mode ===
+            "language"
+          ) {
+
+            const newline =
+              parser.pending.indexOf(
+                "\n"
+              );
+
+
+            if (
+              newline === -1
+            ) {
+
+              return;
+
+            }
+
+
+            const language =
+              parser.pending
+                .slice(
+                  0,
+                  newline
+                )
+                .trim();
+
+
+            parser.pending =
+              parser.pending.slice(
+                newline + 1
+              );
+
+
+            addCodeBlock(
+              language
+            );
+
+
+            parser.mode =
+              "code";
+
+
+            continue;
+
+          }
+
+
+          /* ==================================================
+             CODE MODE
+             ================================================== */
+
+          const marker =
+            parser.pending.indexOf(
+              "```"
+            );
+
+
+          if (
+            marker === -1
+          ) {
+
+            if (
+              parser.pending.length <= 2
+            ) {
+
+              return;
+
+            }
+
+
+            const safe =
+              parser.pending.slice(
+                0,
+                -2
+              );
+
+
+            parser.pending =
+              parser.pending.slice(
+                -2
+              );
+
+
+            appendCodeText(
+              safe
+            );
+
+
+            return;
+
+          }
+
+
+          const code =
+            parser.pending.slice(
+              0,
+              marker
+            );
+
+
+          if (
+            code
+          ) {
+
+            appendCodeText(
+              code
+            );
+
+          }
+
+
+          parser.pending =
+            parser.pending.slice(
+              marker + 3
+            );
+
+
+          closeCodeBlock();
+
+
+          parser.mode =
+            "text";
+
+        }
+
+      }
+
+
+      async function finish() {
+
+        if (
+          parser.pending
+        ) {
+
+          if (
+            parser.mode ===
+            "text"
+          ) {
+
+            queueNormalText(
+              parser.pending
+            );
+
+          } else if (
+            parser.mode ===
+            "code"
+          ) {
+
+            appendCodeText(
+              parser.pending
+            );
+
+          } else if (
+            parser.mode ===
+            "language"
+          ) {
+
+            /*
+             * If Greg strangely finishes directly after
+             * ``` without a newline, treat the remainder as
+             * the language name.
+             */
+
+            const language =
+              parser.pending.trim();
+
+
+            addCodeBlock(
+              language ||
+              "code"
+            );
+
+
+            closeCodeBlock();
+
+          }
+
+
+          parser.pending =
+            "";
+
+        }
+
+
+        await parser.normalQueue;
+
+
+        closeCodeBlock();
+
+      }
+
+
+      return {
+
+        feed,
+
+        finish
+
+      };
+
     }
 
 
     /* ========================================================
        STREAM MESSAGE
-       ========================================================
-       
-       The server endpoint:
-       
-       POST /chat/stream
-
-       sends words.
-
-       The browser queues them and feeds them into the OLD
-       letter-by-letter typewriter effect.
        ======================================================== */
 
     async function streamMessage(
-      text
+      userText
     ) {
 
       const controller =
@@ -3452,42 +4311,23 @@
         );
 
 
-      const responseBubble =
-        addStreamingMessage();
+      const stream =
+        createGregStream();
 
 
-      const wordQueue =
-        [];
-
-
-      const streamState = {
-
-        finished:
-          false,
-
-        wake:
-          null
-
-      };
-
-
-      /*
-       * Start the visual consumer immediately.
-       *
-       * It waits while the network receives words.
-       */
-
-      const typingPromise =
-        consumeWordQueue(
-          responseBubble,
-          wordQueue,
-          streamState
+      const parser =
+        createStreamParser(
+          stream
         );
+
+
+      let fullText =
+        "";
 
 
       try {
 
-        const res =
+        const response =
           await fetch(
 
             `${API_URL}/chat/stream`,
@@ -3507,7 +4347,7 @@
                 JSON.stringify({
 
                   message:
-                    text,
+                    userText,
 
                   params:
                     state.params
@@ -3522,16 +4362,18 @@
           );
 
 
-        if (!res.ok) {
+        if (
+          !response.ok
+        ) {
 
           const errorText =
-            await res.text();
+            await response.text();
 
 
           throw new Error(
 
             `HTTP ${
-              res.status
+              response.status
             }: ${
               errorText ||
               "Request failed"
@@ -3542,17 +4384,19 @@
         }
 
 
-        if (!res.body) {
+        if (
+          !response.body
+        ) {
 
           throw new Error(
-            "Streaming is not supported by this browser."
+            "Browser streaming is unavailable."
           );
 
         }
 
 
         const reader =
-          res.body.getReader();
+          response.body.getReader();
 
 
         const decoder =
@@ -3561,23 +4405,18 @@
           );
 
 
-        let fullText =
-          "";
-
-
         while (true) {
 
           const {
-
             value,
-
             done
-
           } =
             await reader.read();
 
 
-          if (done) {
+          if (
+            done
+          ) {
 
             break;
 
@@ -3594,90 +4433,31 @@
             );
 
 
-          if (!chunk) {
+          if (
+            !chunk
+          ) {
 
             continue;
 
           }
 
 
-          /*
-           * Keep the raw server text hidden.
-           *
-           * Push it into the queue instead.
-           */
-
           fullText +=
             chunk;
 
 
           /*
-           * The server's streamer deliberately emits
-           * whitespace-terminated pieces.
+           * IMPORTANT:
            *
-           * Still, this code handles chunks containing
-           * multiple pieces safely.
+           * Feed the network stream into the parser without
+           * waiting for the letter-by-letter animation.
+           *
+           * This keeps the speed advantage you liked.
            */
 
-          let remaining =
-            chunk;
-
-
-          while (
-            remaining.length > 0
-          ) {
-
-            const match =
-              remaining.match(
-                /^.*?\s/
-              );
-
-
-            if (!match) {
-
-              /*
-               * Keep a partial chunk until the next network
-               * piece arrives.
-               *
-               * Usually this won't happen because the server
-               * emits whole words.
-               */
-
-              break;
-
-            }
-
-
-            const piece =
-              match[0];
-
-
-            remaining =
-              remaining.slice(
-                piece.length
-              );
-
-
-            wordQueue.push(
-              piece
-            );
-
-
-            if (
-              streamState.wake
-            ) {
-
-              const wake =
-                streamState.wake;
-
-              streamState.wake =
-                null;
-
-              wake();
-
-            }
-
-          }
+          parser.feed(
+            chunk
+          );
 
 
           scrollBottom(
@@ -3686,10 +4466,6 @@
 
         }
 
-
-        /*
-         * If the final decoder buffer contains text, process it.
-         */
 
         const finalChunk =
           decoder.decode();
@@ -3703,57 +4479,24 @@
             finalChunk;
 
 
-          wordQueue.push(
+          parser.feed(
             finalChunk
           );
 
-
-          if (
-            streamState.wake
-          ) {
-
-            const wake =
-              streamState.wake;
-
-            streamState.wake =
-              null;
-
-            wake();
-
-          }
-
         }
 
 
-        /*
-         * The stream is now completely received.
-         *
-         * Let the typewriter finish whatever remains in the queue.
-         */
-
-        streamState.finished =
-          true;
+        await parser.finish();
 
 
         if (
-          streamState.wake
+          stream.cursor &&
+          stream.cursor.parentNode
         ) {
 
-          const wake =
-            streamState.wake;
-
-          streamState.wake =
-            null;
-
-          wake();
+          stream.cursor.remove();
 
         }
-
-
-        await typingPromise;
-
-
-        responseBubble.cursor.remove();
 
 
         return fullText.trim();
@@ -3766,25 +4509,301 @@
         );
 
 
-        streamState.finished =
-          true;
+        await parser.finish()
+          .catch(
+            () => {}
+          );
 
 
         if (
-          streamState.wake
+          stream.cursor &&
+          stream.cursor.parentNode
         ) {
 
-          const wake =
-            streamState.wake;
-
-          streamState.wake =
-            null;
-
-          wake();
+          stream.cursor.remove();
 
         }
 
       }
+
+    }
+
+
+    /* ========================================================
+       STATIC MESSAGE
+       ======================================================== */
+
+    function createStaticCodeBlock(
+      language,
+      code
+    ) {
+
+      const codeBlock =
+        createCodeBlock(
+          language
+        );
+
+
+      codeBlock.block.classList.remove(
+        "live"
+      );
+
+
+      codeBlock.codeContent.textContent =
+        code;
+
+
+      return codeBlock.block;
+
+    }
+
+
+    function renderStaticMessage(
+      container,
+      text
+    ) {
+
+      let cursor =
+        0;
+
+
+      while (
+        cursor <
+        text.length
+      ) {
+
+        const start =
+          text.indexOf(
+            "```",
+            cursor
+          );
+
+
+        if (
+          start === -1
+        ) {
+
+          const normal =
+            text.slice(
+              cursor
+            );
+
+
+          const span =
+            document.createElement(
+              "span"
+            );
+
+
+          span.className =
+            "message-text";
+
+
+          span.textContent =
+            normal;
+
+
+          container.appendChild(
+            span
+          );
+
+
+          break;
+
+        }
+
+
+        if (
+          start >
+          cursor
+        ) {
+
+          const normal =
+            text.slice(
+              cursor,
+              start
+            );
+
+
+          const span =
+            document.createElement(
+              "span"
+            );
+
+
+          span.className =
+            "message-text";
+
+
+          span.textContent =
+            normal;
+
+
+          container.appendChild(
+            span
+          );
+
+        }
+
+
+        const languageStart =
+          start + 3;
+
+
+        const languageEnd =
+          text.indexOf(
+            "\n",
+            languageStart
+          );
+
+
+        if (
+          languageEnd === -1
+        ) {
+
+          const span =
+            document.createElement(
+              "span"
+            );
+
+
+          span.textContent =
+            text.slice(
+              start
+            );
+
+
+          container.appendChild(
+            span
+          );
+
+
+          break;
+
+        }
+
+
+        const language =
+          text.slice(
+            languageStart,
+            languageEnd
+          ).trim();
+
+
+        const codeEnd =
+          text.indexOf(
+            "```",
+            languageEnd + 1
+          );
+
+
+        if (
+          codeEnd === -1
+        ) {
+
+          container.appendChild(
+
+            createStaticCodeBlock(
+
+              language,
+
+              text.slice(
+                languageEnd + 1
+              )
+
+            )
+
+          );
+
+
+          break;
+
+        }
+
+
+        const code =
+          text.slice(
+            languageEnd + 1,
+            codeEnd
+          );
+
+
+        container.appendChild(
+
+          createStaticCodeBlock(
+
+            language,
+
+            code
+
+          )
+
+        );
+
+
+        cursor =
+          codeEnd + 3;
+
+      }
+
+    }
+
+
+    function addStaticGregMessage(
+      text
+    ) {
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "message-row greg";
+
+
+      row.innerHTML = `
+
+        <div class="avatar">
+          G
+        </div>
+
+        <div class="message-content">
+
+          <div class="message-name">
+            Greg
+          </div>
+
+          <div class="static-output"></div>
+
+        </div>
+
+      `;
+
+
+      renderStaticMessage(
+
+        row.querySelector(
+          ".static-output"
+        ),
+
+        text
+
+      );
+
+
+      el.messages.appendChild(
+        row
+      );
+
+
+      scrollBottom(
+        false
+      );
+
+
+      return row;
 
     }
 
@@ -3812,12 +4831,7 @@
 
 
       /*
-       * IMPORTANT:
-       *
-       * The input is NEVER disabled.
-       *
-       * This fixes the startup connection-test problem and
-       * lets you type normally.
+       * NEVER disable the textbox.
        */
 
       el.input.disabled =
@@ -3855,14 +4869,7 @@
 
 
     /* ========================================================
-       TEST API
-       ========================================================
-       
-       IMPORTANT:
-       This does NOT set isSending.
-
-       Therefore the textbox stays usable while the startup
-       connection test is running.
+       API TEST
        ======================================================== */
 
     async function testApi() {
@@ -3871,7 +4878,7 @@
         true;
 
 
-      const previousHint =
+      const oldHint =
         el.memoryHint.textContent;
 
 
@@ -3881,7 +4888,7 @@
 
       try {
 
-        const res =
+        const response =
           await fetch(
 
             `${API_URL}/chat`,
@@ -3933,10 +4940,12 @@
           );
 
 
-        if (!res.ok) {
+        if (
+          !response.ok
+        ) {
 
           throw new Error(
-            `HTTP ${res.status}`
+            `HTTP ${response.status}`
           );
 
         }
@@ -3975,7 +4984,7 @@
                   +
                   activePreset.slice(1)
                 }`
-              : previousHint;
+              : oldHint;
 
         }
 
@@ -4038,32 +5047,20 @@
 
       try {
 
-        /*
-         * Tiny visual delay so the thinking animation is
-         * actually visible before the stream starts.
-         */
-
         await sleep(
           180
         );
 
 
-        thinking.remove();
+        if (
+          thinking &&
+          thinking.parentNode
+        ) {
 
+          thinking.remove();
 
-        /*
-         * This is now the actual response.
-         *
-         * Server:
-         *     streams words
-         *
-         * Browser:
-         *     hides raw words
-         *
-         * Browser:
-         *     typeText() types every letter
-         *     with punctuation pauses
-         */
+        }
+
 
         const reply =
           await streamMessage(
@@ -4130,7 +5127,7 @@
         const errorMessage =
           error &&
           error.name ===
-            "AbortError"
+          "AbortError"
 
             ? "Request timed out."
 
@@ -4153,59 +5150,6 @@
         el.input.focus();
 
       }
-
-    }
-
-
-    /* ========================================================
-       STATIC GREG MESSAGE
-       ======================================================== */
-
-    function addStaticGregMessage(
-      text
-    ) {
-
-      const row =
-        document.createElement(
-          "div"
-        );
-
-
-      row.className =
-        "message-row greg";
-
-
-      row.innerHTML = `
-
-        <div class="avatar">
-          G
-        </div>
-
-        <div class="message-content">
-
-          <div class="message-name">
-            Greg
-          </div>
-
-          <div class="message-text"></div>
-
-        </div>
-
-      `;
-
-
-      row.querySelector(
-        ".message-text"
-      ).textContent =
-        text;
-
-
-      el.messages.appendChild(
-        row
-      );
-
-
-      scrollBottom();
 
     }
 
@@ -4353,7 +5297,7 @@
             event.target
           ) &&
           event.target !==
-            el.presetButton
+          el.presetButton
         ) {
 
           el.presetMenu.classList.remove(
@@ -4375,13 +5319,10 @@
 
           button.addEventListener(
             "click",
-            () => {
-
+            () =>
               setPreset(
                 button.dataset.preset
-              );
-
-            }
+              )
           );
 
         }
@@ -4491,7 +5432,7 @@
 
 
     /* ========================================================
-       REPLAY SINGLE CHAT
+       REPLAY CHAT
        ======================================================== */
 
     function replayConversation() {
@@ -4519,7 +5460,7 @@
 
         if (
           item.role ===
-            "user"
+          "user"
         ) {
 
           addUserMessage(
@@ -4528,7 +5469,7 @@
 
         } else if (
           item.role ===
-            "assistant"
+          "assistant"
         ) {
 
           addStaticGregMessage(
@@ -4548,8 +5489,14 @@
 
 
     /* ========================================================
-       ENTER / SHIFT ENTER
+       INPUT
        ======================================================== */
+
+    el.input.addEventListener(
+      "input",
+      resizeInput
+    );
+
 
     el.input.addEventListener(
       "keydown",
@@ -4557,7 +5504,7 @@
 
         if (
           event.key ===
-            "Enter" &&
+          "Enter" &&
           !event.shiftKey
         ) {
 
@@ -4600,20 +5547,18 @@
 
 
     /* ========================================================
-       START
+       STARTUP
        ======================================================== */
 
     replayConversation();
 
-
     updateUI();
-
 
     resizeInput();
 
 
     /*
-     * Test the API, but DON'T disable the input while doing so.
+     * API test does not disable the textbox.
      */
 
     setTimeout(
