@@ -2996,7 +2996,7 @@
        API
        ======================================================== */
 
-    const API_URL = "https://secret-against-editions-seating.trycloudflare.com";
+    const API_URL = "https://called-denver-red-explained.trycloudflare.com";
 
 
     /* ========================================================
@@ -3237,19 +3237,11 @@
           );
 
 
-        const savedPreset =
-          PRESET_PARAMS[
-            parsed.preset
-          ]
-            ? parsed.preset
-            : "default";
-
-
         return {
 
           params:
             {
-              ...PRESET_PARAMS[savedPreset]
+              ...PRESET_PARAMS.default
             },
 
           conversation:
@@ -3260,7 +3252,7 @@
               : [],
 
           preset:
-            savedPreset
+            "default"
 
         };
 
