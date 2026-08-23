@@ -2996,7 +2996,7 @@
        API
        ======================================================== */
 
-    const API_URL = "https://implies-shown-enemies-earn.trycloudflare.com";
+    const API_URL = "https://secret-against-editions-seating.trycloudflare.com";
 
 
     /* ========================================================
@@ -3211,15 +3211,13 @@
           );
 
 
-        if (
-          !raw
-        ) {
+        if (!raw) {
 
           return {
 
             params:
               {
-                ...DEFAULT_PARAMS
+                ...PRESET_PARAMS.default
               },
 
             conversation:
@@ -3239,12 +3237,19 @@
           );
 
 
+        const savedPreset =
+          PRESET_PARAMS[
+            parsed.preset
+          ]
+            ? parsed.preset
+            : "default";
+
+
         return {
 
           params:
             {
-              ...DEFAULT_PARAMS,
-              ...(parsed.params || {})
+              ...PRESET_PARAMS[savedPreset]
             },
 
           conversation:
@@ -3255,8 +3260,7 @@
               : [],
 
           preset:
-            parsed.preset ||
-            "default"
+            savedPreset
 
         };
 
@@ -3266,7 +3270,7 @@
 
           params:
             {
-              ...DEFAULT_PARAMS
+              ...PRESET_PARAMS.default
             },
 
           conversation:
@@ -6529,7 +6533,6 @@
         }`;
 
     }
-
 
     el.presetButton.addEventListener(
       "click",
