@@ -1,5 +1,6 @@
 
 <!doctype html>
+
 <html lang="en">
 
 <head>
@@ -20,12 +21,6 @@
       --bg: #050b08;
       --bg2: #030605;
 
-      --panel: rgba(10, 18, 14, 0.82);
-      --panel-strong: rgba(14, 24, 18, 0.98);
-
-      --line: rgba(255,255,255,0.08);
-      --line-2: rgba(141,240,160,0.18);
-
       --text: #ecf7ef;
       --muted: #92a99d;
 
@@ -36,10 +31,13 @@
       --warn: #ffd56a;
       --bad: #ff7f7f;
 
-      --shadow: 0 22px 60px rgba(0,0,0,0.35);
+      --line: rgba(255,255,255,0.08);
 
-      --radius-lg: 28px;
-      --radius-md: 18px;
+      --panel:
+        rgba(8, 14, 11, 0.90);
+
+      --shadow:
+        0 22px 60px rgba(0,0,0,0.42);
 
       --sans:
         Inter,
@@ -49,15 +47,6 @@
         Roboto,
         Arial,
         sans-serif;
-
-      --mono:
-        ui-monospace,
-        SFMono-Regular,
-        Menlo,
-        Monaco,
-        Consolas,
-        "Liberation Mono",
-        monospace;
     }
 
 
@@ -96,15 +85,11 @@
         );
 
       overflow: hidden;
-
-      position: relative;
     }
 
 
     button,
-    input,
     textarea {
-
       font: inherit;
     }
 
@@ -134,9 +119,9 @@
 
       z-index: 0;
 
-      pointer-events: none;
-
       overflow: hidden;
+
+      pointer-events: none;
 
       background:
         radial-gradient(
@@ -213,8 +198,6 @@
           rgba(160,102,255,0.28),
           transparent 20%
         );
-
-      transform-origin: center;
     }
 
 
@@ -242,7 +225,9 @@
           transparent 24%
         );
 
-      animation-duration: 16s, 28s;
+      animation-duration:
+        16s,
+        28s;
 
       animation-direction:
         alternate-reverse,
@@ -268,7 +253,8 @@
           transparent 1px
         );
 
-      background-size: 64px 64px;
+      background-size:
+        64px 64px;
 
       mask-image:
         radial-gradient(
@@ -302,7 +288,8 @@
 
       opacity: 0.13;
 
-      mix-blend-mode: screen;
+      mix-blend-mode:
+        screen;
 
       animation:
         scanMove 7s linear infinite;
@@ -312,6 +299,7 @@
     @keyframes bgDrift {
 
       0% {
+
         transform:
           translate3d(-2%, -1%, 0)
           scale(1.02)
@@ -319,6 +307,7 @@
       }
 
       50% {
+
         transform:
           translate3d(1.8%, 1.4%, 0)
           scale(1.08)
@@ -326,6 +315,7 @@
       }
 
       100% {
+
         transform:
           translate3d(-1%, 2%, 0)
           scale(1.04)
@@ -337,6 +327,7 @@
     @keyframes bgHue {
 
       0% {
+
         filter:
           blur(32px)
           saturate(1.3)
@@ -344,6 +335,7 @@
       }
 
       100% {
+
         filter:
           blur(32px)
           saturate(1.45)
@@ -354,12 +346,14 @@
 
     @keyframes gridFloat {
 
-      0% {
+      from {
+
         transform:
           translate3d(0,0,0);
       }
 
-      100% {
+      to {
+
         transform:
           translate3d(64px,64px,0);
       }
@@ -368,12 +362,14 @@
 
     @keyframes scanMove {
 
-      0% {
+      from {
+
         transform:
           translateY(-220px);
       }
 
-      100% {
+      to {
+
         transform:
           translateY(220px);
       }
@@ -386,16 +382,18 @@
 
     .app {
 
-      width: 100%;
-      height: 100vh;
-
       position: relative;
 
       z-index: 2;
 
-      display: flex;
+      width: 100%;
+      height: 100vh;
 
-      flex-direction: column;
+      display:
+        flex;
+
+      flex-direction:
+        column;
     }
 
 
@@ -409,13 +407,14 @@
 
       flex: none;
 
-      display: flex;
+      display:
+        flex;
 
-      align-items: center;
+      align-items:
+        center;
 
-      justify-content: space-between;
-
-      gap: 14px;
+      justify-content:
+        space-between;
 
       padding:
         0 20px;
@@ -459,13 +458,13 @@
 
     .title-wrap {
 
-      display: flex;
+      display:
+        flex;
 
-      align-items: center;
+      align-items:
+        center;
 
       gap: 11px;
-
-      min-width: 0;
     }
 
 
@@ -474,7 +473,7 @@
       width: 12px;
       height: 12px;
 
-      border-radius: 999px;
+      border-radius: 50%;
 
       background:
         var(--warn);
@@ -482,8 +481,6 @@
       box-shadow:
         0 0 18px
         rgba(255,213,106,0.7);
-
-      flex: none;
 
       transition:
         background .25s ease,
@@ -493,6 +490,9 @@
 
 
     .orb.online {
+
+      background:
+        var(--good);
 
       transform:
         scale(1.15);
@@ -523,13 +523,13 @@
 
     .brand {
 
-      display: flex;
+      display:
+        flex;
 
-      align-items: baseline;
+      align-items:
+        baseline;
 
       gap: 7px;
-
-      min-width: 0;
     }
 
 
@@ -538,11 +538,10 @@
       font-weight: 900;
 
       letter-spacing:
-        0.06em;
+        .06em;
 
-      font-size: 15px;
-
-      white-space: nowrap;
+      font-size:
+        15px;
     }
 
 
@@ -551,9 +550,8 @@
       color:
         var(--muted);
 
-      font-size: 11px;
-
-      white-space: nowrap;
+      font-size:
+        11px;
     }
 
 
@@ -562,29 +560,20 @@
       color:
         var(--muted);
 
-      font-size: 11px;
+      font-size:
+        11px;
 
-      margin-top: 2px;
-
-      white-space: nowrap;
-
-      overflow: hidden;
-
-      text-overflow: ellipsis;
+      margin-top:
+        2px;
     }
 
 
     .top-actions {
 
-      display: flex;
-
-      align-items: center;
+      display:
+        flex;
 
       gap: 7px;
-
-      flex-wrap: wrap;
-
-      justify-content: flex-end;
     }
 
 
@@ -593,7 +582,8 @@
       width: 38px;
       height: 38px;
 
-      border-radius: 12px;
+      border-radius:
+        12px;
 
       border:
         1px solid
@@ -607,12 +597,6 @@
 
       cursor:
         pointer;
-
-      display:
-        grid;
-
-      place-items:
-        center;
 
       transition:
         transform .15s ease,
@@ -635,22 +619,22 @@
 
 
     /* ========================================================
-       CHAT
+       CHAT AREA
        ======================================================== */
 
     .chat-shell {
 
-      width: 100%;
+      position: relative;
 
       flex: 1;
 
       min-height: 0;
 
-      display: flex;
+      display:
+        flex;
 
-      justify-content: center;
-
-      position: relative;
+      justify-content:
+        center;
     }
 
 
@@ -661,40 +645,36 @@
 
       height: 100%;
 
-      display: grid;
-
-      grid-template-rows:
-        1fr auto;
-
       min-height: 0;
     }
 
 
     .messages {
 
-      min-height: 0;
+      width: 100%;
+      height: 100%;
 
       overflow-y: auto;
 
-      scroll-behavior: smooth;
-
       padding:
-        28px
-        24px
-        210px;
+        30px 24px 220px;
+
+      scroll-behavior:
+        smooth;
 
       scrollbar-width:
         thin;
 
       scrollbar-color:
-        rgba(255,255,255,0.14)
+        rgba(255,255,255,.14)
         transparent;
     }
 
 
     .messages::-webkit-scrollbar {
 
-      width: 10px;
+      width:
+        10px;
     }
 
 
@@ -703,7 +683,8 @@
       background:
         rgba(255,255,255,0.12);
 
-      border-radius: 999px;
+      border-radius:
+        999px;
 
       border:
         2px solid transparent;
@@ -720,7 +701,7 @@
     .welcome {
 
       min-height:
-        calc(100vh - 260px);
+        calc(100vh - 270px);
 
       display:
         flex;
@@ -738,8 +719,7 @@
         center;
 
       padding:
-        40px
-        10px;
+        40px 10px;
 
       animation:
         welcomeIn .7s cubic-bezier(.2,.8,.2,1) both;
@@ -773,7 +753,8 @@
       width: 72px;
       height: 72px;
 
-      border-radius: 24px;
+      border-radius:
+        24px;
 
       display:
         grid;
@@ -784,9 +765,11 @@
       color:
         #07210f;
 
-      font-size: 30px;
+      font-size:
+        30px;
 
-      font-weight: 1000;
+      font-weight:
+        1000;
 
       background:
         linear-gradient(
@@ -810,15 +793,13 @@
       100% {
 
         transform:
-          translateY(0)
-          rotate(0deg);
+          translateY(0);
       }
 
       50% {
 
         transform:
-          translateY(-5px)
-          rotate(2deg);
+          translateY(-5px);
       }
     }
 
@@ -832,13 +813,14 @@
         clamp(30px, 5vw, 48px);
 
       letter-spacing:
-        -0.04em;
+        -.04em;
     }
 
 
     .welcome p {
 
-      max-width: 580px;
+      max-width:
+        580px;
 
       margin:
         0;
@@ -860,13 +842,13 @@
         grid;
 
       grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+        repeat(2, minmax(0,1fr));
 
       gap:
         10px;
 
       width:
-        min(620px, 100%);
+        min(620px,100%);
 
       margin-top:
         24px;
@@ -935,16 +917,16 @@
       font-size:
         12px;
 
-      margin-top:
-        4px;
-
       line-height:
         1.4;
+
+      margin-top:
+        4px;
     }
 
 
     /* ========================================================
-       MESSAGE ROWS
+       MESSAGE
        ======================================================== */
 
     .message-row {
@@ -955,8 +937,8 @@
       gap:
         14px;
 
-      margin:
-        0 0 28px;
+      margin-bottom:
+        28px;
 
       animation:
         messageIn .38s cubic-bezier(.2,.8,.2,1) both;
@@ -967,7 +949,8 @@
 
       from {
 
-        opacity: 0;
+        opacity:
+          0;
 
         transform:
           translateY(12px)
@@ -976,7 +959,8 @@
 
       to {
 
-        opacity: 1;
+        opacity:
+          1;
 
         transform:
           translateY(0)
@@ -1004,8 +988,7 @@
       width: 32px;
       height: 32px;
 
-      flex:
-        none;
+      flex: none;
 
       border-radius:
         11px;
@@ -1024,10 +1007,6 @@
 
       margin-top:
         2px;
-
-      box-shadow:
-        0 8px 20px
-        rgba(0,0,0,0.18);
     }
 
 
@@ -1042,6 +1021,10 @@
 
       color:
         #06210e;
+
+      box-shadow:
+        0 8px 20px
+        rgba(109,227,139,.16);
     }
 
 
@@ -1076,9 +1059,6 @@
 
       font-weight:
         800;
-
-      letter-spacing:
-        .04em;
 
       color:
         var(--muted);
@@ -1115,13 +1095,13 @@
       background:
         linear-gradient(
           180deg,
-          rgba(84,199,255,0.17),
-          rgba(84,199,255,0.08)
+          rgba(84,199,255,.17),
+          rgba(84,199,255,.08)
         );
 
       border:
         1px solid
-        rgba(84,199,255,0.2);
+        rgba(84,199,255,.20);
     }
 
 
@@ -1129,13 +1109,6 @@
 
       display:
         none;
-    }
-
-
-    .greg .message-content {
-
-      padding-top:
-        0;
     }
 
 
@@ -1160,7 +1133,7 @@
         2px;
 
       background:
-        rgba(236,247,239,0.8);
+        rgba(236,247,239,.8);
 
       animation:
         cursorBlink .85s steps(1) infinite;
@@ -1170,15 +1143,13 @@
     @keyframes cursorBlink {
 
       50% {
-
-        opacity:
-          0;
+        opacity: 0;
       }
     }
 
 
     /* ========================================================
-       TYPING
+       THINKING
        ======================================================== */
 
     .typing-dots {
@@ -1206,7 +1177,7 @@
         50%;
 
       background:
-        rgba(236,247,239,0.7);
+        rgba(236,247,239,.7);
 
       animation:
         typingBounce 1s infinite ease-in-out;
@@ -1258,16 +1229,13 @@
     .composer-area {
 
       position:
-        absolute;
+        fixed;
 
-      left:
-        0;
+      left: 0;
+      right: 0;
+      bottom: 0;
 
-      right:
-        0;
-
-      bottom:
-        0;
+      z-index: 10;
 
       display:
         flex;
@@ -1275,18 +1243,18 @@
       justify-content:
         center;
 
-      pointer-events:
-        none;
-
       padding:
         0 20px 20px;
+
+      pointer-events:
+        none;
     }
 
 
     .composer-wrap {
 
       width:
-        min(820px, 100%);
+        min(820px,100%);
 
       pointer-events:
         auto;
@@ -1307,7 +1275,7 @@
       background:
         radial-gradient(
           ellipse at center bottom,
-          rgba(141,240,160,0.13),
+          rgba(141,240,160,.13),
           transparent 65%
         );
 
@@ -1326,44 +1294,43 @@
 
       border:
         1px solid
-        rgba(255,255,255,0.11);
+        rgba(255,255,255,.11);
 
       border-radius:
         24px;
 
       background:
-        rgba(8,14,11,0.90);
+        rgba(8,14,11,.90);
 
       backdrop-filter:
         blur(20px);
 
       box-shadow:
         0 22px 60px
-        rgba(0,0,0,0.4);
+        rgba(0,0,0,.4);
 
       padding:
         10px;
+
+      animation:
+        composerIn .65s cubic-bezier(.2,.8,.2,1) both;
 
       transition:
         border-color .18s ease,
         box-shadow .18s ease,
         transform .18s ease;
-
-      animation:
-        composerIn .65s cubic-bezier(.2,.8,.2,1) both;
     }
 
 
     .composer:focus-within {
 
       border-color:
-        rgba(141,240,160,0.3);
+        rgba(141,240,160,.3);
 
       box-shadow:
-        0 25px 70px
-        rgba(0,0,0,0.42),
+        0 25px 70px rgba(0,0,0,.42),
         0 0 0 3px
-        rgba(141,240,160,0.05);
+        rgba(141,240,160,.05);
 
       transform:
         translateY(-1px);
@@ -1428,20 +1395,20 @@
       outline:
         none;
 
+      background:
+        transparent;
+
       color:
         var(--text);
 
-      background:
-        transparent;
+      padding:
+        12px 12px 10px;
 
       line-height:
         1.5;
 
       font-size:
         15px;
-
-      padding:
-        12px 12px 10px;
     }
 
 
@@ -1484,7 +1451,7 @@
 
       box-shadow:
         0 10px 22px
-        rgba(108,227,139,0.18);
+        rgba(108,227,139,.18);
 
       transition:
         transform .13s ease,
@@ -1503,13 +1470,6 @@
     }
 
 
-    .send-btn:active {
-
-      transform:
-        translateY(0);
-    }
-
-
     .send-btn:disabled {
 
       opacity:
@@ -1522,10 +1482,6 @@
         none;
     }
 
-
-    /* ========================================================
-       PRESET BUTTON
-       ======================================================== */
 
     .composer-bottom {
 
@@ -1559,6 +1515,10 @@
     }
 
 
+    /* ========================================================
+       PRESET MENU
+       ======================================================== */
+
     .preset-menu-wrap {
 
       position:
@@ -1573,10 +1533,10 @@
 
       border:
         1px solid
-        rgba(255,255,255,0.08);
+        rgba(255,255,255,.08);
 
       background:
-        rgba(255,255,255,0.04);
+        rgba(255,255,255,.04);
 
       color:
         var(--text);
@@ -1601,24 +1561,6 @@
 
       gap:
         7px;
-
-      transition:
-        transform .13s ease,
-        background .13s ease,
-        border-color .13s ease;
-    }
-
-
-    .preset-button:hover {
-
-      transform:
-        translateY(-1px);
-
-      background:
-        rgba(255,255,255,0.07);
-
-      border-color:
-        rgba(255,255,255,0.15);
     }
 
 
@@ -1638,7 +1580,7 @@
 
       box-shadow:
         0 0 10px
-        rgba(141,240,160,0.6);
+        rgba(141,240,160,.6);
     }
 
 
@@ -1661,20 +1603,20 @@
 
       border:
         1px solid
-        rgba(255,255,255,0.1);
+        rgba(255,255,255,.10);
 
       border-radius:
         16px;
 
       background:
-        rgba(8,14,11,0.97);
+        rgba(8,14,11,.97);
 
       backdrop-filter:
         blur(18px);
 
       box-shadow:
         0 18px 40px
-        rgba(0,0,0,0.42);
+        rgba(0,0,0,.42);
 
       opacity:
         0;
@@ -1733,9 +1675,6 @@
       cursor:
         pointer;
 
-      font-size:
-        12px;
-
       display:
         flex;
 
@@ -1744,26 +1683,20 @@
 
       justify-content:
         space-between;
-
-      gap:
-        10px;
     }
 
 
     .preset-option:hover {
 
       background:
-        rgba(255,255,255,0.07);
+        rgba(255,255,255,.07);
     }
 
 
     .preset-option.active {
 
       background:
-        rgba(141,240,160,0.10);
-
-      color:
-        #eaffef;
+        rgba(141,240,160,.10);
     }
 
 
@@ -1795,40 +1728,10 @@
 
 
     /* ========================================================
-       START CHAT BUTTON
-       ======================================================== */
-
-    .start-chat {
-
-      opacity:
-        0;
-
-      transform:
-        translateY(10px);
-
-      animation:
-        startChatIn .6s .3s ease forwards;
-    }
-
-
-    @keyframes startChatIn {
-
-      to {
-
-        opacity:
-          1;
-
-        transform:
-          translateY(0);
-      }
-    }
-
-
-    /* ========================================================
        RESPONSIVE
        ======================================================== */
 
-    @media (max-width: 760px) {
+    @media (max-width:760px) {
 
       .topbar {
 
@@ -1840,9 +1743,7 @@
       .messages {
 
         padding:
-          20px
-          14px
-          220px;
+          20px 14px 220px;
       }
 
 
@@ -1867,28 +1768,24 @@
       }
 
 
-      .top-actions {
+      .composer-bottom {
 
-        gap:
-          5px;
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
       }
 
 
-      .icon-btn {
+      .composer-left {
 
-        width:
-          35px;
+        width: 100%;
 
-        height:
-          35px;
+        justify-content:
+          space-between;
       }
 
-
-      .version {
-
-        display:
-          none;
-      }
     }
 
 
@@ -1910,6 +1807,7 @@
         scroll-behavior:
           auto !important;
       }
+
     }
 
   </style>
@@ -1921,7 +1819,7 @@
 
 
   <!-- ========================================================
-       AUDIO
+       BACKGROUND MUSIC
        ======================================================== -->
 
   <audio
@@ -1960,7 +1858,7 @@
 
 
   <!-- ========================================================
-       APP
+       APPLICATION
        ======================================================== -->
 
   <div class="app">
@@ -1971,7 +1869,6 @@
          ====================================================== -->
 
     <header class="topbar">
-
 
       <div class="title-wrap">
 
@@ -2010,12 +1907,10 @@
 
       <div class="top-actions">
 
-
         <button
           class="icon-btn"
           id="testBtn"
-          title="Test server connection"
-          aria-label="Test server connection"
+          title="Test API"
         >
           ↯
         </button>
@@ -2025,7 +1920,6 @@
           class="icon-btn"
           id="clearBtn"
           title="Clear chat"
-          aria-label="Clear chat"
         >
           ↻
         </button>
@@ -2035,14 +1929,11 @@
           class="icon-btn"
           id="exportBtn"
           title="Export chat"
-          aria-label="Export chat"
         >
           ↓
         </button>
 
-
       </div>
-
 
     </header>
 
@@ -2053,15 +1944,12 @@
 
     <main class="chat-shell">
 
-
       <div class="chat-column">
-
 
         <div
           class="messages"
           id="messages"
         ></div>
-
 
       </div>
 
@@ -2072,23 +1960,19 @@
 
       <div class="composer-area">
 
-
         <div class="composer-wrap">
 
-
           <div class="composer-glow"></div>
-
 
           <div class="composer">
 
 
             <div class="input-row">
 
-
               <textarea
                 id="input"
-                placeholder="Message Greg..."
                 rows="1"
+                placeholder="Message Greg..."
               ></textarea>
 
 
@@ -2099,12 +1983,10 @@
                 SEND
               </button>
 
-
             </div>
 
 
             <div class="composer-bottom">
-
 
               <div class="composer-left">
 
@@ -2118,19 +2000,13 @@
                     type="button"
                   >
 
-                    <span
-                      class="preset-dot"
-                    ></span>
+                    <span class="preset-dot"></span>
 
-                    <span
-                      id="presetButtonText"
-                    >
+                    <span id="presetButtonText">
                       Default
                     </span>
 
-                    <span>
-                      ▾
-                    </span>
+                    <span>▾</span>
 
                   </button>
 
@@ -2142,7 +2018,7 @@
 
 
                     <button
-                      class="preset-option active"
+                      class="preset-option"
                       data-preset="default"
                       type="button"
                     >
@@ -2161,9 +2037,7 @@
 
                       </span>
 
-                      <span>
-                        ✓
-                      </span>
+                      <span class="preset-check"></span>
 
                     </button>
 
@@ -2188,6 +2062,8 @@
 
                       </span>
 
+                      <span class="preset-check"></span>
+
                     </button>
 
 
@@ -2211,11 +2087,12 @@
 
                       </span>
 
+                      <span class="preset-check"></span>
+
                     </button>
 
 
                   </div>
-
 
                 </div>
 
@@ -2227,39 +2104,33 @@
                   Ready
                 </div>
 
-
               </div>
 
 
-              <div
-                class="composer-meta"
-              >
+              <div class="composer-meta">
+
                 Enter to send · Shift+Enter for newline
-              </div>
 
+              </div>
 
             </div>
 
-
           </div>
-
 
         </div>
 
-
       </div>
 
-
     </main>
-
 
   </div>
 
 
   <script>
 
+
     /* ========================================================
-       AUDIO
+       BACKGROUND MUSIC
        ======================================================== */
 
     const bgMusic =
@@ -2268,42 +2139,34 @@
       );
 
 
-    if (bgMusic) {
-
-      bgMusic.volume = 0.3;
-
-
-      bgMusic
-        .play()
-        .catch(() => {
-
-          console.log(
-            "Browser blocked autoplay. "
-            + "Click anywhere to start music."
-          );
-
-        });
+    bgMusic.volume =
+      0.3;
 
 
-      document.addEventListener(
-        "click",
-        () => {
+    bgMusic
+      .play()
+      .catch(() => {});
 
-          if (bgMusic.paused) {
 
-            bgMusic
-              .play()
-              .catch(() => {});
+    document.addEventListener(
+      "click",
+      () => {
 
-          }
+        if (
+          bgMusic.paused
+        ) {
 
-        },
-        {
-          once: true
+          bgMusic
+            .play()
+            .catch(() => {});
+
         }
-      );
 
-    }
+      },
+      {
+        once: true
+      }
+    );
 
 
     /* ========================================================
@@ -2333,22 +2196,26 @@
 
       canvas.width =
         Math.floor(
-          window.innerWidth * dpr
+          window.innerWidth *
+          dpr
         );
 
 
       canvas.height =
         Math.floor(
-          window.innerHeight * dpr
+          window.innerHeight *
+          dpr
         );
 
 
       canvas.style.width =
-        window.innerWidth + "px";
+        window.innerWidth +
+        "px";
 
 
       canvas.style.height =
-        window.innerHeight + "px";
+        window.innerHeight +
+        "px";
 
 
       ctx.setTransform(
@@ -2484,26 +2351,61 @@
         "lighter";
 
 
-      for (const p of particles) {
+      for (
+        const p
+        of particles
+      ) {
 
-        p.x += p.vx;
-        p.y += p.vy;
-
-        p.pulse += 0.018;
-
-
-        if (p.x < -120)
-          p.x = w + 120;
-
-        if (p.x > w + 120)
-          p.x = -120;
+        p.x +=
+          p.vx;
 
 
-        if (p.y < -120)
-          p.y = h + 120;
+        p.y +=
+          p.vy;
 
-        if (p.y > h + 120)
-          p.y = -120;
+
+        p.pulse +=
+          0.018;
+
+
+        if (
+          p.x < -120
+        ) {
+
+          p.x =
+            w + 120;
+
+        }
+
+
+        if (
+          p.x > w + 120
+        ) {
+
+          p.x =
+            -120;
+
+        }
+
+
+        if (
+          p.y < -120
+        ) {
+
+          p.y =
+            h + 120;
+
+        }
+
+
+        if (
+          p.y > h + 120
+        ) {
+
+          p.y =
+            -120;
+
+        }
 
 
         const r =
@@ -2590,11 +2492,29 @@
 
 
     /* ========================================================
-       API
+       API ROOT
+       ========================================================
+       
+       IMPORTANT:
+       setuper.py now writes ONLY the Cloudflare root here.
+
+       It should look like:
+       
+       https://something.trycloudflare.com
+
+       NOT:
+       
+       https://something.trycloudflare.com/chat
+       
+       The code below adds /chat and /chat/stream itself.
        ======================================================== */
 
-    const API_URL = "https://frankfurt-tip-governance-learning.trycloudflare.com/chat";
+    const API_URL = "https://formerly-wonderful-solved-highlighted.trycloudflare.com";
 
+
+    /* ========================================================
+       STORAGE
+       ======================================================== */
 
     const STORAGE_KEY =
       "greg_ui_api_v3";
@@ -2606,18 +2526,23 @@
 
     const DEFAULT_PARAMS = {
 
-      max_new_tokens: 150,
+      max_new_tokens:
+        150,
 
-      temperature: 0.6,
+      temperature:
+        0.6,
 
-      top_p: 0.85,
+      top_p:
+        0.85,
 
-      top_k: 40,
+      top_k:
+        40,
 
-      repetition_penalty: 1.2,
+      repetition_penalty:
+        1.2,
 
-      no_repeat_ngram_size: 4
-
+      no_repeat_ngram_size:
+        4
     };
 
 
@@ -2625,49 +2550,69 @@
 
       default: {
 
-        max_new_tokens: 150,
+        max_new_tokens:
+          150,
 
-        temperature: 0.6,
+        temperature:
+          0.6,
 
-        top_p: 0.85,
+        top_p:
+          0.85,
 
-        top_k: 40,
+        top_k:
+          40,
 
-        repetition_penalty: 1.2,
+        repetition_penalty:
+          1.2,
 
-        no_repeat_ngram_size: 4
+        no_repeat_ngram_size:
+          4
 
       },
+
 
       fast: {
 
-        max_new_tokens: 80,
+        max_new_tokens:
+          80,
 
-        temperature: 0.5,
+        temperature:
+          0.5,
 
-        top_p: 0.8,
+        top_p:
+          0.8,
 
-        top_k: 30,
+        top_k:
+          30,
 
-        repetition_penalty: 1.15,
+        repetition_penalty:
+          1.15,
 
-        no_repeat_ngram_size: 3
+        no_repeat_ngram_size:
+          3
 
       },
 
+
       smart: {
 
-        max_new_tokens: 220,
+        max_new_tokens:
+          220,
 
-        temperature: 0.7,
+        temperature:
+          0.7,
 
-        top_p: 0.9,
+        top_p:
+          0.9,
 
-        top_k: 50,
+        top_k:
+          50,
 
-        repetition_penalty: 1.25,
+        repetition_penalty:
+          1.25,
 
-        no_repeat_ngram_size: 4
+        no_repeat_ngram_size:
+          4
 
       }
 
@@ -2825,7 +2770,6 @@
 
         };
 
-
       } catch {
 
         return {
@@ -2865,7 +2809,7 @@
 
 
     /* ========================================================
-       AUTO TEXTAREA HEIGHT
+       RESIZE TEXTAREA
        ======================================================== */
 
     function resizeInput() {
@@ -2914,78 +2858,20 @@
 
 
     /* ========================================================
-       ESCAPE HTML
-       ======================================================== */
-
-    function escapeHtml(
-      text
-    ) {
-
-      return String(text)
-
-        .replaceAll(
-          "&",
-          "&amp;"
-        )
-
-        .replaceAll(
-          "<",
-          "&lt;"
-        )
-
-        .replaceAll(
-          ">",
-          "&gt;"
-        )
-
-        .replaceAll(
-          '"',
-          "&quot;"
-        )
-
-        .replaceAll(
-          "'",
-          "&#39;"
-        );
-
-    }
-
-
-    /* ========================================================
-       TIME
-       ======================================================== */
-
-    function nowTime() {
-
-      return new Date()
-        .toLocaleTimeString(
-          [],
-          {
-            hour:
-              "2-digit",
-
-            minute:
-              "2-digit"
-          }
-        );
-
-    }
-
-
-    /* ========================================================
        WELCOME
        ======================================================== */
 
     function showWelcome() {
 
-      const existing =
+      if (
         document.getElementById(
           "welcome"
-        );
+        )
+      ) {
 
-
-      if (existing)
         return;
+
+      }
 
 
       const welcome =
@@ -2999,7 +2885,7 @@
 
 
       welcome.className =
-        "welcome start-chat";
+        "welcome";
 
 
       welcome.innerHTML = `
@@ -3014,8 +2900,7 @@
 
         <p>
           Talk to Greg naturally.
-          This is one continuous chat, so the conversation
-          stays in one place.
+          This is one single continuous chat.
         </p>
 
         <div class="welcome-suggestions">
@@ -3035,6 +2920,7 @@
 
           </button>
 
+
           <button
             class="suggestion"
             data-suggestion="Explain how something works."
@@ -3050,6 +2936,7 @@
 
           </button>
 
+
           <button
             class="suggestion"
             data-suggestion="Give me a creative idea."
@@ -3064,6 +2951,7 @@
             </div>
 
           </button>
+
 
           <button
             class="suggestion"
@@ -3130,15 +3018,9 @@
 
 
       if (
-        welcome
-        &&
+        welcome &&
         welcome.parentNode
       ) {
-
-        welcome.classList.add(
-          "welcome-out"
-        );
-
 
         welcome.style.transition =
           "opacity .25s ease, transform .25s ease";
@@ -3187,11 +3069,7 @@
 
         <div class="message-content">
 
-          <div class="user-message-inner">
-
-            <div class="message-text"></div>
-
-          </div>
+          <div class="message-text"></div>
 
         </div>
 
@@ -3222,7 +3100,7 @@
 
 
     /* ========================================================
-       ADD THINKING MESSAGE
+       THINKING BUBBLE
        ======================================================== */
 
     function addThinkingMessage() {
@@ -3246,7 +3124,10 @@
         <div class="message-content">
 
           <div class="message-name">
-            Greg · ${nowTime()}
+            Greg · ${new Date().toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit"
+            })}
           </div>
 
           <div class="typing-dots">
@@ -3276,7 +3157,7 @@
 
 
     /* ========================================================
-       ADD STREAMING GREG MESSAGE
+       STREAMING BUBBLE
        ======================================================== */
 
     function addStreamingMessage() {
@@ -3300,10 +3181,15 @@
         <div class="message-content">
 
           <div class="message-name">
-            Greg · ${nowTime()}
+            Greg · ${new Date().toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit"
+            })}
           </div>
 
-          <div class="message-text"></div>
+          <div
+            class="message-text"
+          ></div>
 
           <span
             class="stream-cursor"
@@ -3324,7 +3210,8 @@
 
       return {
 
-        row,
+        row:
+          row,
 
         text:
           row.querySelector(
@@ -3342,10 +3229,939 @@
 
 
     /* ========================================================
-       ADD NORMAL STATIC GREG MESSAGE
+       OLD TYPEWRITER EFFECT
+       ========================================================
+       
+       THIS IS THE SAME STYLE AS YOUR OLD TYPE_TEXT FUNCTION.
+
+       The server sends WORDS.
+
+       The browser hides those raw words and types each
+       streamed word LETTER-BY-LETTER.
+
+       Punctuation has the old extra pauses.
        ======================================================== */
 
-    function addGregMessage(
+    function sleep(
+      ms
+    ) {
+
+      return new Promise(
+        resolve =>
+          setTimeout(
+            resolve,
+            ms
+          )
+      );
+
+    }
+
+
+    async function typeText(
+      element,
+      text,
+      delay = 25
+    ) {
+
+      const chars =
+        Array.from(
+          String(text)
+        );
+
+
+      for (
+        let i = 0;
+        i < chars.length;
+        i++
+      ) {
+
+        const ch =
+          chars[i];
+
+
+        element.textContent +=
+          ch;
+
+
+        let wait =
+          delay;
+
+
+        /*
+         * EXACT OLD PAUSE STYLE
+         */
+
+        if (
+          ch === " "
+        ) {
+
+          wait += 10;
+
+        } else if (
+          ch === ","
+        ) {
+
+          wait += 40;
+
+        } else if (
+          ch === "."
+        ) {
+
+          wait += 80;
+
+        } else if (
+          ch === "!"
+        ) {
+
+          wait += 90;
+
+        } else if (
+          ch === "?"
+        ) {
+
+          wait += 90;
+
+        } else if (
+          ch === "\n"
+        ) {
+
+          wait += 120;
+
+        }
+
+
+        await sleep(
+          wait
+        );
+
+      }
+
+    }
+
+
+    /* ========================================================
+       STREAM WORD QUEUE
+       ========================================================
+       
+       This is the important part.
+
+       Network:
+       
+           word 1 -> queue
+           word 2 -> queue
+           word 3 -> queue
+
+       Display:
+       
+           type word 1 letter-by-letter
+           type word 2 letter-by-letter
+           type word 3 letter-by-letter
+
+       The raw server words NEVER appear directly on screen.
+       ======================================================== */
+
+    async function consumeWordQueue(
+      streamBubble,
+      wordQueue,
+      stateObject
+    ) {
+
+      while (
+        !stateObject.finished ||
+        wordQueue.length > 0
+      ) {
+
+        if (
+          wordQueue.length === 0
+        ) {
+
+          await new Promise(
+            resolve => {
+              stateObject.wake =
+                resolve;
+            }
+          );
+
+          continue;
+
+        }
+
+
+        const word =
+          wordQueue.shift();
+
+
+        /*
+         * IMPORTANT:
+         *
+         * Each server chunk normally ends at whitespace.
+         *
+         * Example:
+         *
+         * "Hello "
+         * "there "
+         * "Greg."
+         *
+         * We type the exact chunk, including its space,
+         * so punctuation and spacing remain natural.
+         */
+
+        await typeText(
+          streamBubble.text,
+          word,
+          25
+        );
+
+
+        scrollBottom(
+          false
+        );
+
+      }
+
+    }
+
+
+    /* ========================================================
+       STREAM MESSAGE
+       ========================================================
+       
+       The server endpoint:
+       
+       POST /chat/stream
+
+       sends words.
+
+       The browser queues them and feeds them into the OLD
+       letter-by-letter typewriter effect.
+       ======================================================== */
+
+    async function streamMessage(
+      text
+    ) {
+
+      const controller =
+        new AbortController();
+
+
+      const timeout =
+        setTimeout(
+          () =>
+            controller.abort(),
+          180000
+        );
+
+
+      const responseBubble =
+        addStreamingMessage();
+
+
+      const wordQueue =
+        [];
+
+
+      const streamState = {
+
+        finished:
+          false,
+
+        wake:
+          null
+
+      };
+
+
+      /*
+       * Start the visual consumer immediately.
+       *
+       * It waits while the network receives words.
+       */
+
+      const typingPromise =
+        consumeWordQueue(
+          responseBubble,
+          wordQueue,
+          streamState
+        );
+
+
+      try {
+
+        const res =
+          await fetch(
+
+            `${API_URL}/chat/stream`,
+
+            {
+
+              method:
+                "POST",
+
+              headers:
+                {
+                  "Content-Type":
+                    "application/json"
+                },
+
+              body:
+                JSON.stringify({
+
+                  message:
+                    text,
+
+                  params:
+                    state.params
+
+                }),
+
+              signal:
+                controller.signal
+
+            }
+
+          );
+
+
+        if (!res.ok) {
+
+          const errorText =
+            await res.text();
+
+
+          throw new Error(
+
+            `HTTP ${
+              res.status
+            }: ${
+              errorText ||
+              "Request failed"
+            }`
+
+          );
+
+        }
+
+
+        if (!res.body) {
+
+          throw new Error(
+            "Streaming is not supported by this browser."
+          );
+
+        }
+
+
+        const reader =
+          res.body.getReader();
+
+
+        const decoder =
+          new TextDecoder(
+            "utf-8"
+          );
+
+
+        let fullText =
+          "";
+
+
+        while (true) {
+
+          const {
+
+            value,
+
+            done
+
+          } =
+            await reader.read();
+
+
+          if (done) {
+
+            break;
+
+          }
+
+
+          const chunk =
+            decoder.decode(
+              value,
+              {
+                stream:
+                  true
+              }
+            );
+
+
+          if (!chunk) {
+
+            continue;
+
+          }
+
+
+          /*
+           * Keep the raw server text hidden.
+           *
+           * Push it into the queue instead.
+           */
+
+          fullText +=
+            chunk;
+
+
+          /*
+           * The server's streamer deliberately emits
+           * whitespace-terminated pieces.
+           *
+           * Still, this code handles chunks containing
+           * multiple pieces safely.
+           */
+
+          let remaining =
+            chunk;
+
+
+          while (
+            remaining.length > 0
+          ) {
+
+            const match =
+              remaining.match(
+                /^.*?\s/
+              );
+
+
+            if (!match) {
+
+              /*
+               * Keep a partial chunk until the next network
+               * piece arrives.
+               *
+               * Usually this won't happen because the server
+               * emits whole words.
+               */
+
+              break;
+
+            }
+
+
+            const piece =
+              match[0];
+
+
+            remaining =
+              remaining.slice(
+                piece.length
+              );
+
+
+            wordQueue.push(
+              piece
+            );
+
+
+            if (
+              streamState.wake
+            ) {
+
+              const wake =
+                streamState.wake;
+
+              streamState.wake =
+                null;
+
+              wake();
+
+            }
+
+          }
+
+
+          scrollBottom(
+            false
+          );
+
+        }
+
+
+        /*
+         * If the final decoder buffer contains text, process it.
+         */
+
+        const finalChunk =
+          decoder.decode();
+
+
+        if (
+          finalChunk
+        ) {
+
+          fullText +=
+            finalChunk;
+
+
+          wordQueue.push(
+            finalChunk
+          );
+
+
+          if (
+            streamState.wake
+          ) {
+
+            const wake =
+              streamState.wake;
+
+            streamState.wake =
+              null;
+
+            wake();
+
+          }
+
+        }
+
+
+        /*
+         * The stream is now completely received.
+         *
+         * Let the typewriter finish whatever remains in the queue.
+         */
+
+        streamState.finished =
+          true;
+
+
+        if (
+          streamState.wake
+        ) {
+
+          const wake =
+            streamState.wake;
+
+          streamState.wake =
+            null;
+
+          wake();
+
+        }
+
+
+        await typingPromise;
+
+
+        responseBubble.cursor.remove();
+
+
+        return fullText.trim();
+
+
+      } finally {
+
+        clearTimeout(
+          timeout
+        );
+
+
+        streamState.finished =
+          true;
+
+
+        if (
+          streamState.wake
+        ) {
+
+          const wake =
+            streamState.wake;
+
+          streamState.wake =
+            null;
+
+          wake();
+
+        }
+
+      }
+
+    }
+
+
+    /* ========================================================
+       UPDATE UI
+       ======================================================== */
+
+    function updateUI() {
+
+      el.statusLine.textContent =
+        connected
+          ? "Greg API connected"
+          : "API offline";
+
+
+      el.orb.classList.toggle(
+        "online",
+        connected
+      );
+
+
+      el.sendBtn.disabled =
+        isSending;
+
+
+      /*
+       * IMPORTANT:
+       *
+       * The input is NEVER disabled.
+       *
+       * This fixes the startup connection-test problem and
+       * lets you type normally.
+       */
+
+      el.input.disabled =
+        false;
+
+
+      if (
+        isSending
+      ) {
+
+        el.memoryHint.textContent =
+          "Greg is generating...";
+
+      } else if (
+        connected
+      ) {
+
+        el.memoryHint.textContent =
+          `Preset: ${
+            activePreset
+              .charAt(0)
+              .toUpperCase()
+            +
+            activePreset.slice(1)
+          }`;
+
+      } else {
+
+        el.memoryHint.textContent =
+          "Waiting for connection";
+
+      }
+
+    }
+
+
+    /* ========================================================
+       TEST API
+       ========================================================
+       
+       IMPORTANT:
+       This does NOT set isSending.
+
+       Therefore the textbox stays usable while the startup
+       connection test is running.
+       ======================================================== */
+
+    async function testApi() {
+
+      el.testBtn.disabled =
+        true;
+
+
+      const previousHint =
+        el.memoryHint.textContent;
+
+
+      el.memoryHint.textContent =
+        "Testing connection...";
+
+
+      try {
+
+        const res =
+          await fetch(
+
+            `${API_URL}/chat`,
+
+            {
+
+              method:
+                "POST",
+
+              headers:
+                {
+                  "Content-Type":
+                    "application/json"
+                },
+
+              body:
+                JSON.stringify({
+
+                  message:
+                    "ping",
+
+                  params:
+                    {
+
+                      max_new_tokens:
+                        1,
+
+                      temperature:
+                        0.01,
+
+                      top_p:
+                        0.01,
+
+                      top_k:
+                        1,
+
+                      repetition_penalty:
+                        1,
+
+                      no_repeat_ngram_size:
+                        0
+
+                    }
+
+                })
+
+            }
+
+          );
+
+
+        if (!res.ok) {
+
+          throw new Error(
+            `HTTP ${res.status}`
+          );
+
+        }
+
+
+        connected =
+          true;
+
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+
+        connected =
+          false;
+
+      } finally {
+
+        el.testBtn.disabled =
+          false;
+
+
+        if (
+          !isSending
+        ) {
+
+          el.memoryHint.textContent =
+            connected
+              ? `Preset: ${
+                  activePreset
+                    .charAt(0)
+                    .toUpperCase()
+                  +
+                  activePreset.slice(1)
+                }`
+              : previousHint;
+
+        }
+
+
+        updateUI();
+
+      }
+
+    }
+
+
+    /* ========================================================
+       SEND MESSAGE
+       ======================================================== */
+
+    async function sendMessage() {
+
+      const text =
+        el.input.value.trim();
+
+
+      if (
+        !text ||
+        isSending
+      ) {
+
+        return;
+
+      }
+
+
+      removeWelcome();
+
+
+      el.input.value =
+        "";
+
+
+      resizeInput();
+
+
+      addUserMessage(
+        text
+      );
+
+
+      isSending =
+        true;
+
+
+      updateUI();
+
+
+      saveState();
+
+
+      const thinking =
+        addThinkingMessage();
+
+
+      try {
+
+        /*
+         * Tiny visual delay so the thinking animation is
+         * actually visible before the stream starts.
+         */
+
+        await sleep(
+          180
+        );
+
+
+        thinking.remove();
+
+
+        /*
+         * This is now the actual response.
+         *
+         * Server:
+         *     streams words
+         *
+         * Browser:
+         *     hides raw words
+         *
+         * Browser:
+         *     typeText() types every letter
+         *     with punctuation pauses
+         */
+
+        const reply =
+          await streamMessage(
+            text
+          );
+
+
+        state.conversation.push({
+
+          role:
+            "user",
+
+          content:
+            text
+
+        });
+
+
+        state.conversation.push({
+
+          role:
+            "assistant",
+
+          content:
+            reply
+
+        });
+
+
+        state.conversation =
+          state.conversation.slice(
+            -24
+          );
+
+
+        saveState();
+
+
+        connected =
+          true;
+
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+
+        if (
+          thinking &&
+          thinking.parentNode
+        ) {
+
+          thinking.remove();
+
+        }
+
+
+        connected =
+          false;
+
+
+        const errorMessage =
+          error &&
+          error.name ===
+            "AbortError"
+
+            ? "Request timed out."
+
+            : "Uh Oh! Server is having problems";
+
+
+        addStaticGregMessage(
+          errorMessage
+        );
+
+      } finally {
+
+        isSending =
+          false;
+
+
+        updateUI();
+
+
+        el.input.focus();
+
+      }
+
+    }
+
+
+    /* ========================================================
+       STATIC GREG MESSAGE
+       ======================================================== */
+
+    function addStaticGregMessage(
       text
     ) {
 
@@ -3368,7 +4184,7 @@
         <div class="message-content">
 
           <div class="message-name">
-            Greg · ${nowTime()}
+            Greg
           </div>
 
           <div class="message-text"></div>
@@ -3391,14 +4207,11 @@
 
       scrollBottom();
 
-
-      return row;
-
     }
 
 
     /* ========================================================
-       PRESET MENU
+       PRESETS
        ======================================================== */
 
     function updatePresetUI() {
@@ -3431,14 +4244,33 @@
         .forEach(
           button => {
 
-            button.classList.toggle(
-
-              "active",
-
+            const active =
               button.dataset.preset ===
-                activePreset
+              activePreset;
 
+
+            button.classList.toggle(
+              "active",
+              active
             );
+
+
+            const check =
+              button.querySelector(
+                ".preset-check"
+              );
+
+
+            if (
+              check
+            ) {
+
+              check.textContent =
+                active
+                  ? "✓"
+                  : "";
+
+            }
 
           }
         );
@@ -3487,8 +4319,11 @@
 
       el.memoryHint.textContent =
         `Preset: ${
-          preset.charAt(0).toUpperCase()
-          + preset.slice(1)
+          preset
+            .charAt(0)
+            .toUpperCase()
+          +
+          preset.slice(1)
         }`;
 
     }
@@ -3499,6 +4334,7 @@
       event => {
 
         event.stopPropagation();
+
 
         el.presetMenu.classList.toggle(
           "open"
@@ -3513,8 +4349,9 @@
       event => {
 
         if (
-          !el.presetMenu.contains(event.target)
-          &&
+          !el.presetMenu.contains(
+            event.target
+          ) &&
           event.target !==
             el.presetButton
         ) {
@@ -3555,519 +4392,6 @@
 
 
     /* ========================================================
-       UI CONNECTION STATE
-       ======================================================== */
-
-    function updateUI() {
-
-      el.statusLine.textContent =
-        connected
-          ? "Greg API connected"
-          : "API offline";
-
-
-      el.orb.classList.toggle(
-        "online",
-        connected
-      );
-
-
-      if (connected) {
-
-        el.orb.style.background =
-          "var(--good)";
-
-
-        el.orb.style.boxShadow =
-          "0 0 18px rgba(141,240,160,0.8)";
-
-      } else {
-
-        el.orb.style.background =
-          "var(--warn)";
-
-
-        el.orb.style.boxShadow =
-          "0 0 18px rgba(255,213,106,0.7)";
-
-      }
-
-
-      el.sendBtn.disabled =
-        isSending;
-
-
-      el.input.disabled =
-        isSending;
-
-
-      if (isSending) {
-
-        el.memoryHint.textContent =
-          "Greg is thinking...";
-
-      } else if (connected) {
-
-        el.memoryHint.textContent =
-          `Preset: ${
-            activePreset.charAt(0).toUpperCase()
-            + activePreset.slice(1)
-          }`;
-
-      } else {
-
-        el.memoryHint.textContent =
-          "Waiting for connection";
-
-      }
-
-    }
-
-
-    /* ========================================================
-       TEST API
-       ======================================================== */
-
-    async function testApi() {
-
-      if (isSending)
-        return;
-
-
-      isSending =
-        true;
-
-
-      updateUI();
-
-
-      try {
-
-        const res =
-          await fetch(
-            `${API_URL}/chat`,
-            {
-
-              method:
-                "POST",
-
-              headers:
-                {
-                  "Content-Type":
-                    "application/json"
-                },
-
-              body:
-                JSON.stringify({
-
-                  message:
-                    "ping",
-
-                  params:
-                    {
-                      max_new_tokens:
-                        1,
-
-                      temperature:
-                        0.01,
-
-                      top_p:
-                        0.01,
-
-                      top_k:
-                        1,
-
-                      repetition_penalty:
-                        1.0,
-
-                      no_repeat_ngram_size:
-                        0
-
-                    }
-
-                })
-
-            }
-          );
-
-
-        if (!res.ok) {
-
-          throw new Error(
-            `HTTP ${res.status}`
-          );
-
-        }
-
-
-        connected =
-          true;
-
-
-        if (
-          !state.conversation.length
-        ) {
-
-          showWelcome();
-
-        }
-
-
-      } catch (err) {
-
-        console.error(err);
-
-
-        connected =
-          false;
-
-
-        if (
-          !state.conversation.length
-        ) {
-
-          showWelcome();
-
-        }
-
-      } finally {
-
-        isSending =
-          false;
-
-
-        updateUI();
-
-      }
-
-    }
-
-
-    /* ========================================================
-       STREAM WORDS FROM SERVER
-       ======================================================== */
-
-    async function streamMessage(
-      text
-    ) {
-
-      const controller =
-        new AbortController();
-
-
-      const timeout =
-        setTimeout(
-          () =>
-            controller.abort(),
-          180000
-        );
-
-
-      try {
-
-        const res =
-          await fetch(
-            `${API_URL}/chat/stream`,
-            {
-
-              method:
-                "POST",
-
-              headers:
-                {
-                  "Content-Type":
-                    "application/json"
-                },
-
-              body:
-                JSON.stringify({
-
-                  message:
-                    text,
-
-                  params:
-                    state.params
-
-                }),
-
-              signal:
-                controller.signal
-
-            }
-          );
-
-
-        if (!res.ok) {
-
-          const errorText =
-            await res.text();
-
-
-          throw new Error(
-            `HTTP ${
-              res.status
-            }: ${
-              errorText ||
-              "Request failed"
-            }`
-          );
-
-        }
-
-
-        if (!res.body) {
-
-          throw new Error(
-            "Streaming is not supported by this browser."
-          );
-
-        }
-
-
-        const reader =
-          res.body.getReader();
-
-
-        const decoder =
-          new TextDecoder(
-            "utf-8"
-          );
-
-
-        const streamBubble =
-          addStreamingMessage();
-
-
-        let fullText =
-          "";
-
-
-        while (true) {
-
-          const {
-            value,
-            done
-          } =
-            await reader.read();
-
-
-          if (done)
-            break;
-
-
-          const chunk =
-            decoder.decode(
-              value,
-              {
-                stream:
-                  true
-              }
-            );
-
-
-          if (!chunk)
-            continue;
-
-
-          fullText +=
-            chunk;
-
-
-          streamBubble.text.textContent =
-            fullText;
-
-
-          scrollBottom(
-            false
-          );
-
-        }
-
-
-        streamBubble.cursor.remove();
-
-
-        return fullText.trim();
-
-      } finally {
-
-        clearTimeout(
-          timeout
-        );
-
-      }
-
-    }
-
-
-    /* ========================================================
-       SEND MESSAGE
-       ======================================================== */
-
-    async function sendMessage() {
-
-      const text =
-        el.input.value.trim();
-
-
-      if (
-        !text
-        ||
-        isSending
-      ) {
-
-        return;
-
-      }
-
-
-      removeWelcome();
-
-
-      el.input.value =
-        "";
-
-
-      resizeInput();
-
-
-      addUserMessage(
-        text
-      );
-
-
-      isSending =
-        true;
-
-
-      updateUI();
-
-
-      saveState();
-
-
-      const typing =
-        addThinkingMessage();
-
-
-      try {
-
-        /*
-         * Give the UI a tiny moment to animate the
-         * thinking state before opening the stream.
-         */
-
-        await new Promise(
-          resolve =>
-            setTimeout(
-              resolve,
-              180
-            )
-        );
-
-
-        typing.remove();
-
-
-        const reply =
-          await streamMessage(
-            text
-          );
-
-
-        state.conversation.push({
-
-          role:
-            "user",
-
-          content:
-            text
-
-        });
-
-
-        state.conversation.push({
-
-          role:
-            "assistant",
-
-          content:
-            reply
-
-        });
-
-
-        /*
-         * One single conversation.
-         * Keep only recent messages locally.
-         */
-
-        state.conversation =
-          state.conversation.slice(
-            -24
-          );
-
-
-        saveState();
-
-
-        connected =
-          true;
-
-
-      } catch (err) {
-
-        console.error(
-          err
-        );
-
-
-        if (
-          typing
-          &&
-          typing.parentNode
-        ) {
-
-          typing.remove();
-
-        }
-
-
-        connected =
-          false;
-
-
-        const errorMessage =
-          err &&
-          err.name ===
-            "AbortError"
-
-            ? "Request timed out."
-
-            : "Uh Oh! Server is having problems";
-
-
-        addGregMessage(
-          errorMessage
-        );
-
-      } finally {
-
-        isSending =
-          false;
-
-
-        updateUI();
-
-
-        el.input.focus();
-
-      }
-
-    }
-
-
-    /* ========================================================
        CLEAR CHAT
        ======================================================== */
 
@@ -4075,7 +4399,7 @@
 
       if (
         !confirm(
-          "Clear the single Greg chat?"
+          "Clear this single chat?"
         )
       ) {
 
@@ -4104,7 +4428,7 @@
 
 
     /* ========================================================
-       EXPORT CHAT
+       EXPORT
        ======================================================== */
 
     function exportChat() {
@@ -4167,7 +4491,7 @@
 
 
     /* ========================================================
-       RESTORE SINGLE CHAT
+       REPLAY SINGLE CHAT
        ======================================================== */
 
     function replayConversation() {
@@ -4177,7 +4501,8 @@
 
 
       if (
-        !state.conversation.length
+        state.conversation.length ===
+        0
       ) {
 
         showWelcome();
@@ -4206,7 +4531,7 @@
             "assistant"
         ) {
 
-          addGregMessage(
+          addStaticGregMessage(
             item.content
           );
 
@@ -4223,7 +4548,7 @@
 
 
     /* ========================================================
-       INPUT
+       ENTER / SHIFT ENTER
        ======================================================== */
 
     el.input.addEventListener(
@@ -4232,13 +4557,11 @@
 
         if (
           event.key ===
-            "Enter"
-          &&
+            "Enter" &&
           !event.shiftKey
         ) {
 
           event.preventDefault();
-
 
           sendMessage();
 
@@ -4277,7 +4600,7 @@
 
 
     /* ========================================================
-       STARTUP ANIMATION
+       START
        ======================================================== */
 
     replayConversation();
@@ -4286,11 +4609,11 @@
     updateUI();
 
 
+    resizeInput();
+
+
     /*
-     * If there is an existing conversation, don't automatically
-     * overwrite it with a test message.
-     *
-     * The API test only checks connectivity.
+     * Test the API, but DON'T disable the input while doing so.
      */
 
     setTimeout(
@@ -4298,10 +4621,6 @@
       500
     );
 
-
-    /* ========================================================
-       FOCUS INPUT
-       ======================================================== */
 
     setTimeout(
       () => {
