@@ -1,16 +1,14 @@
-
 <!doctype html>
-
 <html lang="en">
 
 <head>
 
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
-  />
+  >
 
   <title>Greg AI</title>
 
@@ -36,8 +34,10 @@
       --code-bg: #0a0d0c;
       --code-header: #111614;
       --code-line: rgba(255,255,255,0.06);
+      --code-text: #d7e8dd;
 
-      --shadow: 0 22px 60px rgba(0,0,0,0.42);
+      --shadow:
+        0 22px 60px rgba(0,0,0,0.42);
 
       --sans:
         Inter,
@@ -296,8 +296,7 @@
 
       opacity: 0.13;
 
-      mix-blend-mode:
-        screen;
+      mix-blend-mode: screen;
 
       animation:
         scanMove 7s linear infinite;
@@ -1120,15 +1119,8 @@
     }
 
 
-    .user .message-name {
-
-      display:
-        none;
-    }
-
-
     /* ========================================================
-       THINKING DOTS
+       THINKING
        ======================================================== */
 
     .typing-dots {
@@ -1164,16 +1156,12 @@
 
 
     .typing-dots span:nth-child(2) {
-
-      animation-delay:
-        .12s;
+      animation-delay: .12s;
     }
 
 
     .typing-dots span:nth-child(3) {
-
-      animation-delay:
-        .24s;
+      animation-delay: .24s;
     }
 
 
@@ -1202,7 +1190,7 @@
 
 
     /* ========================================================
-       TYPEWRITER CURSOR
+       STREAM CURSOR
        ======================================================== */
 
     .stream-cursor {
@@ -1236,23 +1224,72 @@
     @keyframes cursorBlink {
 
       50% {
-        opacity:
-          0;
+        opacity: 0;
       }
     }
 
 
     /* ========================================================
-       CODE BLOCK
+       ORDERED CODE BLOCK
        ======================================================== */
+
+    .code-block-shell {
+
+      display:
+        grid;
+
+      grid-template-rows:
+        0fr;
+
+      opacity:
+        0;
+
+      transform:
+        translateY(10px)
+        scale(.985);
+
+      margin:
+        0;
+
+      transition:
+        grid-template-rows .42s cubic-bezier(.16,1,.3,1),
+        opacity .30s ease,
+        transform .42s cubic-bezier(.16,1,.3,1),
+        margin .42s ease;
+    }
+
+
+    .code-block-shell.open {
+
+      grid-template-rows:
+        1fr;
+
+      opacity:
+        1;
+
+      transform:
+        translateY(0)
+        scale(1);
+
+      margin:
+        13px 0;
+    }
+
+
+    .code-block-inner {
+
+      min-height:
+        0;
+
+      overflow:
+        hidden;
+    }
+
 
     .code-block {
 
       width:
         100%;
-
-      margin:
-        13px 0;
 
       border:
         1px solid
@@ -1270,75 +1307,8 @@
       box-shadow:
         0 12px 28px
         rgba(0,0,0,0.22);
-
-      transform-origin:
-        top center;
-
-      animation:
-        codeBlockAppear
-        .42s
-        cubic-bezier(.16,1,.3,1)
-        both;
     }
 
-
-    /*
-     * The block itself grows into place instead of simply
-     * appearing instantly.
-     */
-
-    @keyframes codeBlockAppear {
-
-      0% {
-
-        opacity:
-          0;
-
-        transform:
-          translateY(12px)
-          scaleY(.78)
-          scaleX(.985);
-
-        filter:
-          brightness(.7)
-          blur(1px);
-      }
-
-      55% {
-
-        opacity:
-          1;
-
-        transform:
-          translateY(-2px)
-          scaleY(1.015)
-          scaleX(1);
-
-        filter:
-          brightness(1.08)
-          blur(0);
-      }
-
-      100% {
-
-        opacity:
-          1;
-
-        transform:
-          translateY(0)
-          scaleY(1)
-          scaleX(1);
-
-        filter:
-          brightness(1)
-          blur(0);
-      }
-    }
-
-
-    /*
-     * The header slides in a tiny bit after the box begins.
-     */
 
     .code-header {
 
@@ -1368,10 +1338,7 @@
         var(--code-header);
 
       animation:
-        codeHeaderIn
-        .35s
-        .06s
-        ease both;
+        codeHeaderIn .30s .05s ease both;
     }
 
 
@@ -1410,9 +1377,6 @@
 
       font-weight:
         700;
-
-      text-transform:
-        lowercase;
     }
 
 
@@ -1465,7 +1429,7 @@
         14px;
 
       color:
-        #d7e8dd;
+        var(--code-text);
 
       font-family:
         var(--mono);
@@ -1482,33 +1446,8 @@
       tab-size:
         4;
 
-      animation:
-        codeContentIn
-        .38s
-        .08s
-        ease both;
-    }
-
-
-    @keyframes codeContentIn {
-
-      from {
-
-        opacity:
-          0;
-
-        transform:
-          translateY(5px);
-      }
-
-      to {
-
-        opacity:
-          1;
-
-        transform:
-          translateY(0);
-      }
+      min-height:
+        18px;
     }
 
 
@@ -1529,18 +1468,13 @@
     }
 
 
-    /* ========================================================
-       LIVE CODE BLOCK
-       ======================================================== */
-
     .code-block.live {
 
       border-color:
         rgba(141,240,160,0.17);
 
       box-shadow:
-        0 12px 28px
-        rgba(0,0,0,0.22),
+        0 12px 28px rgba(0,0,0,0.22),
         0 0 0 1px
         rgba(141,240,160,0.035);
     }
@@ -1846,7 +1780,7 @@
 
 
     /* ========================================================
-       PRESET MENU
+       PRESET
        ======================================================== */
 
     .preset-menu-wrap {
@@ -2149,10 +2083,6 @@
 <body>
 
 
-  <!-- ========================================================
-       AUDIO
-       ======================================================== -->
-
   <audio
     id="bgMusic"
     autoplay
@@ -2162,14 +2092,10 @@
     <source
       src="bgmusic.mp3"
       type="audio/mpeg"
-    />
+    >
 
   </audio>
 
-
-  <!-- ========================================================
-       BACKGROUND
-       ======================================================== -->
 
   <div
     class="animated-bg"
@@ -2187,10 +2113,6 @@
     id="bgCanvas"
   ></canvas>
 
-
-  <!-- ========================================================
-       APP
-       ======================================================== -->
 
   <div class="app">
 
@@ -2444,9 +2366,7 @@
 
 
               <div class="composer-meta">
-
                 Enter to send · Shift+Enter for newline
-
               </div>
 
             </div>
@@ -2463,7 +2383,6 @@
 
 
   <script>
-
 
     /* ========================================================
        AUDIO
@@ -2507,7 +2426,7 @@
 
 
     /* ========================================================
-       CANVAS BACKGROUND
+       BACKGROUND CANVAS
        ======================================================== */
 
     const canvas =
@@ -2830,10 +2749,10 @@
 
 
     /* ========================================================
-       API ROOT
+       API
        ======================================================== */
 
-    const API_URL = "https://interviews-betty-differ-dodge.trycloudflare.com";
+    const API_URL = "https://brokers-jesus-dos-heart.trycloudflare.com";
 
 
     /* ========================================================
@@ -2841,7 +2760,7 @@
        ======================================================== */
 
     const STORAGE_KEY =
-      "greg_ui_api_v5";
+      "greg_ui_api_v6";
 
 
     /* ========================================================
@@ -3035,7 +2954,7 @@
 
 
     /* ========================================================
-       LOAD STATE
+       STATE
        ======================================================== */
 
     function loadState() {
@@ -3048,7 +2967,9 @@
           );
 
 
-        if (!raw) {
+        if (
+          !raw
+        ) {
 
           return {
 
@@ -3095,7 +3016,6 @@
 
         };
 
-
       } catch {
 
         return {
@@ -3117,10 +3037,6 @@
 
     }
 
-
-    /* ========================================================
-       SAVE STATE
-       ======================================================== */
 
     function saveState() {
 
@@ -3639,12 +3555,32 @@
 
 
     /* ========================================================
-       CODE BLOCK CREATOR
+       CREATE CODE BLOCK
        ======================================================== */
 
     function createCodeBlock(
       language
     ) {
+
+      const shell =
+        document.createElement(
+          "div"
+        );
+
+
+      shell.className =
+        "code-block-shell";
+
+
+      const inner =
+        document.createElement(
+          "div"
+        );
+
+
+      inner.className =
+        "code-block-inner";
+
 
       const block =
         document.createElement(
@@ -3775,16 +3711,44 @@
       );
 
 
+      inner.appendChild(
+        block
+      );
+
+
+      shell.appendChild(
+        inner
+      );
+
+
+      /*
+       * Insert first, then next frame open it.
+       * This makes the surrounding content move smoothly.
+       */
+
+      requestAnimationFrame(
+        () => {
+
+          requestAnimationFrame(
+            () => {
+
+              shell.classList.add(
+                "open"
+              );
+
+            }
+          );
+
+        }
+      );
+
+
       return {
 
-        block:
-          block,
-
-        languageLabel:
-          languageLabel,
-
-        codeContent:
-          codeContent
+        shell,
+        block,
+        codeContent,
+        languageLabel
 
       };
 
@@ -3792,51 +3756,237 @@
 
 
     /* ========================================================
-       STREAM PARSER
+       ORDERED RENDER QUEUE
        ========================================================
        
-       ```python
-       starts code mode.
+       THIS IS THE IMPORTANT FIX.
 
-       ```
-       ends code mode.
+       Every piece of output becomes an operation.
 
-       Backticks are never shown.
+       Example:
+
+       TEXT
+       CODE_OPEN
+       CODE_TEXT
+       CODE_TEXT
+       CODE_CLOSE
+       TEXT
+
+       One renderer processes those operations in exactly
+       that order.
+
+       Nothing can jump ahead of the text before it.
        ======================================================== */
 
-    function createStreamParser(
-      stream
-    ) {
+    class OrderedRenderer {
 
-      const parser = {
+      constructor(
+        stream
+      ) {
 
-        mode:
-          "text",
+        this.stream =
+          stream;
 
-        pending:
-          "",
+        this.queue =
+          [];
 
-        codeBlock:
-          null,
+        this.running =
+          false;
 
-        output:
-          stream.output,
+        this.finished =
+          false;
 
-        normalQueue:
-          Promise.resolve(),
+        this.waiter =
+          null;
 
-        waitingForLanguage:
-          false
+        this.code =
+          null;
 
-      };
+        this.textElement =
+          null;
+
+      }
 
 
-      /*
-       * Normal text is typed asynchronously.
-       * Incoming network data is NOT blocked by that typing.
-       */
+      enqueue(
+        operation
+      ) {
 
-      function queueNormalText(
+        this.queue.push(
+          operation
+        );
+
+
+        this.wake();
+
+        this.run();
+
+      }
+
+
+      wake() {
+
+        if (
+          this.waiter
+        ) {
+
+          const resolve =
+            this.waiter;
+
+          this.waiter =
+            null;
+
+          resolve();
+
+        }
+
+      }
+
+
+      async waitForQueue() {
+
+        if (
+          this.queue.length
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          this.finished
+        ) {
+
+          return;
+
+        }
+
+
+        await new Promise(
+          resolve => {
+
+            this.waiter =
+              resolve;
+
+          }
+        );
+
+      }
+
+
+      async run() {
+
+        if (
+          this.running
+        ) {
+
+          return;
+
+        }
+
+
+        this.running =
+          true;
+
+
+        try {
+
+          while (
+            !this.finished ||
+            this.queue.length
+          ) {
+
+            if (
+              !this.queue.length
+            ) {
+
+              await this.waitForQueue();
+
+              continue;
+
+            }
+
+
+            const operation =
+              this.queue.shift();
+
+
+            await this.renderOperation(
+              operation
+            );
+
+          }
+
+        } finally {
+
+          this.running =
+            false;
+
+        }
+
+      }
+
+
+      async renderOperation(
+        operation
+      ) {
+
+        if (
+          operation.type ===
+          "text"
+        ) {
+
+          await this.renderText(
+            operation.text
+          );
+
+          return;
+
+        }
+
+
+        if (
+          operation.type ===
+          "code-open"
+        ) {
+
+          await this.renderCodeOpen(
+            operation.language
+          );
+
+          return;
+
+        }
+
+
+        if (
+          operation.type ===
+          "code-text"
+        ) {
+
+          this.renderCodeText(
+            operation.text
+          );
+
+          return;
+
+        }
+
+
+        if (
+          operation.type ===
+          "code-close"
+        ) {
+
+          this.renderCodeClose();
+
+        }
+
+      }
+
+
+      async renderText(
         text
       ) {
 
@@ -3849,21 +3999,6 @@
         }
 
 
-        parser.normalQueue =
-          parser.normalQueue.then(
-            () =>
-              typeNormalText(
-                text
-              )
-          );
-
-      }
-
-
-      async function typeNormalText(
-        text
-      ) {
-
         const span =
           document.createElement(
             "span"
@@ -3874,9 +4009,13 @@
           "message-text";
 
 
-        parser.output.appendChild(
+        this.stream.output.appendChild(
           span
         );
+
+
+        this.textElement =
+          span;
 
 
         await typeText(
@@ -3893,35 +4032,75 @@
       }
 
 
-      function addCodeBlock(
+      async renderCodeOpen(
         language
       ) {
 
-        parser.codeBlock =
+        /*
+         * Wait until whatever text came before it has fully
+         * finished typing. Because this function is called by
+         * the same queue, this is guaranteed.
+         */
+
+        const code =
           createCodeBlock(
             language
           );
 
 
-        parser.output.appendChild(
-          parser.codeBlock.block
+        this.stream.output.appendChild(
+          code.shell
+        );
+
+
+        this.code =
+          code;
+
+
+        scrollBottom(
+          false
         );
 
 
         /*
-         * The browser must have a layout frame before the
-         * animation visibly starts, so force the animation
-         * to begin after insertion.
+         * Let the height-opening animation visibly begin before
+         * the next queued operation writes into it.
          */
 
-        requestAnimationFrame(
-          () => {
-
-            parser.codeBlock.block.style.willChange =
-              "transform, opacity, filter";
-
-          }
+        await sleep(
+          30
         );
+
+      }
+
+
+      renderCodeText(
+        text
+      ) {
+
+        if (
+          !this.code ||
+          !text
+        ) {
+
+          return;
+
+        }
+
+
+        /*
+         * NO typeText here.
+         *
+         * Code must preserve:
+         *
+         * spaces
+         * tabs
+         * indentation
+         * newlines
+         */
+
+        this.code.codeContent.textContent +=
+          text;
 
 
         scrollBottom(
@@ -3931,94 +4110,148 @@
       }
 
 
-      function appendCodeText(
-        text
-      ) {
+      renderCodeClose() {
 
         if (
-          parser.codeBlock &&
-          text
+          !this.code
         ) {
 
-          parser.codeBlock.codeContent.textContent +=
-            text;
-
-
-          scrollBottom(
-            false
-          );
+          return;
 
         }
+
+
+        this.code.block.classList.remove(
+          "live"
+        );
+
+
+        this.code =
+          null;
+
+
+        scrollBottom(
+          false
+        );
 
       }
 
 
-      function closeCodeBlock() {
+      async finish() {
 
-        if (
-          parser.codeBlock
-        ) {
-
-          parser.codeBlock.block.classList.remove(
-            "live"
-          );
+        this.finished =
+          true;
 
 
-          parser.codeBlock.block.style.willChange =
-            "auto";
-
-
-          parser.codeBlock =
-            null;
-
-        }
-
-      }
-
-
-      /*
-       * Feed any new network text.
-       */
-
-      async function feed(
-        incoming
-      ) {
-
-        parser.pending +=
-          incoming;
+        this.wake();
 
 
         while (
-          parser.pending.length
+          this.running ||
+          this.queue.length
         ) {
 
+          await sleep(
+            10
+          );
+
+        }
+
+      }
+
+    }
+
+
+    /* ========================================================
+       STREAM PARSER
+       ========================================================
+       
+       The parser ONLY creates ordered operations.
+
+       It never directly changes the screen.
+
+       That is what prevents the old ordering bug.
+       ======================================================== */
+
+    class StreamParser {
+
+      constructor(
+        renderer
+      ) {
+
+        this.renderer =
+          renderer;
+
+        this.mode =
+          "text";
+
+        this.pending =
+          "";
+
+        this.finished =
+          false;
+
+      }
+
+
+      feed(
+        incoming
+      ) {
+
+        if (
+          !incoming ||
+          this.finished
+        ) {
+
+          return;
+
+        }
+
+
+        this.pending +=
+          incoming;
+
+
+        this.process();
+
+      }
+
+
+      process() {
+
+        while (
+          this.pending.length
+        ) {
 
           /* ==================================================
-             TEXT MODE
+             NORMAL TEXT
              ================================================== */
 
           if (
-            parser.mode ===
+            this.mode ===
             "text"
           ) {
 
-            const marker =
-              parser.pending.indexOf(
+            const markerIndex =
+              this.pending.indexOf(
                 "```"
               );
 
 
             if (
-              marker === -1
+              markerIndex ===
+              -1
             ) {
 
               /*
-               * Hold two characters in case the next network
-               * packet completes a split ``` marker.
+               * Keep two chars in case a network packet splits:
+               *
+               * ```
                */
 
               if (
-                parser.pending.length <= 2
+                this.pending.length <=
+                2
               ) {
 
                 return;
@@ -4026,54 +4259,66 @@
               }
 
 
-              const safe =
-                parser.pending.slice(
+              const safeText =
+                this.pending.slice(
                   0,
+                  this.pending.length - 2
+                );
+
+
+              this.pending =
+                this.pending.slice(
                   -2
                 );
 
 
-              parser.pending =
-                parser.pending.slice(
-                  -2
-                );
+              this.renderer.enqueue({
+
+                type:
+                  "text",
+
+                text:
+                  safeText
+
+              });
 
 
-              queueNormalText(
-                safe
-              );
-
-
-              return;
+              continue;
 
             }
 
 
-            const before =
-              parser.pending.slice(
+            const textBefore =
+              this.pending.slice(
                 0,
-                marker
+                markerIndex
               );
 
 
             if (
-              before
+              textBefore
             ) {
 
-              queueNormalText(
-                before
-              );
+              this.renderer.enqueue({
+
+                type:
+                  "text",
+
+                text:
+                  textBefore
+
+              });
 
             }
 
 
-            parser.pending =
-              parser.pending.slice(
-                marker + 3
+            this.pending =
+              this.pending.slice(
+                markerIndex + 3
               );
 
 
-            parser.mode =
+            this.mode =
               "language";
 
 
@@ -4083,23 +4328,29 @@
 
 
           /* ==================================================
-             LANGUAGE MODE
+             LANGUAGE
              ================================================== */
 
           if (
-            parser.mode ===
+            this.mode ===
             "language"
           ) {
 
-            const newline =
-              parser.pending.indexOf(
+            const newlineIndex =
+              this.pending.indexOf(
                 "\n"
               );
 
 
             if (
-              newline === -1
+              newlineIndex ===
+              -1
             ) {
+
+              /*
+               * Wait for the newline so the language label is
+               * complete.
+               */
 
               return;
 
@@ -4107,26 +4358,33 @@
 
 
             const language =
-              parser.pending
+              this.pending
                 .slice(
                   0,
-                  newline
+                  newlineIndex
                 )
                 .trim();
 
 
-            parser.pending =
-              parser.pending.slice(
-                newline + 1
+            this.pending =
+              this.pending.slice(
+                newlineIndex + 1
               );
 
 
-            addCodeBlock(
-              language
-            );
+            this.renderer.enqueue({
+
+              type:
+                "code-open",
+
+              language:
+                language ||
+                "code"
+
+            });
 
 
-            parser.mode =
+            this.mode =
               "code";
 
 
@@ -4136,157 +4394,203 @@
 
 
           /* ==================================================
-             CODE MODE
+             CODE
              ================================================== */
 
-          const marker =
-            parser.pending.indexOf(
-              "```"
-            );
-
-
           if (
-            marker === -1
+            this.mode ===
+            "code"
           ) {
 
+            const markerIndex =
+              this.pending.indexOf(
+                "```"
+              );
+
+
             if (
-              parser.pending.length <= 2
+              markerIndex ===
+              -1
             ) {
 
-              return;
+              /*
+               * Preserve a possible split closing fence.
+               */
+
+              if (
+                this.pending.length <=
+                2
+              ) {
+
+                return;
+
+              }
+
+
+              const safeCode =
+                this.pending.slice(
+                  0,
+                  this.pending.length - 2
+                );
+
+
+              this.pending =
+                this.pending.slice(
+                  -2
+                );
+
+
+              this.renderer.enqueue({
+
+                type:
+                  "code-text",
+
+                text:
+                  safeCode
+
+              });
+
+
+              continue;
 
             }
 
 
-            const safe =
-              parser.pending.slice(
+            const codeBefore =
+              this.pending.slice(
                 0,
-                -2
+                markerIndex
               );
 
 
-            parser.pending =
-              parser.pending.slice(
-                -2
+            if (
+              codeBefore
+            ) {
+
+              this.renderer.enqueue({
+
+                type:
+                  "code-text",
+
+                text:
+                  codeBefore
+
+              });
+
+            }
+
+
+            this.pending =
+              this.pending.slice(
+                markerIndex + 3
               );
 
 
-            appendCodeText(
-              safe
-            );
+            this.renderer.enqueue({
+
+              type:
+                "code-close"
+
+            });
 
 
-            return;
-
-          }
-
-
-          const code =
-            parser.pending.slice(
-              0,
-              marker
-            );
+            this.mode =
+              "text";
 
 
-          if (
-            code
-          ) {
-
-            appendCodeText(
-              code
-            );
+            continue;
 
           }
-
-
-          parser.pending =
-            parser.pending.slice(
-              marker + 3
-            );
-
-
-          closeCodeBlock();
-
-
-          parser.mode =
-            "text";
 
         }
 
       }
 
 
-      async function finish() {
+      finish() {
 
         if (
-          parser.pending
+          this.finished
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          this.pending
         ) {
 
           if (
-            parser.mode ===
+            this.mode ===
             "text"
           ) {
 
-            queueNormalText(
-              parser.pending
-            );
+            /*
+             * If the final two characters were backticks but the
+             * stream ended before a complete fence, they are
+             * actual text.
+             */
+
+            this.renderer.enqueue({
+
+              type:
+                "text",
+
+              text:
+                this.pending
+
+            });
 
           } else if (
-            parser.mode ===
+            this.mode ===
             "code"
           ) {
 
-            appendCodeText(
-              parser.pending
-            );
+            this.renderer.enqueue({
+
+              type:
+                "code-text",
+
+              text:
+                this.pending
+
+            });
 
           } else if (
-            parser.mode ===
+            this.mode ===
             "language"
           ) {
 
             /*
-             * If Greg strangely finishes directly after
-             * ``` without a newline, treat the remainder as
-             * the language name.
+             * Incomplete language marker:
+             * treat it as literal text rather than throwing it away.
              */
 
-            const language =
-              parser.pending.trim();
+            this.renderer.enqueue({
 
+              type:
+                "text",
 
-            addCodeBlock(
-              language ||
-              "code"
-            );
+              text:
+                "```" +
+                this.pending
 
-
-            closeCodeBlock();
+            });
 
           }
-
-
-          parser.pending =
-            "";
 
         }
 
 
-        await parser.normalQueue;
+        this.pending =
+          "";
 
-
-        closeCodeBlock();
+        this.finished =
+          true;
 
       }
-
-
-      return {
-
-        feed,
-
-        finish
-
-      };
 
     }
 
@@ -4315,9 +4619,15 @@
         createGregStream();
 
 
-      const parser =
-        createStreamParser(
+      const renderer =
+        new OrderedRenderer(
           stream
+        );
+
+
+      const parser =
+        new StreamParser(
+          renderer
         );
 
 
@@ -4371,14 +4681,10 @@
 
 
           throw new Error(
-
-            `HTTP ${
-              response.status
-            }: ${
+            `HTTP ${response.status}: ${
               errorText ||
               "Request failed"
             }`
-
           );
 
         }
@@ -4405,17 +4711,16 @@
           );
 
 
-        while (true) {
+        while (
+          true
+        ) {
 
-          const {
-            value,
-            done
-          } =
+          const result =
             await reader.read();
 
 
           if (
-            done
+            result.done
           ) {
 
             break;
@@ -4425,7 +4730,7 @@
 
           const chunk =
             decoder.decode(
-              value,
+              result.value,
               {
                 stream:
                   true
@@ -4442,17 +4747,21 @@
           }
 
 
+          /*
+           * Save raw response for memory.
+           */
+
           fullText +=
             chunk;
 
 
           /*
-           * IMPORTANT:
+           * Parse it into ordered operations.
            *
-           * Feed the network stream into the parser without
-           * waiting for the letter-by-letter animation.
+           * We DO NOT await renderer.run() here.
            *
-           * This keeps the speed advantage you liked.
+           * That means network reading remains fast while the
+           * already queued visual effects play out in order.
            */
 
           parser.feed(
@@ -4486,7 +4795,14 @@
         }
 
 
-        await parser.finish();
+        parser.finish();
+
+
+        /*
+         * Wait until EVERY queued visual operation has finished.
+         */
+
+        await renderer.finish();
 
 
         if (
@@ -4509,7 +4825,10 @@
         );
 
 
-        await parser.finish()
+        parser.finish();
+
+
+        await renderer.finish()
           .catch(
             () => {}
           );
@@ -4530,7 +4849,7 @@
 
 
     /* ========================================================
-       STATIC MESSAGE
+       STATIC CODE BLOCK
        ======================================================== */
 
     function createStaticCodeBlock(
@@ -4544,6 +4863,11 @@
         );
 
 
+      codeBlock.shell.classList.add(
+        "open"
+      );
+
+
       codeBlock.block.classList.remove(
         "live"
       );
@@ -4553,10 +4877,14 @@
         code;
 
 
-      return codeBlock.block;
+      return codeBlock.shell;
 
     }
 
+
+    /* ========================================================
+       STATIC MESSAGE RENDERER
+       ======================================================== */
 
     function renderStaticMessage(
       container,
@@ -4580,7 +4908,8 @@
 
 
         if (
-          start === -1
+          start ===
+          -1
         ) {
 
           const normal =
@@ -4589,23 +4918,29 @@
             );
 
 
-          const span =
-            document.createElement(
-              "span"
+          if (
+            normal
+          ) {
+
+            const span =
+              document.createElement(
+                "span"
+              );
+
+
+            span.className =
+              "message-text";
+
+
+            span.textContent =
+              normal;
+
+
+            container.appendChild(
+              span
             );
 
-
-          span.className =
-            "message-text";
-
-
-          span.textContent =
-            normal;
-
-
-          container.appendChild(
-            span
-          );
+          }
 
 
           break;
@@ -4658,23 +4993,28 @@
 
 
         if (
-          languageEnd === -1
+          languageEnd ===
+          -1
         ) {
 
-          const span =
+          const literal =
             document.createElement(
               "span"
             );
 
 
-          span.textContent =
+          literal.className =
+            "message-text";
+
+
+          literal.textContent =
             text.slice(
               start
             );
 
 
           container.appendChild(
-            span
+            literal
           );
 
 
@@ -4698,14 +5038,16 @@
 
 
         if (
-          codeEnd === -1
+          codeEnd ===
+          -1
         ) {
 
           container.appendChild(
 
             createStaticCodeBlock(
 
-              language,
+              language ||
+              "code",
 
               text.slice(
                 languageEnd + 1
@@ -4732,7 +5074,8 @@
 
           createStaticCodeBlock(
 
-            language,
+            language ||
+            "code",
 
             code
 
@@ -4748,6 +5091,10 @@
 
     }
 
+
+    /* ========================================================
+       STATIC GREG MESSAGE
+       ======================================================== */
 
     function addStaticGregMessage(
       text
@@ -4831,7 +5178,7 @@
 
 
       /*
-       * NEVER disable the textbox.
+       * The input stays enabled.
        */
 
       el.input.disabled =
@@ -4955,7 +5302,9 @@
           true;
 
 
-      } catch (error) {
+      } catch (
+        error
+      ) {
 
         console.error(
           error
@@ -5062,6 +5411,21 @@
         }
 
 
+        /*
+         * Stream from the server.
+         *
+         * The browser now:
+         *
+         * 1. receives the response immediately
+         * 2. parses ``` markers
+         * 3. puts every piece into ONE ordered queue
+         * 4. types normal text letter-by-letter
+         * 5. creates animated code blocks
+         * 6. writes code without changing spacing
+         * 7. closes the code box
+         * 8. resumes the typewriter
+         */
+
         const reply =
           await streamMessage(
             text
@@ -5103,7 +5467,9 @@
           true;
 
 
-      } catch (error) {
+      } catch (
+        error
+      ) {
 
         console.error(
           error
@@ -5432,7 +5798,7 @@
 
 
     /* ========================================================
-       REPLAY CHAT
+       REPLAY
        ======================================================== */
 
     function replayConversation() {
@@ -5558,7 +5924,7 @@
 
 
     /*
-     * API test does not disable the textbox.
+     * Connection test does not disable the text box.
      */
 
     setTimeout(
