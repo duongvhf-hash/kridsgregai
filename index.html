@@ -2752,7 +2752,7 @@
        API
        ======================================================== */
 
-    const API_URL = "https://sharon-cloudy-player-dinner.trycloudflare.com";
+    const API_URL = "https://charity-sheer-determination-fountain.trycloudflare.com";
 
 
     /* ========================================================
@@ -3045,6 +3045,7 @@
         JSON.stringify(
           state
         )
+
       );
 
     }
@@ -4635,6 +4636,31 @@
         "";
 
 
+      /*
+       * Browser-side conversation memory.
+       *
+       * Only the latest 20 stored messages are sent.
+       *
+       * The current user message is NOT included here because
+       * it is already sent separately as "message".
+       */
+
+      const recentMessages =
+        state.conversation
+          .slice(-20)
+          .map(
+            item =>
+              `${
+                item.role === "user"
+                  ? "User"
+                  : "Greg"
+              }: ${item.content}`
+          )
+          .join(
+            "\n\n"
+          );
+
+
       try {
 
         const response =
@@ -4658,6 +4684,9 @@
 
                   message:
                     userText,
+
+                  memory:
+                    recentMessages,
 
                   params:
                     state.params
@@ -5414,16 +5443,8 @@
         /*
          * Stream from the server.
          *
-         * The browser now:
-         *
-         * 1. receives the response immediately
-         * 2. parses ``` markers
-         * 3. puts every piece into ONE ordered queue
-         * 4. types normal text letter-by-letter
-         * 5. creates animated code blocks
-         * 6. writes code without changing spacing
-         * 7. closes the code box
-         * 8. resumes the typewriter
+         * The browser sends the latest 20 stored messages as
+         * the "memory" string.
          */
 
         const reply =
