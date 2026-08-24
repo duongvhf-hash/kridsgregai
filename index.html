@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 
@@ -12,6 +11,36 @@
   >
 
   <title>Greg AI</title>
+
+  <script>
+    window.gregDocxReady =
+      import(
+        "https://cdn.jsdelivr.net/npm/docx@9.7.1/+esm"
+      )
+        .then(
+          module => {
+
+            window.GregDocx =
+              module;
+
+            return module;
+
+          }
+        )
+        .catch(
+          error => {
+
+            console.error(
+              "DOCX library failed to load:",
+              error
+            );
+
+            return null;
+
+          }
+        );
+  </script>
+
 
   <style>
 
@@ -959,6 +988,37 @@
     }
 
 
+    .message-row.removing {
+
+      animation:
+        messageOut .28s cubic-bezier(.4,0,1,1) forwards;
+    }
+
+
+    @keyframes messageOut {
+
+      from {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0)
+          scale(1);
+      }
+
+      to {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(-12px)
+          scale(.96);
+      }
+    }
+
+
     @keyframes messageIn {
 
       from {
@@ -1234,6 +1294,768 @@
 
       display:
         block;
+    }
+
+
+    /* ========================================================
+       SENT FILES
+       ======================================================== */
+
+    .sent-file-strip {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        8px;
+
+      margin-bottom:
+        10px;
+
+      animation:
+        sentFilesIn .35s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+
+    @keyframes sentFilesIn {
+
+      from {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(10px)
+          scale(.97);
+      }
+
+      to {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0)
+          scale(1);
+      }
+    }
+
+
+    .sent-file-card {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        10px;
+
+      min-width:
+        240px;
+
+      padding:
+        10px 12px;
+
+      border-radius:
+        13px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.09);
+
+      background:
+        rgba(255,255,255,.045);
+
+      box-shadow:
+        0 10px 24px
+        rgba(0,0,0,.16);
+
+      animation:
+        fileCardIn .38s cubic-bezier(.2,.8,.2,1) both;
+
+      transition:
+        transform .18s ease,
+        background .18s ease,
+        border-color .18s ease,
+        box-shadow .18s ease;
+    }
+
+
+    .sent-file-card:hover {
+
+      transform:
+        translateY(-3px)
+        scale(1.01);
+
+      background:
+        rgba(255,255,255,.075);
+
+      border-color:
+        rgba(141,240,160,.23);
+
+      box-shadow:
+        0 15px 30px
+        rgba(0,0,0,.24),
+        0 0 0 1px
+        rgba(141,240,160,.04);
+    }
+
+
+    @keyframes fileCardIn {
+
+      from {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(12px)
+          scale(.88)
+          rotateX(-8deg);
+      }
+
+      to {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0)
+          scale(1)
+          rotateX(0);
+      }
+    }
+
+
+    .file-card-icon {
+
+      width:
+        36px;
+
+      height:
+        42px;
+
+      border-radius:
+        9px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      flex:
+        none;
+
+      font-size:
+        10px;
+
+      font-weight:
+        900;
+
+      color:
+        #06210e;
+
+      background:
+        linear-gradient(
+          135deg,
+          #adffc0,
+          #68dc8c
+        );
+
+      box-shadow:
+        0 8px 18px
+        rgba(109,227,139,.13);
+
+      animation:
+        fileIconPulse 2.2s ease-in-out infinite;
+    }
+
+
+    @keyframes fileIconPulse {
+
+      0%,
+      100% {
+
+        transform:
+          translateY(0)
+          rotate(0deg);
+      }
+
+      50% {
+
+        transform:
+          translateY(-2px)
+          rotate(1deg);
+      }
+    }
+
+
+    .file-card-info {
+
+      min-width:
+        0;
+
+      flex:
+        1;
+    }
+
+
+    .file-card-type {
+
+      color:
+        #9cf0ad;
+
+      font-size:
+        10px;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .05em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .file-card-name {
+
+      color:
+        var(--text);
+
+      font-size:
+        12px;
+
+      font-weight:
+        800;
+
+      white-space:
+        nowrap;
+
+      overflow:
+        hidden;
+
+      text-overflow:
+        ellipsis;
+
+      margin-top:
+        2px;
+    }
+
+
+    .file-card-meta {
+
+      color:
+        var(--muted);
+
+      font-size:
+        10px;
+
+      margin-top:
+        2px;
+    }
+
+
+    /* ========================================================
+       GENERATED FILES
+       ======================================================== */
+
+    .generated-file-list {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        10px;
+
+      margin:
+        12px 0 2px;
+
+      animation:
+        generatedListIn .38s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+
+    @keyframes generatedListIn {
+
+      from {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(10px);
+      }
+
+      to {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0);
+      }
+    }
+
+
+    .generated-file-card {
+
+      position:
+        relative;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        12px;
+
+      width:
+        min(620px,100%);
+
+      padding:
+        12px 13px;
+
+      border-radius:
+        16px;
+
+      border:
+        1px solid
+        rgba(141,240,160,.16);
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(141,240,160,.07),
+          rgba(255,255,255,.025)
+        );
+
+      box-shadow:
+        0 12px 28px
+        rgba(0,0,0,.22);
+
+      cursor:
+        pointer;
+
+      overflow:
+        hidden;
+
+      animation:
+        generatedFileIn .48s cubic-bezier(.16,1,.3,1) both;
+
+      transition:
+        transform .18s ease,
+        border-color .18s ease,
+        box-shadow .18s ease,
+        background .18s ease;
+    }
+
+
+    .generated-file-card::after {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      inset:
+        0;
+
+      background:
+        linear-gradient(
+          110deg,
+          transparent,
+          rgba(255,255,255,.07),
+          transparent
+        );
+
+      transform:
+        translateX(-120%);
+
+      animation:
+        fileShine 1.5s .15s ease both;
+
+      pointer-events:
+        none;
+    }
+
+
+    .generated-file-card:hover {
+
+      transform:
+        translateY(-3px)
+        scale(1.01);
+
+      border-color:
+        rgba(141,240,160,.32);
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(141,240,160,.11),
+          rgba(255,255,255,.035)
+        );
+
+      box-shadow:
+        0 16px 35px
+        rgba(0,0,0,.28),
+        0 0 0 1px
+        rgba(141,240,160,.04);
+    }
+
+
+    .generated-file-card:active {
+
+      transform:
+        translateY(0)
+        scale(.985);
+    }
+
+
+    .generated-file-card.removing {
+
+      animation:
+        generatedFileOut .30s cubic-bezier(.4,0,1,1) forwards;
+    }
+
+
+    @keyframes generatedFileIn {
+
+      from {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(18px)
+          scale(.86)
+          rotateX(-10deg);
+      }
+
+      to {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0)
+          scale(1)
+          rotateX(0);
+      }
+    }
+
+
+    @keyframes generatedFileOut {
+
+      from {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0)
+          scale(1);
+      }
+
+      to {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(-12px)
+          scale(.86);
+      }
+    }
+
+
+    @keyframes fileShine {
+
+      from {
+
+        transform:
+          translateX(-120%);
+      }
+
+      to {
+
+        transform:
+          translateX(120%);
+      }
+    }
+
+
+    .generated-file-icon {
+
+      width:
+        46px;
+
+      height:
+        52px;
+
+      flex:
+        none;
+
+      border-radius:
+        12px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      color:
+        #06210e;
+
+      background:
+        linear-gradient(
+          135deg,
+          #a9ffba,
+          #66da89
+        );
+
+      font-size:
+        10px;
+
+      font-weight:
+        1000;
+
+      box-shadow:
+        0 10px 22px
+        rgba(109,227,139,.15);
+
+      animation:
+        generatedIconFloat 2.4s ease-in-out infinite;
+    }
+
+
+    @keyframes generatedIconFloat {
+
+      0%,
+      100% {
+
+        transform:
+          translateY(0);
+      }
+
+      50% {
+
+        transform:
+          translateY(-3px);
+      }
+    }
+
+
+    .generated-file-info {
+
+      flex:
+        1;
+
+      min-width:
+        0;
+    }
+
+
+    .generated-file-label {
+
+      color:
+        #a6ffb5;
+
+      font-size:
+        10px;
+
+      font-weight:
+        900;
+
+      text-transform:
+        uppercase;
+
+      letter-spacing:
+        .07em;
+    }
+
+
+    .generated-file-name {
+
+      margin-top:
+        3px;
+
+      font-size:
+        14px;
+
+      font-weight:
+        900;
+
+      white-space:
+        nowrap;
+
+      overflow:
+        hidden;
+
+      text-overflow:
+        ellipsis;
+    }
+
+
+    .generated-file-meta {
+
+      margin-top:
+        3px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        10px;
+    }
+
+
+    .generated-file-download {
+
+      flex:
+        none;
+
+      border:
+        1px solid
+        rgba(255,255,255,.10);
+
+      background:
+        rgba(255,255,255,.05);
+
+      color:
+        var(--text);
+
+      border-radius:
+        10px;
+
+      padding:
+        8px 10px;
+
+      font-size:
+        10px;
+
+      font-weight:
+        900;
+
+      cursor:
+        pointer;
+
+      transition:
+        transform .15s ease,
+        background .15s ease,
+        border-color .15s ease;
+    }
+
+
+    .generated-file-download:hover {
+
+      transform:
+        translateY(-2px)
+        scale(1.03);
+
+      background:
+        rgba(141,240,160,.12);
+
+      border-color:
+        rgba(141,240,160,.25);
+    }
+
+
+    .generated-file-download:active {
+
+      transform:
+        translateY(0)
+        scale(.95);
+    }
+
+
+    .generated-file-loading {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      gap:
+        6px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        10px;
+    }
+
+
+    .generated-file-loading-dot {
+
+      width:
+        5px;
+
+      height:
+        5px;
+
+      border-radius:
+        50%;
+
+      background:
+        var(--accent);
+
+      animation:
+        generatedLoading 1s ease-in-out infinite;
+    }
+
+
+    .generated-file-loading-dot:nth-child(2) {
+
+      animation-delay:
+        .12s;
+    }
+
+
+    .generated-file-loading-dot:nth-child(3) {
+
+      animation-delay:
+        .24s;
+    }
+
+
+    @keyframes generatedLoading {
+
+      0%,
+      80%,
+      100% {
+
+        opacity:
+          .3;
+
+        transform:
+          translateY(0);
+      }
+
+      40% {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(-3px);
+      }
     }
 
 
@@ -1693,6 +2515,22 @@
     }
 
 
+    .code-header-left {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+
+      min-width:
+        0;
+    }
+
+
     .code-language {
 
       color:
@@ -1709,7 +2547,46 @@
     }
 
 
-    .code-copy {
+    .code-filename {
+
+      color:
+        #7eea96;
+
+      font-size:
+        10px;
+
+      font-weight:
+        800;
+
+      overflow:
+        hidden;
+
+      text-overflow:
+        ellipsis;
+
+      white-space:
+        nowrap;
+    }
+
+
+    .code-actions {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        6px;
+
+      flex:
+        none;
+    }
+
+
+    .code-copy,
+    .code-download {
 
       border:
         1px solid
@@ -1735,17 +2612,22 @@
 
       transition:
         background .12s ease,
-        transform .12s ease;
+        transform .12s ease,
+        border-color .12s ease;
     }
 
 
-    .code-copy:hover {
+    .code-copy:hover,
+    .code-download:hover {
 
       background:
         rgba(255,255,255,0.09);
 
       transform:
         translateY(-1px);
+
+      border-color:
+        rgba(141,240,160,.18);
     }
 
 
@@ -1953,10 +2835,11 @@
 
 
     /* ========================================================
-       IMAGE ATTACHMENTS
+       IMAGE / FILE ATTACHMENTS
        ======================================================== */
 
-    .attachment-strip {
+    .attachment-strip,
+    .file-attachment-strip {
 
       display:
         flex;
@@ -1978,7 +2861,8 @@
     }
 
 
-    .attachment-strip.hidden {
+    .attachment-strip.hidden,
+    .file-attachment-strip.hidden {
 
       display:
         none;
@@ -2007,7 +2891,8 @@
     }
 
 
-    .attachment-item {
+    .attachment-item,
+    .file-attachment-item {
 
       position:
         relative;
@@ -2040,6 +2925,45 @@
 
       animation:
         attachmentIn .28s cubic-bezier(.2,.8,.2,1) both;
+
+      transition:
+        transform .17s ease,
+        border-color .17s ease,
+        background .17s ease;
+    }
+
+
+    .file-attachment-item {
+
+      height:
+        66px;
+
+      width:
+        250px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      padding:
+        8px;
+
+    }
+
+
+    .file-attachment-item:hover {
+
+      transform:
+        translateY(-2px)
+        scale(1.015);
+
+      border-color:
+        rgba(141,240,160,.23);
+
+      background:
+        rgba(255,255,255,.065);
     }
 
 
@@ -2067,7 +2991,8 @@
     }
 
 
-    .attachment-item.removing {
+    .attachment-item.removing,
+    .file-attachment-item.removing {
 
       animation:
         attachmentOut .22s ease forwards;
@@ -2113,6 +3038,134 @@
 
       object-fit:
         cover;
+    }
+
+
+    .file-attachment-icon {
+
+      width:
+        34px;
+
+      height:
+        38px;
+
+      flex:
+        none;
+
+      border-radius:
+        8px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #a5ffb3,
+          #68dc8c
+        );
+
+      color:
+        #06210e;
+
+      font-size:
+        9px;
+
+      font-weight:
+        1000;
+
+      animation:
+        fileAttachmentFloat 2.3s ease-in-out infinite;
+    }
+
+
+    @keyframes fileAttachmentFloat {
+
+      0%,
+      100% {
+
+        transform:
+          translateY(0);
+      }
+
+      50% {
+
+        transform:
+          translateY(-2px);
+      }
+    }
+
+
+    .file-attachment-info {
+
+      flex:
+        1;
+
+      min-width:
+        0;
+
+      padding:
+        0 7px;
+    }
+
+
+    .file-attachment-type {
+
+      color:
+        #8ff0a0;
+
+      font-size:
+        9px;
+
+      font-weight:
+        900;
+
+      text-transform:
+        uppercase;
+
+      letter-spacing:
+        .05em;
+    }
+
+
+    .file-attachment-name {
+
+      color:
+        var(--text);
+
+      font-size:
+        10px;
+
+      font-weight:
+        800;
+
+      margin-top:
+        2px;
+
+      white-space:
+        nowrap;
+
+      overflow:
+        hidden;
+
+      text-overflow:
+        ellipsis;
+    }
+
+
+    .file-attachment-number {
+
+      color:
+        var(--muted);
+
+      font-size:
+        9px;
+
+      margin-top:
+        2px;
     }
 
 
@@ -2585,7 +3638,8 @@
     }
 
 
-    #imageInput {
+    #imageInput,
+    #fileInput {
 
       display:
         none;
@@ -2884,13 +3938,37 @@
           68px;
       }
 
+
+      .file-attachment-item {
+
+        width:
+          min(100%,250px);
+
+      }
+
+
+      .generated-file-card {
+
+        width:
+          100%;
+      }
+
+
+      .generated-file-download {
+
+        padding:
+          7px 8px;
+      }
+
     }
 
 
     @media (prefers-reduced-motion: reduce) {
 
       *,
+
       *::before,
+
       *::after {
 
         animation-duration:
@@ -3055,12 +4133,22 @@
 
 
             <!-- ==================================================
-                 ATTACHMENT PREVIEWS
+                 IMAGE ATTACHMENT PREVIEWS
                  ================================================== -->
 
             <div
               class="attachment-strip hidden"
               id="attachmentStrip"
+            ></div>
+
+
+            <!-- ==================================================
+                 FILE ATTACHMENT PREVIEWS
+                 ================================================== -->
+
+            <div
+              class="file-attachment-strip hidden"
+              id="fileAttachmentStrip"
             ></div>
 
 
@@ -3117,6 +4205,15 @@
                       Upload image
                     </button>
 
+
+                    <button
+                      class="attach-option"
+                      id="uploadFileOption"
+                      type="button"
+                    >
+                      Upload file
+                    </button>
+
                   </div>
 
 
@@ -3124,6 +4221,13 @@
                     id="imageInput"
                     type="file"
                     accept="image/*"
+                    multiple
+                  >
+
+
+                  <input
+                    id="fileInput"
+                    type="file"
                     multiple
                   >
 
@@ -3322,8 +4426,13 @@
       0.06;
 
 
-    const SFX_MIN_PITCH = 0.80;
-    const SFX_MAX_PITCH = 1.20;
+    const SFX_MIN_PITCH =
+      0.80;
+
+
+    const SFX_MAX_PITCH =
+      1.20;
+
 
     function playSfx(
       file
@@ -3399,7 +4508,7 @@
 
         const target =
           event.target.closest(
-            "button"
+            "button,.generated-file-card,.sent-file-card,.file-attachment-item"
           );
 
 
@@ -3444,6 +4553,24 @@
             "attach-option"
           )
 
+          ||
+
+          target.classList.contains(
+            "file-attachment-item"
+          )
+
+          ||
+
+          target.classList.contains(
+            "generated-file-card"
+          )
+
+          ||
+
+          target.classList.contains(
+            "sent-file-card"
+          )
+
         ) {
 
           playHover2();
@@ -3464,7 +4591,7 @@
 
         const target =
           event.target.closest(
-            "button"
+            "button,.generated-file-card,.sent-file-card,.file-attachment-item"
           );
 
 
@@ -3506,7 +4633,7 @@
 
         const target =
           event.target.closest(
-            "button"
+            "button,.generated-file-card"
           );
 
 
@@ -3852,7 +4979,7 @@
        API
        ======================================================== */
 
-    const API_URL = "https://nirvana-possess-origins-andreas.trycloudflare.com";
+    const API_URL = "https://memphis-houses-marc-pulled.trycloudflare.com";
 
 
     /* ========================================================
@@ -4052,14 +5179,29 @@
           "uploadImageOption"
         ),
 
+      uploadFileOption:
+        document.getElementById(
+          "uploadFileOption"
+        ),
+
       imageInput:
         document.getElementById(
           "imageInput"
         ),
 
+      fileInput:
+        document.getElementById(
+          "fileInput"
+        ),
+
       attachmentStrip:
         document.getElementById(
           "attachmentStrip"
+        ),
+
+      fileAttachmentStrip:
+        document.getElementById(
+          "fileAttachmentStrip"
         )
 
     };
@@ -4092,6 +5234,13 @@
     let pendingImages = [];
 
 
+    /* ========================================================
+       GENERAL FILE ATTACHMENTS
+       ======================================================== */
+
+    let pendingFiles = [];
+
+
     function makeImageId() {
 
       return (
@@ -4099,7 +5248,9 @@
         Date.now().toString(
           36
         )
+
         +
+
         Math.random()
           .toString(
             36
@@ -4113,7 +5264,198 @@
     }
 
 
-    function readImageFile(
+    function makeFileId() {
+
+      return (
+
+        Date.now().toString(
+          36
+        )
+
+        +
+
+        Math.random()
+          .toString(
+            36
+          )
+          .slice(
+            2
+          )
+
+      );
+
+    }
+
+
+    function getClientFileType(
+      file
+    ) {
+
+      const name =
+        String(
+          file.name || ""
+        ).toLowerCase();
+
+
+      const extension =
+        name.includes(".")
+          ? name.slice(
+              name.lastIndexOf(".") +
+              1
+            )
+          : "";
+
+
+      const map = {
+
+        docx:
+          "DOCX",
+
+        pdf:
+          "PDF",
+
+        py:
+          "PYTHON",
+
+        lua:
+          "LUA",
+
+        html:
+          "HTML",
+
+        htm:
+          "HTML",
+
+        js:
+          "JAVASCRIPT",
+
+        mjs:
+          "JAVASCRIPT",
+
+        css:
+          "CSS",
+
+        json:
+          "JSON",
+
+        xml:
+          "XML",
+
+        sql:
+          "SQL",
+
+        md:
+          "MARKDOWN",
+
+        txt:
+          "TXT",
+
+        csv:
+          "CSV",
+
+        c:
+          "C",
+
+        h:
+          "C",
+
+        cpp:
+          "C++",
+
+        hpp:
+          "C++",
+
+        java:
+          "JAVA",
+
+        cs:
+          "C#",
+
+        rs:
+          "RUST",
+
+        go:
+          "GO",
+
+        rb:
+          "RUBY",
+
+        php:
+          "PHP",
+
+        sh:
+          "SHELL",
+
+        bat:
+          "BATCH",
+
+        cmd:
+          "BATCH",
+
+        ps1:
+          "POWERSHELL",
+
+        yaml:
+          "YAML",
+
+        yml:
+          "YAML",
+
+        toml:
+          "TOML"
+
+      };
+
+
+      if (
+        map[
+          extension
+        ]
+      ) {
+
+        return map[
+          extension
+        ];
+
+      }
+
+
+      if (
+        file.type &&
+        file.type.startsWith(
+          "image/"
+        )
+      ) {
+
+        return file.type
+          .split(
+            "/"
+          )[1]
+          .toUpperCase();
+
+      }
+
+
+      if (
+        file.type &&
+        file.type.startsWith(
+          "text/"
+        )
+      ) {
+
+        return "TEXT";
+
+      }
+
+
+      return extension
+        ? extension.toUpperCase()
+        : "FILE";
+
+    }
+
+
+    function readAnyFile(
       file
     ) {
 
@@ -4133,7 +5475,7 @@
               resolve({
 
                 id:
-                  makeImageId(),
+                  makeFileId(),
 
                 name:
                   file.name,
@@ -4143,6 +5485,11 @@
 
                 size:
                   file.size,
+
+                fileType:
+                  getClientFileType(
+                    file
+                  ),
 
                 dataUrl:
                   reader.result
@@ -4172,6 +5519,46 @@
     }
 
 
+    function addFileObject(
+      file
+    ) {
+
+      pendingFiles.push(
+        file
+      );
+
+
+      if (
+        file.type &&
+        file.type.startsWith(
+          "image/"
+        )
+      ) {
+
+        pendingImages.push({
+
+          id:
+            file.id,
+
+          name:
+            file.name,
+
+          type:
+            file.type,
+
+          size:
+            file.size,
+
+          dataUrl:
+            file.dataUrl
+
+        });
+
+      }
+
+    }
+
+
     async function addImageFiles(
       files
     ) {
@@ -4191,39 +5578,23 @@
       }
 
 
-      const imageFiles =
-        fileArray.filter(
-          file =>
-            file.type &&
-            file.type.startsWith(
-              "image/"
-            )
-        );
-
-
-      if (
-        imageFiles.length
-      ) {
-
-        playClick();
-
-      }
+      playClick();
 
 
       for (
         const file
-        of imageFiles
+        of fileArray
       ) {
 
         try {
 
           const image =
-            await readImageFile(
+            await readAnyFile(
               file
             );
 
 
-          pendingImages.push(
+          addFileObject(
             image
           );
 
@@ -4243,6 +5614,8 @@
 
       renderImagePreviews();
 
+      renderFilePreviews();
+
 
       el.attachMenu.classList.remove(
         "open"
@@ -4260,14 +5633,91 @@
     }
 
 
-    function removePendingImage(
+    async function addGeneralFiles(
+      files
+    ) {
+
+      const fileArray =
+        Array.from(
+          files || []
+        );
+
+
+      if (
+        !fileArray.length
+      ) {
+
+        return;
+
+      }
+
+
+      playClick();
+
+
+      for (
+        const file
+        of fileArray
+      ) {
+
+        try {
+
+          const loaded =
+            await readAnyFile(
+              file
+            );
+
+
+          addFileObject(
+            loaded
+          );
+
+        } catch (
+          error
+        ) {
+
+          console.error(
+            "Could not read file:",
+            error
+          );
+
+        }
+
+      }
+
+
+      renderImagePreviews();
+
+      renderFilePreviews();
+
+
+      el.attachMenu.classList.remove(
+        "open"
+      );
+
+
+      el.attachButton.classList.remove(
+        "open"
+      );
+
+
+      el.fileInput.value =
+        "";
+
+    }
+
+
+    function removePendingFile(
       id
     ) {
 
       const item =
         document.querySelector(
-          `[data-image-id="${id}"]`
+          `[data-file-id="${id}"]`
         );
+
+
+      playClick();
 
 
       if (
@@ -4279,11 +5729,16 @@
         );
 
 
-        playClick();
-
-
         setTimeout(
           () => {
+
+            pendingFiles =
+              pendingFiles.filter(
+                file =>
+                  file.id !==
+                  id
+              );
+
 
             pendingImages =
               pendingImages.filter(
@@ -4295,6 +5750,8 @@
 
             renderImagePreviews();
 
+            renderFilePreviews();
+
           },
           220
         );
@@ -4305,7 +5762,12 @@
       }
 
 
-      playClick();
+      pendingFiles =
+        pendingFiles.filter(
+          file =>
+            file.id !==
+            id
+        );
 
 
       pendingImages =
@@ -4318,13 +5780,23 @@
 
       renderImagePreviews();
 
+      renderFilePreviews();
+
     }
 
 
     function renderImagePreviews() {
 
+      const images =
+        pendingImages.filter(
+          image =>
+            image &&
+            image.dataUrl
+        );
+
+
       if (
-        !pendingImages.length
+        !images.length
       ) {
 
         el.attachmentStrip.innerHTML =
@@ -4348,7 +5820,7 @@
         "";
 
 
-      pendingImages.forEach(
+      images.forEach(
         image => {
 
           const item =
@@ -4362,6 +5834,10 @@
 
 
           item.dataset.imageId =
+            image.id;
+
+
+          item.dataset.fileId =
             image.id;
 
 
@@ -4409,7 +5885,7 @@
               event.stopPropagation();
 
 
-              removePendingImage(
+              removePendingFile(
                 image.id
               );
 
@@ -4448,6 +5924,224 @@
 
 
           el.attachmentStrip.appendChild(
+            item
+          );
+
+        }
+      );
+
+    }
+
+
+    function renderFilePreviews() {
+
+      const nonImages =
+        pendingFiles.filter(
+          file =>
+            !(
+              file.type &&
+              file.type.startsWith(
+                "image/"
+              )
+            )
+        );
+
+
+      if (
+        !nonImages.length
+      ) {
+
+        el.fileAttachmentStrip.innerHTML =
+          "";
+
+        el.fileAttachmentStrip.classList.add(
+          "hidden"
+        );
+
+        return;
+
+      }
+
+
+      el.fileAttachmentStrip.classList.remove(
+        "hidden"
+      );
+
+
+      el.fileAttachmentStrip.innerHTML =
+        "";
+
+
+      pendingFiles.forEach(
+        (
+          file,
+          index
+        ) => {
+
+          if (
+            file.type &&
+            file.type.startsWith(
+              "image/"
+            )
+          ) {
+
+            return;
+
+          }
+
+
+          const item =
+            document.createElement(
+              "div"
+            );
+
+
+          item.className =
+            "file-attachment-item";
+
+
+          item.dataset.fileId =
+            file.id;
+
+
+          const icon =
+            document.createElement(
+              "div"
+            );
+
+
+          icon.className =
+            "file-attachment-icon";
+
+
+          icon.textContent =
+            file.fileType;
+
+
+          const info =
+            document.createElement(
+              "div"
+            );
+
+
+          info.className =
+            "file-attachment-info";
+
+
+          const type =
+            document.createElement(
+              "div"
+            );
+
+
+          type.className =
+            "file-attachment-type";
+
+
+          type.textContent =
+            file.fileType;
+
+
+          const name =
+            document.createElement(
+              "div"
+            );
+
+
+          name.className =
+            "file-attachment-name";
+
+
+          name.textContent =
+            file.name;
+
+
+          const number =
+            document.createElement(
+              "div"
+            );
+
+
+          number.className =
+            "file-attachment-number";
+
+
+          number.textContent =
+            `File ${
+              pendingFiles.indexOf(
+                file
+              ) + 1
+            }`;
+
+
+          const remove =
+            document.createElement(
+              "button"
+            );
+
+
+          remove.type =
+            "button";
+
+
+          remove.className =
+            "attachment-remove";
+
+
+          remove.textContent =
+            "×";
+
+
+          remove.title =
+            "Remove file";
+
+
+          remove.addEventListener(
+            "click",
+            event => {
+
+              event.stopPropagation();
+
+
+              removePendingFile(
+                file.id
+              );
+
+            }
+          );
+
+
+          info.appendChild(
+            type
+          );
+
+
+          info.appendChild(
+            name
+          );
+
+
+          info.appendChild(
+            number
+          );
+
+
+          item.appendChild(
+            icon
+          );
+
+
+          item.appendChild(
+            info
+          );
+
+
+          item.appendChild(
+            remove
+          );
+
+
+          el.fileAttachmentStrip.appendChild(
             item
           );
 
@@ -4661,6 +6355,1614 @@
             ""
 
         })
+      );
+
+    }
+
+
+    function cloneFilesForStorage(
+      files
+    ) {
+
+      if (
+        !Array.isArray(
+          files
+        )
+      ) {
+
+        return [];
+
+      }
+
+
+      return files.map(
+        file => ({
+
+          id:
+            file.id ||
+            makeFileId(),
+
+          name:
+            file.name ||
+            "file",
+
+          type:
+            file.type ||
+            "",
+
+          size:
+            file.size ||
+            0,
+
+          fileType:
+            file.fileType ||
+            "FILE"
+
+        })
+      );
+
+    }
+
+
+    function fileSizeText(
+      bytes
+    ) {
+
+      const size =
+        Number(
+          bytes || 0
+        );
+
+
+      if (
+        size < 1024
+      ) {
+
+        return `${size} B`;
+
+      }
+
+
+      if (
+        size < 1024 * 1024
+      ) {
+
+        return `${(
+          size /
+          1024
+        ).toFixed(1)} KB`;
+
+      }
+
+
+      return `${(
+        size /
+        (
+          1024 *
+          1024
+        )
+      ).toFixed(1)} MB`;
+
+    }
+
+
+    function dataUrlToUint8Array(
+      dataUrl
+    ) {
+
+      const encoded =
+        dataUrl.split(
+          ",",
+          2
+        )[1] ||
+        "";
+
+
+      const binary =
+        atob(
+          encoded
+        );
+
+
+      const bytes =
+        new Uint8Array(
+          binary.length
+        );
+
+
+      for (
+        let i = 0;
+        i < binary.length;
+        i++
+      ) {
+
+        bytes[i] =
+          binary.charCodeAt(
+            i
+          );
+
+      }
+
+
+      return bytes;
+
+    }
+
+
+    async function dataUrlToPngBytes(
+      dataUrl
+    ) {
+
+      return new Promise(
+        (
+          resolve,
+          reject
+        ) => {
+
+          const img =
+            new Image();
+
+
+          img.onload =
+            () => {
+
+              const canvas =
+                document.createElement(
+                  "canvas"
+                );
+
+
+              const maxSize =
+                1800;
+
+
+              let width =
+                img.naturalWidth;
+
+
+              let height =
+                img.naturalHeight;
+
+
+              if (
+                width >
+                maxSize
+                ||
+                height >
+                maxSize
+              ) {
+
+                const scale =
+                  Math.min(
+
+                    maxSize /
+                    width,
+
+                    maxSize /
+                    height
+
+                  );
+
+
+                width =
+                  Math.max(
+                    1,
+                    Math.floor(
+                      width *
+                      scale
+                    )
+                  );
+
+
+                height =
+                  Math.max(
+                    1,
+                    Math.floor(
+                      height *
+                      scale
+                    )
+                  );
+
+              }
+
+
+              canvas.width =
+                width;
+
+
+              canvas.height =
+                height;
+
+
+              const context =
+                canvas.getContext(
+                  "2d"
+                );
+
+
+              context.drawImage(
+                img,
+                0,
+                0,
+                width,
+                height
+              );
+
+
+              canvas.toBlob(
+                blob => {
+
+                  if (
+                    !blob
+                  ) {
+
+                    reject(
+                      new Error(
+                        "Could not convert image."
+                      )
+                    );
+
+                    return;
+
+                  }
+
+
+                  blob.arrayBuffer()
+                    .then(
+                      buffer =>
+                        resolve(
+                          new Uint8Array(
+                            buffer
+                          )
+                        )
+                    )
+                    .catch(
+                      reject
+                    );
+
+                },
+                "image/png"
+              );
+
+            };
+
+
+          img.onerror =
+            () =>
+              reject(
+                new Error(
+                  "Could not load image."
+                )
+              );
+
+
+          img.src =
+            dataUrl;
+
+        }
+      );
+
+    }
+
+
+    async function createShapePngBytes(
+      shape,
+      text,
+      width = 500,
+      height = 140
+    ) {
+
+      const safeWidth =
+        Math.max(
+          80,
+          Number(
+            width || 500
+          )
+        );
+
+
+      const safeHeight =
+        Math.max(
+          50,
+          Number(
+            height || 140
+          )
+        );
+
+
+      const shapeName =
+        String(
+          shape ||
+          "rectangle"
+        ).toLowerCase();
+
+
+      let body =
+        "";
+
+
+      if (
+        shapeName ===
+        "circle"
+        ||
+        shapeName ===
+        "ellipse"
+      ) {
+
+        body =
+          `
+            <ellipse
+              cx="${safeWidth / 2}"
+              cy="${safeHeight / 2}"
+              rx="${safeWidth / 2 - 5}"
+              ry="${safeHeight / 2 - 5}"
+              fill="#8df0a0"
+              stroke="#285f36"
+              stroke-width="5"
+            />
+          `;
+
+      } else if (
+        shapeName ===
+        "roundedRectangle"
+        ||
+        shapeName ===
+        "rounded-rectangle"
+        ||
+        shapeName ===
+        "roundrect"
+      ) {
+
+        body =
+          `
+            <rect
+              x="4"
+              y="4"
+              width="${safeWidth - 8}"
+              height="${safeHeight - 8}"
+              rx="24"
+              fill="#8df0a0"
+              stroke="#285f36"
+              stroke-width="5"
+            />
+          `;
+
+      } else {
+
+        body =
+          `
+            <rect
+              x="4"
+              y="4"
+              width="${safeWidth - 8}"
+              height="${safeHeight - 8}"
+              fill="#8df0a0"
+              stroke="#285f36"
+              stroke-width="5"
+            />
+          `;
+
+      }
+
+
+      const escapedText =
+        String(
+          text ||
+          ""
+        )
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        );
+
+
+      const svg =
+
+        `
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="${safeWidth}"
+          height="${safeHeight}"
+          viewBox="0 0 ${safeWidth} ${safeHeight}"
+        >
+
+          ${body}
+
+          <text
+            x="${safeWidth / 2}"
+            y="${safeHeight / 2 + 7}"
+            text-anchor="middle"
+            font-family="Arial, sans-serif"
+            font-size="24"
+            font-weight="700"
+            fill="#07210f"
+          >
+            ${escapedText}
+          </text>
+
+        </svg>
+        `;
+
+
+      const blob =
+        new Blob(
+          [
+            svg
+          ],
+          {
+            type:
+              "image/svg+xml"
+          }
+        );
+
+
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+
+
+      try {
+
+        const dataUrl =
+          await new Promise(
+            (
+              resolve,
+              reject
+            ) => {
+
+              const img =
+                new Image();
+
+
+              img.onload =
+                () => {
+
+                  const canvas =
+                    document.createElement(
+                      "canvas"
+                    );
+
+
+                  canvas.width =
+                    safeWidth;
+
+
+                  canvas.height =
+                    safeHeight;
+
+
+                  const context =
+                    canvas.getContext(
+                      "2d"
+                    );
+
+
+                  context.drawImage(
+                    img,
+                    0,
+                    0
+                  );
+
+
+                  resolve(
+                    canvas.toDataURL(
+                      "image/png"
+                    )
+                  );
+
+                };
+
+
+              img.onerror =
+                reject;
+
+
+              img.src =
+                url;
+
+            }
+          );
+
+
+        return (
+          dataUrlToUint8Array(
+            dataUrl
+          )
+        );
+
+      } finally {
+
+        URL.revokeObjectURL(
+          url
+        );
+
+      }
+
+    }
+
+
+    function getUploadedImageByIndex(
+      index
+    ) {
+
+      const images =
+        pendingFiles.filter(
+          file =>
+            file.type &&
+            file.type.startsWith(
+              "image/"
+            )
+        );
+
+
+      const target =
+        images[
+          Number(
+            index
+          )
+        ];
+
+
+      return target ||
+        null;
+
+    }
+
+
+    async function generateDocxBlob(
+      file
+    ) {
+
+      const module =
+        await (
+          window.gregDocxReady ||
+          Promise.resolve(
+            window.GregDocx
+          )
+        );
+
+
+      if (
+        !module
+      ) {
+
+        throw new Error(
+          "DOCX library is unavailable."
+        );
+
+      }
+
+
+      const {
+        Document,
+        Packer,
+        Paragraph,
+        TextRun,
+        HeadingLevel,
+        Table,
+        TableRow,
+        TableCell,
+        ImageRun
+      } =
+        module;
+
+
+      const content =
+        Array.isArray(
+          file.content
+        )
+          ? file.content
+          : [];
+
+
+      const children =
+        [];
+
+
+      for (
+        const item
+        of content
+      ) {
+
+        if (
+          !item
+          ||
+          typeof item !==
+          "object"
+        ) {
+
+          continue;
+
+        }
+
+
+        const type =
+          String(
+            item.type ||
+            "paragraph"
+          ).toLowerCase();
+
+
+        if (
+          type ===
+          "heading"
+        ) {
+
+          children.push(
+
+            new Paragraph({
+
+              text:
+                String(
+                  item.text ||
+                  ""
+                ),
+
+              heading:
+                HeadingLevel.HEADING_1
+
+            })
+
+          );
+
+
+          continue;
+
+        }
+
+
+        if (
+          type ===
+          "paragraph"
+        ) {
+
+          children.push(
+
+            new Paragraph({
+
+              children: [
+
+                new TextRun({
+
+                  text:
+                    String(
+                      item.text ||
+                      ""
+                    )
+
+                })
+
+              ]
+
+            })
+
+          );
+
+
+          continue;
+
+        }
+
+
+        if (
+          type ===
+          "code"
+        ) {
+
+          children.push(
+
+            new Paragraph({
+
+              children: [
+
+                new TextRun({
+
+                  text:
+                    String(
+                      item.text ||
+                      ""
+                    ),
+
+                  font:
+                    "Consolas",
+
+                  size:
+                    20
+
+                })
+
+              ],
+
+              spacing: {
+
+                after:
+                  120
+
+              }
+
+            })
+
+          );
+
+
+          continue;
+
+        }
+
+
+        if (
+          type ===
+          "table"
+        ) {
+
+          const rows =
+            Array.isArray(
+              item.rows
+            )
+              ? item.rows
+              : [];
+
+
+          const docxRows =
+            [];
+
+
+          for (
+            const row
+            of rows
+          ) {
+
+            const cells =
+              Array.isArray(
+                row
+              )
+                ? row
+                : [];
+
+
+            docxRows.push(
+
+              new TableRow({
+
+                children:
+                  cells.map(
+                    cell =>
+                      new TableCell({
+
+                        children: [
+
+                          new Paragraph({
+
+                            children: [
+
+                              new TextRun({
+
+                                text:
+                                  String(
+                                    cell ??
+                                    ""
+                                  )
+
+                              })
+
+                            ]
+
+                          })
+
+                        ]
+
+                      })
+                  )
+
+              })
+
+            );
+
+          }
+
+
+          if (
+            docxRows.length
+          ) {
+
+            children.push(
+
+              new Table({
+
+                rows:
+                  docxRows
+
+              })
+
+            );
+
+            children.push(
+              new Paragraph({})
+            );
+
+          }
+
+
+          continue;
+
+        }
+
+
+        if (
+          type ===
+          "image"
+        ) {
+
+          let uploaded =
+            null;
+
+
+          const source =
+            String(
+              item.source ||
+              ""
+            );
+
+
+          if (
+            source.startsWith(
+              "uploaded:"
+            )
+          ) {
+
+            uploaded =
+              getUploadedImageByIndex(
+
+                Number(
+                  source.split(
+                    ":"
+                  )[1]
+                )
+
+              );
+
+          }
+
+
+          if (
+            uploaded
+          ) {
+
+            const imageBytes =
+              await dataUrlToPngBytes(
+                uploaded.dataUrl
+              );
+
+
+            children.push(
+
+              new Paragraph({
+
+                children: [
+
+                  new ImageRun({
+
+                    data:
+                      imageBytes,
+
+                    transformation: {
+
+                      width:
+                        Math.max(
+                          80,
+                          Number(
+                            item.width ||
+                            450
+                          )
+                        ),
+
+                      height:
+                        Math.max(
+                          60,
+                          Number(
+                            item.height ||
+                            300
+                          )
+                        )
+
+                    },
+
+                    type:
+                      "png"
+
+                  })
+
+                ]
+
+              })
+
+            );
+
+          }
+
+
+          continue;
+
+        }
+
+
+        if (
+          type ===
+          "shape"
+        ) {
+
+          const shapeBytes =
+            await createShapePngBytes(
+
+              item.shape,
+
+              item.text,
+
+              item.width,
+
+              item.height
+
+            );
+
+
+          children.push(
+
+            new Paragraph({
+
+              children: [
+
+                new ImageRun({
+
+                  data:
+                    shapeBytes,
+
+                  transformation: {
+
+                    width:
+                      Math.max(
+                        100,
+                        Number(
+                          item.width ||
+                          500
+                        )
+                      ),
+
+                    height:
+                      Math.max(
+                        60,
+                        Number(
+                          item.height ||
+                          140
+                        )
+                      )
+
+                  },
+
+                  type:
+                    "png"
+
+                })
+
+              ]
+
+            })
+
+          );
+
+
+          continue;
+
+        }
+
+      }
+
+
+      if (
+        !children.length
+      ) {
+
+        children.push(
+
+          new Paragraph({
+
+            children: [
+
+              new TextRun({
+
+                text:
+                  "Generated by Greg AI."
+
+              })
+
+            ]
+
+          })
+
+        );
+
+      }
+
+
+      const documentFile =
+        new Document({
+
+          sections: [
+
+            {
+
+              children:
+                children
+
+            }
+
+          ]
+
+        });
+
+
+      return Packer.toBlob(
+        documentFile
+      );
+
+    }
+
+
+    async function createGeneratedBlob(
+      file
+    ) {
+
+      const type =
+        String(
+          file.type ||
+          ""
+        ).toLowerCase();
+
+
+      const filename =
+        String(
+          file.filename ||
+          "greg-file"
+        );
+
+
+      if (
+        type ===
+        "docx"
+        ||
+        filename.toLowerCase().endsWith(
+          ".docx"
+        )
+      ) {
+
+        return {
+
+          blob:
+            await generateDocxBlob(
+              file
+            ),
+
+          mime:
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+        };
+
+      }
+
+
+      if (
+        type ===
+        "json"
+        &&
+        typeof file.content !==
+        "string"
+      ) {
+
+        return {
+
+          blob:
+            new Blob(
+              [
+                JSON.stringify(
+                  file.content,
+                  null,
+                  2
+                )
+              ],
+              {
+                type:
+                  "application/json"
+              }
+            ),
+
+          mime:
+            "application/json"
+
+        };
+
+      }
+
+
+      if (
+        typeof file.content ===
+        "string"
+      ) {
+
+        return {
+
+          blob:
+            new Blob(
+              [
+                file.content
+              ],
+              {
+                type:
+                  "text/plain;charset=utf-8"
+              }
+            ),
+
+          mime:
+            "text/plain;charset=utf-8"
+
+        };
+
+      }
+
+
+      return {
+
+        blob:
+          new Blob(
+            [
+              JSON.stringify(
+                file.content ||
+                {},
+                null,
+                2
+              )
+            ],
+            {
+              type:
+                "application/json"
+            }
+          ),
+
+        mime:
+          "application/json"
+
+      };
+
+    }
+
+
+    async function downloadGeneratedFile(
+      card,
+      file
+    ) {
+
+      const button =
+        card.querySelector(
+          ".generated-file-download"
+        );
+
+
+      const originalText =
+        button
+          ? button.textContent
+          : "Download";
+
+
+      if (
+        button
+      ) {
+
+        button.textContent =
+          "Building...";
+
+      }
+
+
+      try {
+
+        const result =
+          await createGeneratedBlob(
+            file
+          );
+
+
+        const url =
+          URL.createObjectURL(
+            result.blob
+          );
+
+
+        const anchor =
+          document.createElement(
+            "a"
+          );
+
+
+        anchor.href =
+          url;
+
+
+        anchor.download =
+          file.filename ||
+          "greg-file";
+
+
+        document.body.appendChild(
+          anchor
+        );
+
+
+        requestAnimationFrame(
+          () => {
+
+            anchor.click();
+
+          }
+        );
+
+
+        anchor.remove();
+
+
+        setTimeout(
+          () => {
+
+            URL.revokeObjectURL(
+              url
+            );
+
+          },
+          1000
+        );
+
+
+        if (
+          button
+        ) {
+
+          button.textContent =
+            "Downloaded!";
+
+          button.classList.add(
+            "generated-download-done"
+          );
+
+          setTimeout(
+            () => {
+
+              button.textContent =
+                originalText;
+
+              button.classList.remove(
+                "generated-download-done"
+              );
+
+            },
+            1100
+          );
+
+        }
+
+
+      } catch (
+        error
+      ) {
+
+        console.error(
+          "Could not generate file:",
+          error
+        );
+
+
+        if (
+          button
+        ) {
+
+          button.textContent =
+            "Failed";
+
+          setTimeout(
+            () => {
+
+              button.textContent =
+                originalText;
+
+            },
+            1200
+          );
+
+        }
+
+      }
+
+    }
+
+
+    function createGeneratedFileCard(
+      file
+    ) {
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "generated-file-card";
+
+
+      const type =
+        String(
+          file.type ||
+          "file"
+        )
+        .toUpperCase();
+
+
+      const filename =
+        String(
+          file.filename ||
+          "greg-file"
+        );
+
+
+      const icon =
+        document.createElement(
+          "div"
+        );
+
+
+      icon.className =
+        "generated-file-icon";
+
+
+      icon.textContent =
+        filename
+          .split(
+            "."
+          )
+          .pop()
+          .slice(
+            0,
+            5
+          )
+          .toUpperCase();
+
+
+      const info =
+        document.createElement(
+          "div"
+        );
+
+
+      info.className =
+        "generated-file-info";
+
+
+      const label =
+        document.createElement(
+          "div"
+        );
+
+
+      label.className =
+        "generated-file-label";
+
+
+      label.textContent =
+        type;
+
+
+      const name =
+        document.createElement(
+          "div"
+        );
+
+
+      name.className =
+        "generated-file-name";
+
+
+      name.textContent =
+        filename;
+
+
+      const meta =
+        document.createElement(
+          "div"
+        );
+
+
+      meta.className =
+        "generated-file-meta";
+
+
+      meta.textContent =
+        type ===
+        "DOCX"
+
+          ? "Word document · click to download"
+
+          : "Generated file · click to download";
+
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.className =
+        "generated-file-download";
+
+
+      button.type =
+        "button";
+
+
+      button.textContent =
+        "Download";
+
+
+      info.appendChild(
+        label
+      );
+
+
+      info.appendChild(
+        name
+      );
+
+
+      info.appendChild(
+        meta
+      );
+
+
+      card.appendChild(
+        icon
+      );
+
+
+      card.appendChild(
+        info
+      );
+
+
+      card.appendChild(
+        button
+      );
+
+
+      const triggerDownload =
+        event => {
+
+          if (
+            event
+            &&
+            event.target
+            &&
+            event.target.closest(
+              ".generated-file-download"
+            )
+          ) {
+
+            return;
+
+          }
+
+
+          downloadGeneratedFile(
+            card,
+            file
+          );
+
+        };
+
+
+      card.addEventListener(
+        "click",
+        triggerDownload
+      );
+
+
+      button.addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+
+          downloadGeneratedFile(
+            card,
+            file
+          );
+
+        }
+      );
+
+
+      requestAnimationFrame(
+        () => {
+
+          card.style.setProperty(
+            "--file-delay",
+            "0ms"
+          );
+
+        }
+      );
+
+
+      return card;
+
+    }
+
+
+    function addGeneratedFileToStream(
+      stream,
+      file
+    ) {
+
+      if (
+        !file
+        ||
+        typeof file !==
+        "object"
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        !stream.generatedFileList
+      ) {
+
+        stream.generatedFileList =
+          document.createElement(
+            "div"
+          );
+
+
+        stream.generatedFileList.className =
+          "generated-file-list";
+
+
+        stream.output.appendChild(
+          stream.generatedFileList
+        );
+
+      }
+
+
+      const card =
+        createGeneratedFileCard(
+          file
+        );
+
+
+      stream.generatedFileList.appendChild(
+        card
+      );
+
+
+      scrollBottom(
+        false
       );
 
     }
@@ -5357,7 +8659,8 @@
 
     function addUserMessage(
       text,
-      images = []
+      images = [],
+      files = []
     ) {
 
       removeWelcome();
@@ -5381,6 +8684,14 @@
             images.length
               ? `
                 <div class="sent-image-strip"></div>
+              `
+              : ""
+          }
+
+          ${
+            files.length
+              ? `
+                <div class="sent-file-strip"></div>
               `
               : ""
           }
@@ -5447,6 +8758,144 @@
 
             strip.appendChild(
               wrapper
+            );
+
+          }
+        );
+
+      }
+
+
+      if (
+        files.length
+      ) {
+
+        const strip =
+          row.querySelector(
+            ".sent-file-strip"
+          );
+
+
+        files.forEach(
+          (
+            file,
+            index
+          ) => {
+
+            const card =
+              document.createElement(
+                "div"
+              );
+
+
+            card.className =
+              "sent-file-card";
+
+
+            const icon =
+              document.createElement(
+                "div"
+              );
+
+
+            icon.className =
+              "file-card-icon";
+
+
+            icon.textContent =
+              file.fileType ||
+              "FILE";
+
+
+            const info =
+              document.createElement(
+                "div"
+              );
+
+
+            info.className =
+              "file-card-info";
+
+
+            const type =
+              document.createElement(
+                "div"
+              );
+
+
+            type.className =
+              "file-card-type";
+
+
+            type.textContent =
+              `File ${
+                index + 1
+              } — ${
+                file.fileType ||
+                "FILE"
+              }`;
+
+
+            const name =
+              document.createElement(
+                "div"
+              );
+
+
+            name.className =
+              "file-card-name";
+
+
+            name.textContent =
+              file.name ||
+              "file";
+
+
+            const meta =
+              document.createElement(
+                "div"
+              );
+
+
+            meta.className =
+              "file-card-meta";
+
+
+            meta.textContent =
+              file.size
+                ? fileSizeText(
+                    file.size
+                  )
+                : "Uploaded";
+
+
+            info.appendChild(
+              type
+            );
+
+
+            info.appendChild(
+              name
+            );
+
+
+            info.appendChild(
+              meta
+            );
+
+
+            card.appendChild(
+              icon
+            );
+
+
+            card.appendChild(
+              info
+            );
+
+
+            strip.appendChild(
+              card
             );
 
           }
@@ -5666,11 +9115,26 @@
         metaScanBuffer:
           "",
 
+        fileBuffer:
+          "",
+
+        fileMode:
+          false,
+
+        generatedFiles:
+          [],
+
+        generatedFileList:
+          null,
+
         imageDescription:
           null,
 
         imageCount:
-          0
+          0,
+
+        files:
+          []
 
       };
 
@@ -5766,6 +9230,88 @@
 
 
     /* ========================================================
+       CODE DOWNLOAD
+       ======================================================== */
+
+    function downloadTextCode(
+      filename,
+      code,
+      language
+    ) {
+
+      const extension =
+        filename &&
+        filename.includes(
+          "."
+        )
+          ? filename
+          : (
+              filename ||
+              (
+                language ||
+                "txt"
+              )
+            );
+
+
+      const blob =
+        new Blob(
+          [
+            code
+          ],
+          {
+            type:
+              "text/plain;charset=utf-8"
+          }
+        );
+
+
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+
+
+      const anchor =
+        document.createElement(
+          "a"
+        );
+
+
+      anchor.href =
+        url;
+
+
+      anchor.download =
+        extension;
+
+
+      document.body.appendChild(
+        anchor
+      );
+
+
+      anchor.click();
+
+
+      anchor.remove();
+
+
+      setTimeout(
+        () => {
+
+          URL.revokeObjectURL(
+            url
+          );
+
+        },
+        1000
+      );
+
+    }
+
+
+    /* ========================================================
        CREATE CODE BLOCK
        ======================================================== */
 
@@ -5813,6 +9359,26 @@
         "code-header";
 
 
+      const headerLeft =
+        document.createElement(
+          "div"
+        );
+
+
+      headerLeft.className =
+        "code-header-left";
+
+
+      const languageParts =
+        String(
+          language ||
+          "code"
+        )
+        .split(
+          /\s+filename=/i
+        );
+
+
       const languageLabel =
         document.createElement(
           "span"
@@ -5824,8 +9390,56 @@
 
 
       languageLabel.textContent =
-        language ||
+        languageParts[0] ||
         "code";
+
+
+      const filename =
+        languageParts.length >
+        1
+          ? languageParts[1]
+              .trim()
+          : "";
+
+
+      const filenameLabel =
+        document.createElement(
+          "span"
+        );
+
+
+      filenameLabel.className =
+        "code-filename";
+
+
+      filenameLabel.textContent =
+        filename;
+
+
+      headerLeft.appendChild(
+        languageLabel
+      );
+
+
+      if (
+        filename
+      ) {
+
+        headerLeft.appendChild(
+          filenameLabel
+        );
+
+      }
+
+
+      const actions =
+        document.createElement(
+          "div"
+        );
+
+
+      actions.className =
+        "code-actions";
 
 
       const copyButton =
@@ -5846,6 +9460,24 @@
         "Copy";
 
 
+      const downloadButton =
+        document.createElement(
+          "button"
+        );
+
+
+      downloadButton.className =
+        "code-download";
+
+
+      downloadButton.type =
+        "button";
+
+
+      downloadButton.textContent =
+        "Download";
+
+
       const codeContent =
         document.createElement(
           "div"
@@ -5862,7 +9494,10 @@
 
       copyButton.addEventListener(
         "click",
-        async () => {
+        async event => {
+
+          event.stopPropagation();
+
 
           try {
 
@@ -5902,13 +9537,73 @@
       );
 
 
+      downloadButton.addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+
+          downloadTextCode(
+
+            filename ||
+            `greg_generated.${(
+              languageParts[0] ||
+              "txt"
+            ).toLowerCase()}`,
+
+            codeContent.textContent,
+
+            languageParts[0]
+
+          );
+
+
+          downloadButton.textContent =
+            "Downloaded!";
+
+
+          setTimeout(
+            () => {
+
+              downloadButton.textContent =
+                "Download";
+
+            },
+            1100
+          );
+
+        }
+      );
+
+
+      actions.appendChild(
+        copyButton
+      );
+
+
+      if (
+        filename
+      ) {
+
+        actions.appendChild(
+          downloadButton
+        );
+
+      }
+
+
+      const codeCopyButton =
+        downloadButton;
+
+
       header.appendChild(
-        languageLabel
+        headerLeft
       );
 
 
       header.appendChild(
-        copyButton
+        actions
       );
 
 
@@ -5954,7 +9649,10 @@
         shell,
         block,
         codeContent,
-        languageLabel
+        languageLabel,
+        filename:
+          filename ||
+          null
 
       };
 
@@ -6167,6 +9865,26 @@
         ) {
 
           this.renderCodeClose();
+
+          return;
+
+        }
+
+
+        if (
+          operation.type ===
+          "generated-file"
+        ) {
+
+          addGeneratedFileToStream(
+
+            this.stream,
+
+            operation.file
+
+          );
+
+          return;
 
         }
 
@@ -6716,11 +10434,365 @@
 
 
     /* ========================================================
+       GREG FILE PROTOCOL
+       ======================================================== */
+
+    function processGregFileStreamChunk(
+      chunk,
+      parser,
+      stream
+    ) {
+
+      if (
+        !chunk
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        stream.fileMode
+      ) {
+
+        stream.fileBuffer +=
+          chunk;
+
+
+        while (
+          true
+        ) {
+
+          const endIndex =
+            stream.fileBuffer.indexOf(
+              "[/GREG_FILE]"
+            );
+
+
+          if (
+            endIndex ===
+            -1
+          ) {
+
+            if (
+              stream.fileBuffer.length >
+              1000000
+            ) {
+
+              stream.fileMode =
+                false;
+
+
+              processThinkingStream(
+
+                "[The generated file was too large.]",
+
+                parser,
+
+                stream
+
+              );
+
+
+              stream.fileBuffer =
+                "";
+
+
+              return;
+
+            }
+
+
+            return;
+
+          }
+
+
+          const jsonText =
+            stream.fileBuffer.slice(
+              0,
+              endIndex
+            ).trim();
+
+
+          stream.fileBuffer =
+            stream.fileBuffer.slice(
+              endIndex +
+              "[/GREG_FILE]".length
+            );
+
+
+          try {
+
+            const file =
+              JSON.parse(
+                jsonText
+              );
+
+
+            if (
+              file
+              &&
+              typeof file ===
+              "object"
+            ) {
+
+              stream.generatedFiles.push(
+                file
+              );
+
+
+              parser.renderer.enqueue({
+
+                type:
+                  "generated-file",
+
+                file:
+                  file
+
+              });
+
+            }
+
+          } catch (
+            error
+          ) {
+
+            console.error(
+              "Could not parse GREG_FILE:",
+              error
+            );
+
+
+            processThinkingStream(
+
+              "[Greg generated an invalid file block.]",
+
+              parser,
+
+              stream
+
+            );
+
+          }
+
+
+          stream.fileMode =
+            false;
+
+
+          if (
+            stream.fileBuffer
+          ) {
+
+            processGregFileStreamChunk(
+
+              stream.fileBuffer,
+
+              parser,
+
+              stream
+
+            );
+
+            stream.fileBuffer =
+              "";
+
+          }
+
+
+          return;
+
+        }
+
+      }
+
+
+      stream.fileBuffer +=
+        chunk;
+
+
+      const fileStart =
+        stream.fileBuffer.indexOf(
+          "[GREG_FILE]"
+        );
+
+
+      if (
+        fileStart ===
+        -1
+      ) {
+
+        const keepLength =
+          "[GREG_FILE]".length - 1;
+
+
+        if (
+          stream.fileBuffer.length <=
+          keepLength
+        ) {
+
+          return;
+
+        }
+
+
+        const safeLength =
+          stream.fileBuffer.length -
+          keepLength;
+
+
+        const safeText =
+          stream.fileBuffer.slice(
+            0,
+            safeLength
+          );
+
+
+        stream.fileBuffer =
+          stream.fileBuffer.slice(
+            safeLength
+          );
+
+
+        processThinkingStream(
+
+          safeText,
+
+          parser,
+
+          stream
+
+        );
+
+
+        return;
+
+      }
+
+
+      const answerBeforeFile =
+        stream.fileBuffer.slice(
+          0,
+          fileStart
+        );
+
+
+      if (
+        answerBeforeFile
+      ) {
+
+        processThinkingStream(
+
+          answerBeforeFile,
+
+          parser,
+
+          stream
+
+        );
+
+      }
+
+
+      stream.fileBuffer =
+        stream.fileBuffer.slice(
+
+          fileStart +
+          "[GREG_FILE]".length
+
+        );
+
+
+      stream.fileMode =
+        true;
+
+
+      if (
+        stream.fileBuffer
+      ) {
+
+        const current =
+          stream.fileBuffer;
+
+
+        stream.fileBuffer =
+          "";
+
+
+        processGregFileStreamChunk(
+
+          current,
+
+          parser,
+
+          stream
+
+        );
+
+      }
+
+    }
+
+
+    function finishGregFileStream(
+      parser,
+      stream
+    ) {
+
+      if (
+        stream.fileMode
+      ) {
+
+        processThinkingStream(
+
+          "[Incomplete generated file block.]",
+
+          parser,
+
+          stream
+
+        );
+
+
+        stream.fileMode =
+          false;
+
+
+        stream.fileBuffer =
+          "";
+
+        return;
+
+      }
+
+
+      if (
+        stream.fileBuffer
+      ) {
+
+        processThinkingStream(
+
+          stream.fileBuffer,
+
+          parser,
+
+          stream
+
+        );
+
+
+        stream.fileBuffer =
+          "";
+
+      }
+
+    }
+
+
+    /* ========================================================
        SERVER METADATA
-
-       Expected server suffix:
-
-       __GREG_META__{"image_description":"...","image_count":2}
        ======================================================== */
 
     function processStreamChunkWithMetadata(
@@ -6774,6 +10846,20 @@
           keepLength
         ) {
 
+          processGregFileStreamChunk(
+
+            stream.metaScanBuffer,
+
+            parser,
+
+            stream
+
+          );
+
+
+          stream.metaScanBuffer =
+            "";
+
           return;
 
         }
@@ -6797,7 +10883,7 @@
           );
 
 
-        processThinkingStream(
+        processGregFileStreamChunk(
 
           safeText,
 
@@ -6824,7 +10910,7 @@
         answerBeforeMetadata
       ) {
 
-        processThinkingStream(
+        processGregFileStreamChunk(
 
           answerBeforeMetadata,
 
@@ -6869,7 +10955,7 @@
           stream.metaScanBuffer
         ) {
 
-          processThinkingStream(
+          processGregFileStreamChunk(
 
             stream.metaScanBuffer,
 
@@ -6884,6 +10970,13 @@
 
         stream.metaScanBuffer =
           "";
+
+
+        finishGregFileStream(
+          parser,
+          stream
+        );
+
 
         return;
 
@@ -6921,6 +11014,14 @@
               metadata.image_count || 0
             );
 
+
+          stream.files =
+            Array.isArray(
+              metadata.files
+            )
+              ? metadata.files
+              : [];
+
         }
 
       } catch (
@@ -6928,11 +11029,17 @@
       ) {
 
         console.error(
-          "Could not parse Greg image metadata:",
+          "Could not parse Greg image/file metadata:",
           error
         );
 
       }
+
+
+      finishGregFileStream(
+        parser,
+        stream
+      );
 
     }
 
@@ -6943,7 +11050,8 @@
 
     async function streamMessage(
       userText,
-      images = []
+      images = [],
+      files = []
     ) {
 
       const controller =
@@ -7024,6 +11132,41 @@
               }
 
 
+              if (
+                item.role ===
+                "user" &&
+                Array.isArray(
+                  item.files
+                ) &&
+                item.files.length
+              ) {
+
+                result +=
+
+                  "\n[Files attached to this earlier "
+                  +
+                  "message:]\n"
+                  +
+                  item.files
+                    .map(
+                      file =>
+                        `File ${
+                          file.index || 1
+                        } — ${
+                          file.fileType ||
+                          "FILE"
+                        } — ${
+                          file.name ||
+                          "file"
+                        }`
+                    )
+                    .join(
+                      "\n"
+                    );
+
+              }
+
+
               return result;
 
             }
@@ -7034,18 +11177,24 @@
           );
 
 
-      /*
-       * server.py expects:
-       *
-       * images = [
-       *     "data:image/png;base64,..."
-       * ]
-       */
-
       const imagePayload =
-        images.map(
-          image =>
-            image.dataUrl
+        [];
+
+
+      const filePayload =
+        files.map(
+          file => ({
+
+            name:
+              file.name,
+
+            type:
+              file.type,
+
+            data_url:
+              file.dataUrl
+
+          })
         );
 
 
@@ -7080,7 +11229,10 @@
                     state.params,
 
                   images:
-                    imagePayload
+                    imagePayload,
+
+                  files:
+                    filePayload
 
                 }),
 
@@ -7259,7 +11411,13 @@
             stream.imageDescription,
 
           imageCount:
-            stream.imageCount
+            stream.imageCount,
+
+          files:
+            stream.files,
+
+          generatedFiles:
+            stream.generatedFiles
 
         };
 
@@ -7351,11 +11509,132 @@
         text.length
       ) {
 
+        const fileStart =
+          text.indexOf(
+            "[GREG_FILE]",
+            cursor
+          );
+
+
         const start =
           text.indexOf(
             "```",
             cursor
           );
+
+
+        if (
+          fileStart !==
+          -1 &&
+          (
+            start ===
+            -1 ||
+            fileStart <
+            start
+          )
+        ) {
+
+          if (
+            fileStart >
+            cursor
+          ) {
+
+            const normal =
+              text.slice(
+                cursor,
+                fileStart
+              );
+
+
+            const span =
+              document.createElement(
+                "span"
+              );
+
+
+            span.className =
+              "message-text";
+
+
+            span.textContent =
+              normal;
+
+
+            container.appendChild(
+              span
+            );
+
+          }
+
+
+          const fileEnd =
+            text.indexOf(
+              "[/GREG_FILE]",
+              fileStart
+            );
+
+
+          if (
+            fileEnd ===
+            -1
+          ) {
+
+            break;
+
+          }
+
+
+          try {
+
+            const file =
+              JSON.parse(
+
+                text.slice(
+
+                  fileStart +
+                  "[GREG_FILE]".length,
+
+                  fileEnd
+
+                ).trim()
+
+              );
+
+
+            const list =
+              document.createElement(
+                "div"
+              );
+
+
+            list.className =
+              "generated-file-list";
+
+
+            list.appendChild(
+              createGeneratedFileCard(
+                file
+              )
+            );
+
+
+            container.appendChild(
+              list
+            );
+
+          } catch {
+
+          }
+
+
+          cursor =
+            fileEnd +
+            "[/GREG_FILE]".length;
+
+
+          continue;
+
+        }
 
 
         if (
@@ -7809,7 +12088,7 @@
 
         (
           !text &&
-          !pendingImages.length
+          !pendingFiles.length
         )
 
         ||
@@ -7832,6 +12111,20 @@
         );
 
 
+      const filesForMessage =
+        cloneFilesForStorage(
+          pendingFiles
+        );
+
+
+      const currentFiles =
+        pendingFiles.map(
+          file => ({
+            ...file
+          })
+        );
+
+
       el.input.value =
         "";
 
@@ -7839,15 +12132,13 @@
       resizeInput();
 
 
-      /*
-       * The sent message appears immediately.
-       */
-
       addUserMessage(
 
         text,
 
-        imagesForMessage
+        imagesForMessage,
+
+        filesForMessage
 
       );
 
@@ -7856,7 +12147,13 @@
         [];
 
 
+      pendingFiles =
+        [];
+
+
       renderImagePreviews();
+
+      renderFilePreviews();
 
 
       isSending =
@@ -7865,11 +12162,6 @@
 
       updateUI();
 
-
-      /*
-       * This save does NOT save the user message yet.
-       * The completed vision description must arrive first.
-       */
 
       saveState();
 
@@ -7900,20 +12192,12 @@
 
             text,
 
-            imagesForMessage
+            imagesForMessage,
+
+            currentFiles
 
           );
 
-
-        /*
-         * Save the user message AFTER the model has finished.
-         *
-         * This stores:
-         *
-         *   text
-         *   original images
-         *   vision description
-         */
 
         state.conversation.push({
 
@@ -7925,6 +12209,9 @@
 
           images:
             imagesForMessage,
+
+          files:
+            filesForMessage,
 
           imageDescription:
             result.imageDescription ||
@@ -7944,15 +12231,14 @@
           images:
             [],
 
+          files:
+            [],
+
           imageDescription:
             null
 
         });
 
-
-        /*
-         * Keep exactly the latest 80 messages locally.
-         */
 
         state.conversation =
           state.conversation.slice(
@@ -8178,11 +12464,33 @@
     );
 
 
+    el.uploadFileOption.addEventListener(
+      "click",
+      () => {
+
+        el.fileInput.click();
+
+      }
+    );
+
+
     el.imageInput.addEventListener(
       "change",
       event => {
 
         addImageFiles(
+          event.target.files
+        );
+
+      }
+    );
+
+
+    el.fileInput.addEventListener(
+      "change",
+      event => {
+
+        addGeneralFiles(
           event.target.files
         );
 
@@ -8226,7 +12534,8 @@
         if (
           !el.presetMenu.contains(
             event.target
-          ) &&
+          )
+          &&
           event.target !==
           el.presetButton
         ) {
@@ -8241,7 +12550,8 @@
         if (
           !el.attachMenu.contains(
             event.target
-          ) &&
+          )
+          &&
           event.target !==
           el.attachButton
         ) {
@@ -8280,10 +12590,6 @@
       );
 
 
-    /*
-     * Default on startup.
-     */
-
     activePreset =
       "default";
 
@@ -8318,28 +12624,63 @@
       }
 
 
-      state.conversation =
-        [];
+      const rows =
+        Array.from(
+          el.messages.querySelectorAll(
+            ".message-row"
+          )
+        );
 
 
-      saveState();
+      rows.forEach(
+        row => {
+
+          row.classList.add(
+            "removing"
+          );
+
+        }
+      );
 
 
-      pendingImages =
-        [];
+      playClick();
 
 
-      renderImagePreviews();
+      setTimeout(
+        () => {
+
+          state.conversation =
+            [];
 
 
-      el.messages.innerHTML =
-        "";
+          saveState();
 
 
-      showWelcome();
+          pendingImages =
+            [];
 
 
-      el.input.focus();
+          pendingFiles =
+            [];
+
+
+          renderImagePreviews();
+
+          renderFilePreviews();
+
+
+          el.messages.innerHTML =
+            "";
+
+
+          showWelcome();
+
+
+          el.input.focus();
+
+        },
+        300
+      );
 
     }
 
@@ -8447,6 +12788,12 @@
               item.images
             )
               ? item.images
+              : [],
+
+            Array.isArray(
+              item.files
+            )
+              ? item.files
               : []
 
           );
@@ -8490,11 +12837,13 @@
 
         if (
           event.key ===
-          "Enter" &&
+          "Enter"
+          &&
           !event.shiftKey
         ) {
 
           event.preventDefault();
+
 
           sendMessage();
 
@@ -8543,6 +12892,8 @@
     resizeInput();
 
     renderImagePreviews();
+
+    renderFilePreviews();
 
 
     setTimeout(
