@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 
@@ -3314,6 +3315,222 @@
 
 
     /* ========================================================
+       SFX
+       ======================================================== */
+
+    const SFX_VOLUME =
+      0.18;
+
+
+    const SFX_MIN_PITCH =
+      0.92;
+
+
+    const SFX_MAX_PITCH =
+      1.08;
+
+
+    function playSfx(
+      file
+    ) {
+
+      const audio =
+        new Audio(
+          file
+        );
+
+
+      audio.volume =
+        SFX_VOLUME;
+
+
+      audio.playbackRate =
+        SFX_MIN_PITCH
+        +
+        Math.random()
+        *
+        (
+          SFX_MAX_PITCH
+          -
+          SFX_MIN_PITCH
+        );
+
+
+      audio.play().catch(
+        () => {}
+      );
+
+    }
+
+
+    function playHover1() {
+
+      playSfx(
+        "hover1.wav"
+      );
+
+    }
+
+
+    function playHover2() {
+
+      playSfx(
+        "hover2.wav"
+      );
+
+    }
+
+
+    function playClick() {
+
+      playSfx(
+        "click1.wav"
+      );
+
+    }
+
+
+    /* ========================================================
+       SFX HOVER TRACKING
+       ======================================================== */
+
+    let lastHoverTarget =
+      null;
+
+
+    document.addEventListener(
+      "mouseover",
+      event => {
+
+        const target =
+          event.target.closest(
+            "button"
+          );
+
+
+        if (
+          !target
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          target ===
+          lastHoverTarget
+        ) {
+
+          return;
+
+        }
+
+
+        lastHoverTarget =
+          target;
+
+
+        if (
+
+          target.classList.contains(
+            "attach-button"
+          )
+
+          ||
+
+          target.classList.contains(
+            "attachment-remove"
+          )
+
+          ||
+
+          target.classList.contains(
+            "attach-option"
+          )
+
+        ) {
+
+          playHover2();
+
+        } else {
+
+          playHover1();
+
+        }
+
+      }
+    );
+
+
+    document.addEventListener(
+      "mouseout",
+      event => {
+
+        const target =
+          event.target.closest(
+            "button"
+          );
+
+
+        if (
+          target &&
+          target ===
+          lastHoverTarget
+        ) {
+
+          const related =
+            event.relatedTarget;
+
+
+          if (
+            !related ||
+            !target.contains(
+              related
+            )
+          ) {
+
+            lastHoverTarget =
+              null;
+
+          }
+
+        }
+
+      }
+    );
+
+
+    /* ========================================================
+       SFX CLICK TRACKING
+       ======================================================== */
+
+    document.addEventListener(
+      "click",
+      event => {
+
+        const target =
+          event.target.closest(
+            "button"
+          );
+
+
+        if (
+          !target
+        ) {
+
+          return;
+
+        }
+
+
+        playClick();
+
+      }
+    );
+
+
+    /* ========================================================
        BACKGROUND CANVAS
        ======================================================== */
 
@@ -3640,7 +3857,7 @@
        API
        ======================================================== */
 
-    const API_URL = "https://attacks-enables-practices-tigers.trycloudflare.com";
+    const API_URL = "https://computer-sie-sugar-les.trycloudflare.com";
 
 
     /* ========================================================
@@ -3989,6 +4206,15 @@
         );
 
 
+      if (
+        imageFiles.length
+      ) {
+
+        playClick();
+
+      }
+
+
       for (
         const file
         of imageFiles
@@ -4058,6 +4284,9 @@
         );
 
 
+        playClick();
+
+
         setTimeout(
           () => {
 
@@ -4079,6 +4308,9 @@
         return;
 
       }
+
+
+      playClick();
 
 
       pendingImages =
@@ -4177,7 +4409,10 @@
 
           remove.addEventListener(
             "click",
-            () => {
+            event => {
+
+              event.stopPropagation();
+
 
               removePendingImage(
                 image.id
@@ -6487,7 +6722,7 @@
 
     /* ========================================================
        SERVER METADATA
-       
+
        Expected server suffix:
 
        __GREG_META__{"image_description":"...","image_count":2}
@@ -6805,19 +7040,10 @@
 
 
       /*
-       * IMPORTANT:
-       *
        * server.py expects:
        *
        * images = [
-       *     "data:image/png;base64,...",
-       *     "data:image/jpeg;base64,..."
-       * ]
-       *
-       * NOT:
-       *
-       * images = [
-       *     {data_url: "..."}
+       *     "data:image/png;base64,..."
        * ]
        */
 
