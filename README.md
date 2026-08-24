@@ -1,1 +1,1 @@
-this is actually a website. this file does nothing if you dont have an api
+website for ai. its for testing. you can use it sometimes. the server does not run forever
