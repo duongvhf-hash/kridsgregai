@@ -98,7 +98,8 @@
 
 
     button,
-    textarea {
+    textarea,
+    input {
       font: inherit;
     }
 
@@ -670,7 +671,7 @@
         auto;
 
       padding:
-        30px 24px 220px;
+        30px 24px 270px;
 
       scroll-behavior:
         smooth;
@@ -1120,10 +1121,10 @@
 
 
     /* ========================================================
-       SENT IMAGES
+       MESSAGE IMAGE ATTACHMENTS
        ======================================================== */
 
-    .sent-image-strip {
+    .message-images {
 
       display:
         flex;
@@ -1138,11 +1139,63 @@
         9px;
 
       animation:
-        sentImagesIn .32s cubic-bezier(.2,.8,.2,1) both;
+        imageGroupIn .32s cubic-bezier(.2,.8,.2,1) both;
     }
 
 
-    @keyframes sentImagesIn {
+    @keyframes imageGroupIn {
+
+      from {
+
+        opacity: 0;
+
+        transform:
+          translateY(8px)
+          scale(.98);
+      }
+
+      to {
+
+        opacity: 1;
+
+        transform:
+          translateY(0)
+          scale(1);
+      }
+    }
+
+
+    .message-image {
+
+      width:
+        110px;
+
+      height:
+        110px;
+
+      object-fit:
+        cover;
+
+      border-radius:
+        14px;
+
+      border:
+        1px solid
+        rgba(255,255,255,0.12);
+
+      background:
+        rgba(0,0,0,.25);
+
+      box-shadow:
+        0 10px 25px
+        rgba(0,0,0,.20);
+
+      animation:
+        imageIn .35s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+
+    @keyframes imageIn {
 
       from {
 
@@ -1150,8 +1203,8 @@
           0;
 
         transform:
-          translateY(8px)
-          scale(.98);
+          translateY(10px)
+          scale(.92);
       }
 
       to {
@@ -1163,76 +1216,6 @@
           translateY(0)
           scale(1);
       }
-    }
-
-
-    .sent-image {
-
-      width:
-        120px;
-
-      height:
-        120px;
-
-      overflow:
-        hidden;
-
-      border-radius:
-        14px;
-
-      border:
-        1px solid
-        rgba(255,255,255,.10);
-
-      background:
-        rgba(255,255,255,.04);
-
-      box-shadow:
-        0 10px 24px
-        rgba(0,0,0,.20);
-
-      animation:
-        sentImageIn .28s cubic-bezier(.2,.8,.2,1) both;
-    }
-
-
-    @keyframes sentImageIn {
-
-      from {
-
-        opacity:
-          0;
-
-        transform:
-          scale(.85)
-          translateY(6px);
-      }
-
-      to {
-
-        opacity:
-          1;
-
-        transform:
-          scale(1)
-          translateY(0);
-      }
-    }
-
-
-    .sent-image img {
-
-      width:
-        100%;
-
-      height:
-        100%;
-
-      object-fit:
-        cover;
-
-      display:
-        block;
     }
 
 
@@ -1952,10 +1935,10 @@
 
 
     /* ========================================================
-       IMAGE ATTACHMENTS
+       IMAGE PREVIEW TRAY
        ======================================================== */
 
-    .attachment-strip {
+    .selected-images {
 
       display:
         flex;
@@ -1964,85 +1947,90 @@
         wrap;
 
       gap:
-        9px;
+        8px;
+
+      max-height:
+        130px;
+
+      overflow-y:
+        auto;
 
       padding:
-        4px 4px 10px;
+        2px 2px 9px;
 
-      overflow:
-        hidden;
+      margin-bottom:
+        3px;
 
-      animation:
-        attachmentStripIn .28s cubic-bezier(.2,.8,.2,1) both;
-    }
+      opacity:
+        0;
 
+      transform:
+        translateY(8px)
+        scale(.98);
 
-    .attachment-strip.hidden {
-
-      display:
+      pointer-events:
         none;
+
+      transition:
+        opacity .22s ease,
+        transform .22s ease,
+        max-height .28s ease,
+        margin .28s ease,
+        padding .28s ease;
     }
 
 
-    @keyframes attachmentStripIn {
+    .selected-images.has-images {
 
-      from {
+      opacity:
+        1;
 
-        opacity:
-          0;
+      transform:
+        translateY(0)
+        scale(1);
 
-        transform:
-          translateY(8px);
-      }
-
-      to {
-
-        opacity:
-          1;
-
-        transform:
-          translateY(0);
-      }
+      pointer-events:
+        auto;
     }
 
 
-    .attachment-item {
+    .selected-image-card {
 
       position:
         relative;
 
       width:
-        78px;
+        82px;
 
       height:
-        78px;
+        82px;
 
       flex:
-        none;
+        0 0 82px;
 
       border-radius:
-        14px;
+        13px;
 
       overflow:
-        visible;
-
-      background:
-        rgba(255,255,255,.04);
+        hidden;
 
       border:
         1px solid
-        rgba(255,255,255,.11);
+        rgba(255,255,255,0.12);
+
+      background:
+        rgba(0,0,0,.25);
 
       box-shadow:
-        0 10px 24px
+        0 8px 20px
         rgba(0,0,0,.22);
 
       animation:
-        attachmentIn .28s cubic-bezier(.2,.8,.2,1) both;
+        selectedImageIn .30s cubic-bezier(.2,.8,.2,1) both;
     }
 
 
-    @keyframes attachmentIn {
+    @keyframes selectedImageIn {
 
       from {
 
@@ -2050,8 +2038,9 @@
           0;
 
         transform:
-          translateY(10px)
-          scale(.82);
+          translateY(9px)
+          scale(.82)
+          rotate(-2deg);
       }
 
       to {
@@ -2061,19 +2050,20 @@
 
         transform:
           translateY(0)
-          scale(1);
+          scale(1)
+          rotate(0deg);
       }
     }
 
 
-    .attachment-item.removing {
+    .selected-image-card.removing {
 
       animation:
-        attachmentOut .22s ease forwards;
+        selectedImageOut .24s cubic-bezier(.4,0,1,1) forwards;
     }
 
 
-    @keyframes attachmentOut {
+    @keyframes selectedImageOut {
 
       from {
 
@@ -2081,7 +2071,8 @@
           1;
 
         transform:
-          scale(1);
+          scale(1)
+          rotate(0deg);
       }
 
       to {
@@ -2090,13 +2081,14 @@
           0;
 
         transform:
-          scale(.72)
-          translateY(5px);
+          scale(.70)
+          rotate(5deg)
+          translateY(-6px);
       }
     }
 
 
-    .attachment-item img {
+    .selected-image-preview {
 
       width:
         100%;
@@ -2107,24 +2099,21 @@
       display:
         block;
 
-      border-radius:
-        13px;
-
       object-fit:
         cover;
     }
 
 
-    .attachment-remove {
+    .remove-image-btn {
 
       position:
         absolute;
 
       top:
-        -7px;
+        5px;
 
       right:
-        -7px;
+        5px;
 
       width:
         22px;
@@ -2132,30 +2121,18 @@
       height:
         22px;
 
-      padding:
-        0;
-
       border:
         1px solid
-        rgba(255,255,255,.15);
+        rgba(255,255,255,.16);
 
       border-radius:
         50%;
 
       background:
-        rgba(8,14,11,.95);
+        rgba(0,0,0,.68);
 
       color:
-        #ecf7ef;
-
-      font-size:
-        13px;
-
-      line-height:
-        20px;
-
-      cursor:
-        pointer;
+        white;
 
       display:
         grid;
@@ -2163,12 +2140,17 @@
       place-items:
         center;
 
-      box-shadow:
-        0 6px 14px
-        rgba(0,0,0,.32);
+      padding:
+        0;
 
-      z-index:
-        2;
+      cursor:
+        pointer;
+
+      font-size:
+        13px;
+
+      line-height:
+        1;
 
       transition:
         transform .15s ease,
@@ -2177,56 +2159,13 @@
     }
 
 
-    .attachment-remove:hover {
+    .remove-image-btn:hover {
 
       transform:
         scale(1.08);
 
       background:
-        rgba(255,127,127,.18);
-    }
-
-
-    .attachment-name {
-
-      position:
-        absolute;
-
-      left:
-        4px;
-
-      right:
-        4px;
-
-      bottom:
-        4px;
-
-      padding:
-        3px 5px;
-
-      border-radius:
-        7px;
-
-      color:
-        rgba(236,247,239,.88);
-
-      background:
-        rgba(0,0,0,.58);
-
-      backdrop-filter:
-        blur(6px);
-
-      font-size:
-        8px;
-
-      white-space:
-        nowrap;
-
-      overflow:
-        hidden;
-
-      text-overflow:
-        ellipsis;
+        rgba(120,30,30,.82);
     }
 
 
@@ -2240,7 +2179,7 @@
         grid;
 
       grid-template-columns:
-        1fr auto;
+        auto 1fr auto;
 
       gap:
         8px;
@@ -2293,6 +2232,276 @@
         #81968a;
     }
 
+
+    /* ========================================================
+       PLUS BUTTON
+       ======================================================== */
+
+    .plus-menu-wrap {
+
+      position:
+        relative;
+
+      align-self:
+        end;
+    }
+
+
+    .plus-btn {
+
+      width:
+        46px;
+
+      height:
+        46px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.09);
+
+      border-radius:
+        15px;
+
+      background:
+        rgba(255,255,255,.045);
+
+      color:
+        var(--text);
+
+      cursor:
+        pointer;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      font-size:
+        25px;
+
+      line-height:
+        1;
+
+      transition:
+        transform .15s ease,
+        background .15s ease,
+        border-color .15s ease,
+        box-shadow .15s ease;
+    }
+
+
+    .plus-btn:hover {
+
+      transform:
+        translateY(-1px)
+        rotate(3deg);
+
+      background:
+        rgba(255,255,255,.08);
+
+      border-color:
+        rgba(141,240,160,.20);
+
+      box-shadow:
+        0 8px 20px
+        rgba(0,0,0,.18);
+    }
+
+
+    .plus-btn.open {
+
+      transform:
+        rotate(45deg);
+
+      background:
+        rgba(141,240,160,.10);
+
+      border-color:
+        rgba(141,240,160,.22);
+    }
+
+
+    .plus-menu {
+
+      position:
+        absolute;
+
+      left:
+        0;
+
+      bottom:
+        56px;
+
+      width:
+        190px;
+
+      padding:
+        7px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.10);
+
+      border-radius:
+        16px;
+
+      background:
+        rgba(8,14,11,.97);
+
+      backdrop-filter:
+        blur(18px);
+
+      box-shadow:
+        0 18px 40px
+        rgba(0,0,0,.42);
+
+      opacity:
+        0;
+
+      visibility:
+        hidden;
+
+      transform:
+        translateY(8px)
+        scale(.96);
+
+      transform-origin:
+        bottom left;
+
+      transition:
+        opacity .17s ease,
+        transform .17s ease,
+        visibility .17s ease;
+    }
+
+
+    .plus-menu.open {
+
+      opacity:
+        1;
+
+      visibility:
+        visible;
+
+      transform:
+        translateY(0)
+        scale(1);
+    }
+
+
+    .plus-option {
+
+      width:
+        100%;
+
+      border:
+        0;
+
+      background:
+        transparent;
+
+      color:
+        var(--text);
+
+      border-radius:
+        11px;
+
+      padding:
+        10px 11px;
+
+      cursor:
+        pointer;
+
+      text-align:
+        left;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        10px;
+
+      transition:
+        background .14s ease,
+        transform .14s ease;
+    }
+
+
+    .plus-option:hover {
+
+      background:
+        rgba(255,255,255,.07);
+
+      transform:
+        translateX(2px);
+    }
+
+
+    .plus-option-icon {
+
+      width:
+        30px;
+
+      height:
+        30px;
+
+      border-radius:
+        9px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      background:
+        rgba(141,240,160,.10);
+
+      color:
+        var(--accent);
+
+      flex:
+        none;
+    }
+
+
+    .plus-option-text {
+
+      min-width:
+        0;
+    }
+
+
+    .plus-option-title {
+
+      font-size:
+        12px;
+
+      font-weight:
+        800;
+    }
+
+
+    .plus-option-description {
+
+      color:
+        var(--muted);
+
+      font-size:
+        10px;
+
+      margin-top:
+        2px;
+    }
+
+
+    /* ========================================================
+       SEND BUTTON
+       ======================================================== */
 
     .send-btn {
 
@@ -2358,6 +2567,10 @@
     }
 
 
+    /* ========================================================
+       COMPOSER BOTTOM
+       ======================================================== */
+
     .composer-bottom {
 
       display:
@@ -2386,208 +2599,10 @@
         center;
 
       gap:
-        8px;
-    }
-
-
-    /* ========================================================
-       ATTACH BUTTON
-       ======================================================== */
-
-    .attach-menu-wrap {
-
-      position:
-        relative;
-    }
-
-
-    .attach-button {
-
-      width:
-        32px;
-
-      height:
-        32px;
-
-      border:
-        1px solid
-        rgba(255,255,255,.08);
-
-      background:
-        rgba(255,255,255,.04);
-
-      color:
-        var(--text);
-
-      border-radius:
-        999px;
-
-      padding:
-        0;
-
-      cursor:
-        pointer;
-
-      display:
-        inline-flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        center;
-
-      font-size:
-        20px;
-
-      line-height:
-        1;
-
-      transition:
-        transform .15s ease,
-        background .15s ease,
-        border-color .15s ease;
-    }
-
-
-    .attach-button:hover {
-
-      transform:
-        translateY(-1px)
-        rotate(4deg);
-
-      background:
-        rgba(255,255,255,.08);
-
-      border-color:
-        rgba(255,255,255,.16);
-    }
-
-
-    .attach-button.open {
-
-      transform:
-        rotate(45deg);
-    }
-
-
-    .attach-menu {
-
-      position:
-        absolute;
-
-      left:
-        0;
-
-      bottom:
-        40px;
-
-      width:
-        180px;
-
-      padding:
-        7px;
-
-      border:
-        1px solid
-        rgba(255,255,255,.10);
-
-      border-radius:
-        16px;
-
-      background:
-        rgba(8,14,11,.97);
-
-      backdrop-filter:
-        blur(18px);
-
-      box-shadow:
-        0 18px 40px
-        rgba(0,0,0,.42);
-
-      opacity:
-        0;
-
-      visibility:
-        hidden;
-
-      transform:
-        translateY(7px)
-        scale(.97);
-
-      transition:
-        opacity .16s ease,
-        transform .16s ease,
-        visibility .16s ease;
-    }
-
-
-    .attach-menu.open {
-
-      opacity:
-        1;
-
-      visibility:
-        visible;
-
-      transform:
-        translateY(0)
-        scale(1);
-    }
-
-
-    .attach-option {
-
-      width:
-        100%;
-
-      border:
-        0;
-
-      background:
-        transparent;
-
-      color:
-        var(--text);
-
-      text-align:
-        left;
-
-      padding:
-        10px 11px;
-
-      border-radius:
-        11px;
-
-      cursor:
-        pointer;
-
-      font-size:
         12px;
 
-      font-weight:
-        700;
-
-      transition:
-        background .12s ease,
-        transform .12s ease;
-    }
-
-
-    .attach-option:hover {
-
-      background:
-        rgba(255,255,255,.07);
-
-      transform:
-        translateX(2px);
-    }
-
-
-    #imageInput {
-
-      display:
-        none;
+      margin-left:
+        3px;
     }
 
 
@@ -2599,6 +2614,9 @@
 
       position:
         relative;
+
+      margin-left:
+        2px;
     }
 
 
@@ -2637,6 +2655,24 @@
 
       gap:
         7px;
+
+      transition:
+        transform .14s ease,
+        background .14s ease,
+        border-color .14s ease;
+    }
+
+
+    .preset-button:hover {
+
+      transform:
+        translateY(-1px);
+
+      background:
+        rgba(255,255,255,.07);
+
+      border-color:
+        rgba(255,255,255,.14);
     }
 
 
@@ -2672,7 +2708,7 @@
         40px;
 
       width:
-        170px;
+        190px;
 
       padding:
         7px;
@@ -2804,6 +2840,17 @@
 
 
     /* ========================================================
+       HIDDEN FILE INPUT
+       ======================================================== */
+
+    #imageInput {
+
+      display:
+        none;
+    }
+
+
+    /* ========================================================
        RESPONSIVE
        ======================================================== */
 
@@ -2819,7 +2866,7 @@
       .messages {
 
         padding:
-          20px 14px 220px;
+          20px 14px 270px;
       }
 
 
@@ -2860,27 +2907,57 @@
           100%;
 
         justify-content:
-          space-between;
+          flex-start;
+
+        gap:
+          10px;
       }
 
 
-      .sent-image {
+      .composer-meta:last-child {
 
         width:
-          92px;
+          100%;
 
-        height:
-          92px;
+        text-align:
+          center;
       }
 
 
-      .attachment-item {
+      .plus-menu {
 
         width:
-          68px;
+          170px;
+      }
+
+
+      .selected-image-card {
+
+        width:
+          72px;
 
         height:
-          68px;
+          72px;
+
+        flex-basis:
+          72px;
+      }
+
+
+      .message-image {
+
+        width:
+          90px;
+
+        height:
+          90px;
+      }
+
+
+      .send-btn {
+
+        padding:
+          0 13px;
       }
 
     }
@@ -3054,16 +3131,85 @@
 
 
             <!-- ==================================================
-                 ATTACHMENT PREVIEWS
+                 SELECTED IMAGE PREVIEWS
                  ================================================== -->
 
             <div
-              class="attachment-strip hidden"
-              id="attachmentStrip"
+              class="selected-images"
+              id="selectedImages"
             ></div>
 
 
+            <!-- ==================================================
+                 INPUT ROW
+                 ================================================== -->
+
             <div class="input-row">
+
+
+              <!-- ==================================================
+                   PLUS MENU
+                   ================================================== -->
+
+              <div class="plus-menu-wrap">
+
+                <button
+                  class="plus-btn"
+                  id="plusButton"
+                  type="button"
+                  title="Add"
+                  aria-label="Add"
+                  aria-expanded="false"
+                >
+                  +
+                </button>
+
+
+                <div
+                  class="plus-menu"
+                  id="plusMenu"
+                >
+
+                  <button
+                    class="plus-option"
+                    id="uploadImageButton"
+                    type="button"
+                  >
+
+                    <span class="plus-option-icon">
+                      +
+                    </span>
+
+                    <span class="plus-option-text">
+
+                      <span class="plus-option-title">
+                        Upload image
+                      </span>
+
+                      <span class="plus-option-description">
+                        Add one or more images
+                      </span>
+
+                    </span>
+
+                  </button>
+
+                </div>
+
+              </div>
+
+
+              <!-- ==================================================
+                   FILE INPUT
+                   ================================================== -->
+
+              <input
+                id="imageInput"
+                type="file"
+                accept="image/*"
+                multiple
+              >
+
 
               <textarea
                 id="input"
@@ -3086,52 +3232,6 @@
 
               <div class="composer-left">
 
-
-                <!-- ==================================================
-                     PLUS / ATTACH
-                     ================================================== -->
-
-                <div class="attach-menu-wrap">
-
-                  <button
-                    class="attach-button"
-                    id="attachButton"
-                    type="button"
-                    title="Add attachment"
-                  >
-                    +
-                  </button>
-
-
-                  <div
-                    class="attach-menu"
-                    id="attachMenu"
-                  >
-
-                    <button
-                      class="attach-option"
-                      id="uploadImageOption"
-                      type="button"
-                    >
-                      Upload image
-                    </button>
-
-                  </div>
-
-
-                  <input
-                    id="imageInput"
-                    type="file"
-                    accept="image/*"
-                    multiple
-                  >
-
-                </div>
-
-
-                <!-- ==================================================
-                     PRESET
-                     ================================================== -->
 
                 <div class="preset-menu-wrap">
 
@@ -3640,7 +3740,7 @@
        API
        ======================================================== */
 
-    const API_URL = "https://low-beer-dakota-dive.trycloudflare.com";
+    const API_URL = "https://smallest-highlights-displaying-enable.trycloudflare.com";
 
 
     /* ========================================================
@@ -3649,6 +3749,14 @@
 
     const STORAGE_KEY =
       "greg_ui_api_v6";
+
+
+    const MEMORY_LIMIT =
+      80;
+
+
+    const META_MARKER =
+      "__GREG_META__";
 
 
     /* ========================================================
@@ -3817,19 +3925,19 @@
           "presetMenu"
         ),
 
-      attachButton:
+      plusButton:
         document.getElementById(
-          "attachButton"
+          "plusButton"
         ),
 
-      attachMenu:
+      plusMenu:
         document.getElementById(
-          "attachMenu"
+          "plusMenu"
         ),
 
-      uploadImageOption:
+      uploadImageButton:
         document.getElementById(
-          "uploadImageOption"
+          "uploadImageButton"
         ),
 
       imageInput:
@@ -3837,9 +3945,9 @@
           "imageInput"
         ),
 
-      attachmentStrip:
+      selectedImages:
         document.getElementById(
-          "attachmentStrip"
+          "selectedImages"
         )
 
     };
@@ -3861,363 +3969,25 @@
       false;
 
 
+    /*
+     * IMPORTANT:
+     *
+     * Preset ALWAYS starts at Default on a fresh page load.
+     *
+     * Conversation remains saved.
+     */
+
     let activePreset =
-      state.preset ||
       "default";
 
 
-    /* ========================================================
-       IMAGE ATTACHMENTS
-       ======================================================== */
-
-    let pendingImages = [];
-
-
-    function makeImageId() {
-
-      return (
-
-        Date.now().toString(
-          36
-        )
-        +
-        Math.random()
-          .toString(
-            36
-          )
-          .slice(
-            2
-          )
-
-      );
-
-    }
-
-
-    function readImageFile(
-      file
-    ) {
-
-      return new Promise(
-        (
-          resolve,
-          reject
-        ) => {
-
-          const reader =
-            new FileReader();
-
-
-          reader.onload =
-            () => {
-
-              resolve({
-
-                id:
-                  makeImageId(),
-
-                name:
-                  file.name,
-
-                type:
-                  file.type,
-
-                size:
-                  file.size,
-
-                dataUrl:
-                  reader.result
-
-              });
-
-            };
-
-
-          reader.onerror =
-            () => {
-
-              reject(
-                reader.error
-              );
-
-            };
-
-
-          reader.readAsDataURL(
-            file
-          );
-
-        }
-      );
-
-    }
-
-
-    async function addImageFiles(
-      files
-    ) {
-
-      const fileArray =
-        Array.from(
-          files || []
-        );
-
-
-      if (
-        !fileArray.length
-      ) {
-
-        return;
-
-      }
-
-
-      const imageFiles =
-        fileArray.filter(
-          file =>
-            file.type &&
-            file.type.startsWith(
-              "image/"
-            )
-        );
-
-
-      for (
-        const file
-        of imageFiles
-      ) {
-
-        try {
-
-          const image =
-            await readImageFile(
-              file
-            );
-
-
-          pendingImages.push(
-            image
-          );
-
-        } catch (
-          error
-        ) {
-
-          console.error(
-            "Could not read image:",
-            error
-          );
-
-        }
-
-      }
-
-
-      renderImagePreviews();
-
-
-      el.attachMenu.classList.remove(
-        "open"
-      );
-
-
-      el.attachButton.classList.remove(
-        "open"
-      );
-
-
-      el.imageInput.value =
-        "";
-
-    }
-
-
-    function removePendingImage(
-      id
-    ) {
-
-      const item =
-        document.querySelector(
-          `[data-image-id="${id}"]`
-        );
-
-
-      if (
-        item
-      ) {
-
-        item.classList.add(
-          "removing"
-        );
-
-
-        setTimeout(
-          () => {
-
-            pendingImages =
-              pendingImages.filter(
-                image =>
-                  image.id !==
-                  id
-              );
-
-
-            renderImagePreviews();
-
-          },
-          220
-        );
-
-
-        return;
-
-      }
-
-
-      pendingImages =
-        pendingImages.filter(
-          image =>
-            image.id !==
-            id
-        );
-
-
-      renderImagePreviews();
-
-    }
-
-
-    function renderImagePreviews() {
-
-      if (
-        !pendingImages.length
-      ) {
-
-        el.attachmentStrip.innerHTML =
-          "";
-
-        el.attachmentStrip.classList.add(
-          "hidden"
-        );
-
-        return;
-
-      }
-
-
-      el.attachmentStrip.classList.remove(
-        "hidden"
-      );
-
-
-      el.attachmentStrip.innerHTML =
-        "";
-
-
-      pendingImages.forEach(
-        image => {
-
-          const item =
-            document.createElement(
-              "div"
-            );
-
-
-          item.className =
-            "attachment-item";
-
-
-          item.dataset.imageId =
-            image.id;
-
-
-          const img =
-            document.createElement(
-              "img"
-            );
-
-
-          img.src =
-            image.dataUrl;
-
-
-          img.alt =
-            image.name ||
-            "Attached image";
-
-
-          const remove =
-            document.createElement(
-              "button"
-            );
-
-
-          remove.type =
-            "button";
-
-
-          remove.className =
-            "attachment-remove";
-
-
-          remove.textContent =
-            "×";
-
-
-          remove.title =
-            "Remove image";
-
-
-          remove.addEventListener(
-            "click",
-            () => {
-
-              removePendingImage(
-                image.id
-              );
-
-            }
-          );
-
-
-          const name =
-            document.createElement(
-              "div"
-            );
-
-
-          name.className =
-            "attachment-name";
-
-
-          name.textContent =
-            image.name ||
-            "image";
-
-
-          item.appendChild(
-            img
-          );
-
-
-          item.appendChild(
-            remove
-          );
-
-
-          item.appendChild(
-            name
-          );
-
-
-          el.attachmentStrip.appendChild(
-            item
-          );
-
-        }
-      );
-
-    }
+    /*
+     * Images currently attached to the composer.
+     *
+     * These are cleared after sending.
+     */
+
+    let selectedImages = [];
 
 
     /* ========================================================
@@ -4262,6 +4032,11 @@
 
         return {
 
+          /*
+           * Always reset generation settings to Default
+           * on page load.
+           */
+
           params:
             {
               ...PRESET_PARAMS.default
@@ -4303,13 +4078,30 @@
 
     function saveState() {
 
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(
-          state
-        )
+      try {
 
-      );
+        localStorage.setItem(
+
+          STORAGE_KEY,
+
+          JSON.stringify(
+            state
+          )
+
+        );
+
+        return true;
+
+      } catch (error) {
+
+        console.error(
+          "Could not save Greg chat:",
+          error
+        );
+
+        return false;
+
+      }
 
     }
 
@@ -4364,6 +4156,43 @@
             : "auto"
 
       });
+
+    }
+
+
+    function safeCloneImages(
+      images
+    ) {
+
+      if (
+        !Array.isArray(
+          images
+        )
+      ) {
+
+        return [];
+
+      }
+
+
+      return images
+
+        .filter(
+          image =>
+            image &&
+            typeof image.dataUrl ===
+            "string" &&
+            image.dataUrl.length > 0
+        )
+
+        .map(
+          image => ({
+
+            dataUrl:
+              image.dataUrl
+
+          })
+        );
 
     }
 
@@ -4586,6 +4415,10 @@
 
     }
 
+
+    /* ========================================================
+       THINKING STREAM
+       ======================================================== */
 
     function processThinkingStream(
       chunk,
@@ -4870,6 +4703,352 @@
 
 
     /* ========================================================
+       IMAGE UPLOAD
+       ======================================================== */
+
+    function readFileAsDataURL(
+      file
+    ) {
+
+      return new Promise(
+        (resolve, reject) => {
+
+          const reader =
+            new FileReader();
+
+
+          reader.onload =
+            () =>
+              resolve(
+                String(
+                  reader.result
+                )
+              );
+
+
+          reader.onerror =
+            () =>
+              reject(
+                reader.error ||
+                new Error(
+                  "Could not read image."
+                )
+              );
+
+
+          reader.readAsDataURL(
+            file
+          );
+
+        }
+      );
+
+    }
+
+
+    function updateSelectedImagesUI() {
+
+      el.selectedImages.innerHTML =
+        "";
+
+
+      if (
+        selectedImages.length ===
+        0
+      ) {
+
+        el.selectedImages.classList.remove(
+          "has-images"
+        );
+
+
+        return;
+
+      }
+
+
+      el.selectedImages.classList.add(
+        "has-images"
+      );
+
+
+      selectedImages.forEach(
+        (image, index) => {
+
+          const card =
+            document.createElement(
+              "div"
+            );
+
+
+          card.className =
+            "selected-image-card";
+
+
+          const img =
+            document.createElement(
+              "img"
+            );
+
+
+          img.className =
+            "selected-image-preview";
+
+
+          img.src =
+            image.dataUrl;
+
+
+          img.alt =
+            `Selected image ${index + 1}`;
+
+
+          const removeButton =
+            document.createElement(
+              "button"
+            );
+
+
+          removeButton.className =
+            "remove-image-btn";
+
+
+          removeButton.type =
+            "button";
+
+
+          removeButton.title =
+            "Remove image";
+
+
+          removeButton.setAttribute(
+            "aria-label",
+            "Remove image"
+          );
+
+
+          removeButton.textContent =
+            "×";
+
+
+          removeButton.addEventListener(
+            "click",
+            event => {
+
+              event.stopPropagation();
+
+
+              card.classList.add(
+                "removing"
+              );
+
+
+              setTimeout(
+                () => {
+
+                  selectedImages.splice(
+                    index,
+                    1
+                  );
+
+
+                  updateSelectedImagesUI();
+
+                },
+                220
+              );
+
+            }
+          );
+
+
+          card.appendChild(
+            img
+          );
+
+
+          card.appendChild(
+            removeButton
+          );
+
+
+          el.selectedImages.appendChild(
+            card
+          );
+
+        }
+      );
+
+    }
+
+
+    async function handleImageFiles(
+      files
+    ) {
+
+      if (
+        !files ||
+        files.length ===
+        0
+      ) {
+
+        return;
+
+      }
+
+
+      const fileList =
+        Array.from(
+          files
+        );
+
+
+      for (
+        const file
+        of fileList
+      ) {
+
+        if (
+          !file.type.startsWith(
+            "image/"
+          )
+        ) {
+
+          continue;
+
+        }
+
+
+        try {
+
+          const dataUrl =
+            await readFileAsDataURL(
+              file
+            );
+
+
+          selectedImages.push({
+
+            dataUrl:
+              dataUrl
+
+          });
+
+
+        } catch (
+          error
+        ) {
+
+          console.error(
+            "Image upload failed:",
+            error
+          );
+
+        }
+
+      }
+
+
+      updateSelectedImagesUI();
+
+
+      el.imageInput.value =
+        "";
+
+
+      closePlusMenu();
+
+
+      el.input.focus();
+
+    }
+
+
+    function closePlusMenu() {
+
+      el.plusMenu.classList.remove(
+        "open"
+      );
+
+
+      el.plusButton.classList.remove(
+        "open"
+      );
+
+
+      el.plusButton.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+    }
+
+
+    function togglePlusMenu() {
+
+      const open =
+        !el.plusMenu.classList.contains(
+          "open"
+        );
+
+
+      el.plusMenu.classList.toggle(
+        "open",
+        open
+      );
+
+
+      el.plusButton.classList.toggle(
+        "open",
+        open
+      );
+
+
+      el.plusButton.setAttribute(
+        "aria-expanded",
+        String(open)
+      );
+
+    }
+
+
+    el.plusButton.addEventListener(
+      "click",
+      event => {
+
+        event.stopPropagation();
+
+        togglePlusMenu();
+
+      }
+    );
+
+
+    el.uploadImageButton.addEventListener(
+      "click",
+      event => {
+
+        event.stopPropagation();
+
+        el.imageInput.click();
+
+      }
+    );
+
+
+    el.imageInput.addEventListener(
+      "change",
+      event => {
+
+        handleImageFiles(
+          event.target.files
+        );
+
+      }
+    );
+
+
+    /* ========================================================
        WELCOME
        ======================================================== */
 
@@ -5054,6 +5233,81 @@
 
 
     /* ========================================================
+       IMAGE MESSAGE RENDERING
+       ======================================================== */
+
+    function appendMessageImages(
+      container,
+      images
+    ) {
+
+      const safeImages =
+        safeCloneImages(
+          images
+        );
+
+
+      if (
+        safeImages.length ===
+        0
+      ) {
+
+        return;
+
+      }
+
+
+      const wrapper =
+        document.createElement(
+          "div"
+        );
+
+
+      wrapper.className =
+        "message-images";
+
+
+      safeImages.forEach(
+        (image, index) => {
+
+          const img =
+            document.createElement(
+              "img"
+            );
+
+
+          img.className =
+            "message-image";
+
+
+          img.src =
+            image.dataUrl;
+
+
+          img.alt =
+            `Attached image ${index + 1}`;
+
+
+          img.loading =
+            "lazy";
+
+
+          wrapper.appendChild(
+            img
+          );
+
+        }
+      );
+
+
+      container.appendChild(
+        wrapper
+      );
+
+    }
+
+
+    /* ========================================================
        USER MESSAGE
        ======================================================== */
 
@@ -5079,13 +5333,7 @@
 
         <div class="message-content">
 
-          ${
-            images.length
-              ? `
-                <div class="sent-image-strip"></div>
-              `
-              : ""
-          }
+          <div class="user-message-images"></div>
 
           <div class="message-text"></div>
 
@@ -5098,61 +5346,32 @@
       `;
 
 
-      row.querySelector(
-        ".message-text"
-      ).textContent =
+      appendMessageImages(
+
+        row.querySelector(
+          ".user-message-images"
+        ),
+
+        images
+
+      );
+
+
+      const textElement =
+        row.querySelector(
+          ".message-text"
+        );
+
+
+      textElement.textContent =
         text;
 
 
       if (
-        images.length
+        !text
       ) {
 
-        const strip =
-          row.querySelector(
-            ".sent-image-strip"
-          );
-
-
-        images.forEach(
-          image => {
-
-            const wrapper =
-              document.createElement(
-                "div"
-              );
-
-
-            wrapper.className =
-              "sent-image";
-
-
-            const img =
-              document.createElement(
-                "img"
-              );
-
-
-            img.src =
-              image.dataUrl;
-
-
-            img.alt =
-              image.name ||
-              "Sent image";
-
-
-            wrapper.appendChild(
-              img
-            );
-
-
-            strip.appendChild(
-              wrapper
-            );
-
-          }
-        );
+        textElement.remove();
 
       }
 
@@ -5341,11 +5560,23 @@
         thinkingEnded:
           false,
 
-        thinkingCharIndex:
-          0,
-
         answerText:
-          ""
+          "",
+
+        metaFound:
+          false,
+
+        metaBuffer:
+          "",
+
+        metaScanBuffer:
+          "",
+
+        imageDescription:
+          null,
+
+        imageCount:
+          0
 
       };
 
@@ -5353,7 +5584,7 @@
 
 
     /* ========================================================
-       OLD TYPEWRITER
+       TYPEWRITER
        ======================================================== */
 
     async function typeText(
@@ -6391,12 +6622,260 @@
 
 
     /* ========================================================
+       PROCESS SERVER METADATA
+       ========================================================
+       
+       The server sends:
+
+       __GREG_META__{"image_description":"...","image_count":1}
+
+       We intercept it before it reaches the visible renderer.
+       ======================================================== */
+
+    function processStreamChunkWithMetadata(
+      chunk,
+      parser,
+      stream
+    ) {
+
+      if (
+        !chunk
+      ) {
+
+        return;
+
+      }
+
+
+      /*
+       * Metadata was already found.
+       * Everything after it belongs to the metadata JSON.
+       */
+
+      if (
+        stream.metaFound
+      ) {
+
+        stream.metaBuffer +=
+          chunk;
+
+        return;
+
+      }
+
+
+      stream.metaScanBuffer +=
+        chunk;
+
+
+      const markerIndex =
+        stream.metaScanBuffer.indexOf(
+          META_MARKER
+        );
+
+
+      if (
+        markerIndex ===
+        -1
+      ) {
+
+        const keepLength =
+          META_MARKER.length - 1;
+
+
+        if (
+          stream.metaScanBuffer.length <=
+          keepLength
+        ) {
+
+          return;
+
+        }
+
+
+        const safeLength =
+          stream.metaScanBuffer.length -
+          keepLength;
+
+
+        const safeText =
+          stream.metaScanBuffer.slice(
+            0,
+            safeLength
+          );
+
+
+        stream.metaScanBuffer =
+          stream.metaScanBuffer.slice(
+            safeLength
+          );
+
+
+        processThinkingStream(
+
+          safeText,
+
+          parser,
+
+          stream
+
+        );
+
+
+        return;
+
+      }
+
+
+      /*
+       * Everything before the metadata marker is normal
+       * streamed output.
+       */
+
+      const answerBeforeMetadata =
+        stream.metaScanBuffer.slice(
+          0,
+          markerIndex
+        );
+
+
+      if (
+        answerBeforeMetadata
+      ) {
+
+        processThinkingStream(
+
+          answerBeforeMetadata,
+
+          parser,
+
+          stream
+
+        );
+
+      }
+
+
+      stream.metaFound =
+        true;
+
+
+      stream.metaBuffer =
+        stream.metaScanBuffer.slice(
+
+          markerIndex +
+          META_MARKER.length
+
+        );
+
+
+      stream.metaScanBuffer =
+        "";
+
+    }
+
+
+    function finishStreamMetadata(
+      parser,
+      stream
+    ) {
+
+      /*
+       * If the server did not send metadata, flush the final
+       * held characters as normal output.
+       */
+
+      if (
+        !stream.metaFound
+      ) {
+
+        if (
+          stream.metaScanBuffer
+        ) {
+
+          processThinkingStream(
+
+            stream.metaScanBuffer,
+
+            parser,
+
+            stream
+
+          );
+
+        }
+
+
+        stream.metaScanBuffer =
+          "";
+
+
+        return;
+
+      }
+
+
+      /*
+       * Metadata exists.
+       */
+
+      try {
+
+        const metadata =
+          JSON.parse(
+
+            stream.metaBuffer.trim()
+
+          );
+
+
+        if (
+          metadata &&
+          typeof metadata ===
+          "object"
+        ) {
+
+          stream.imageDescription =
+            (
+              typeof metadata.image_description ===
+              "string" &&
+              metadata.image_description.trim()
+            )
+              ? metadata.image_description.trim()
+              : null;
+
+
+          stream.imageCount =
+            Number(
+              metadata.image_count || 0
+            );
+
+        }
+
+      } catch (
+        error
+      ) {
+
+        console.error(
+          "Could not parse Greg metadata:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /* ========================================================
        STREAM MESSAGE
        ======================================================== */
 
     async function streamMessage(
+
       userText,
-      images = []
+
+      currentImages = []
+
     ) {
 
       const controller =
@@ -6427,20 +6906,68 @@
         );
 
 
+      /*
+       * IMPORTANT:
+       *
+       * We store up to 80 messages locally.
+       *
+       * Greg receives only the latest 80 messages as memory.
+       *
+       * For image messages, we send the saved visual
+       * description instead of re-sending old image data.
+       */
+
       const recentMessages =
         state.conversation
-          .slice(-25)
-          .map(
-            item =>
-              `${
-                item.role === "user"
-                  ? "User"
-                  : "Greg"
-              }: ${item.content}`
+
+          .slice(
+            -MEMORY_LIMIT
           )
+
+          .map(
+            item => {
+
+              const speaker =
+                item.role ===
+                "user"
+                  ? "User"
+                  : "Greg";
+
+
+              let result =
+                `${speaker}: ${
+                  item.content || ""
+                }`;
+
+
+              if (
+                item.role ===
+                "user" &&
+                item.imageDescription
+              ) {
+
+                result +=
+                  "\n[Images attached to this earlier "
+                  + "message were analyzed as follows:]\n"
+                  + item.imageDescription;
+
+              }
+
+
+              return result;
+
+            }
+          )
+
           .join(
             "\n\n"
           );
+
+
+      const imageData =
+        safeCloneImages(
+          currentImages
+        );
 
 
       try {
@@ -6474,19 +7001,9 @@
                     state.params,
 
                   images:
-                    images.map(
-                      image => ({
-
-                        name:
-                          image.name,
-
-                        type:
-                          image.type,
-
-                        data_url:
-                          image.dataUrl
-
-                      })
+                    imageData.map(
+                      image =>
+                        image.dataUrl
                     )
 
                 }),
@@ -6508,10 +7025,12 @@
 
 
           throw new Error(
+
             `HTTP ${response.status}: ${
               errorText ||
               "Request failed"
             }`
+
           );
 
         }
@@ -6557,11 +7076,14 @@
 
           const chunk =
             decoder.decode(
+
               result.value,
+
               {
                 stream:
                   true
               }
+
             );
 
 
@@ -6574,7 +7096,7 @@
           }
 
 
-          processThinkingStream(
+          processStreamChunkWithMetadata(
 
             chunk,
 
@@ -6600,7 +7122,7 @@
           finalChunk
         ) {
 
-          processThinkingStream(
+          processStreamChunkWithMetadata(
 
             finalChunk,
 
@@ -6611,6 +7133,20 @@
           );
 
         }
+
+
+        /*
+         * Finish metadata parsing BEFORE finishing the visual
+         * renderer, so the completed answer remains clean.
+         */
+
+        finishStreamMetadata(
+
+          parser,
+
+          stream
+
+        );
 
 
         finishThinkingStream(
@@ -6643,7 +7179,18 @@
         }
 
 
-        return stream.answerText.trim();
+        return {
+
+          answerText:
+            stream.answerText.trim(),
+
+          imageDescription:
+            stream.imageDescription,
+
+          imageCount:
+            stream.imageCount
+
+        };
 
 
       } finally {
@@ -6686,8 +7233,11 @@
        ======================================================== */
 
     function createStaticCodeBlock(
+
       language,
+
       code
+
     ) {
 
       const codeBlock =
@@ -6720,8 +7270,11 @@
        ======================================================== */
 
     function renderStaticMessage(
+
       container,
+
       text
+
     ) {
 
       let cursor =
@@ -6898,8 +7451,11 @@
 
         const code =
           text.slice(
+
             languageEnd + 1,
+
             codeEnd
+
           );
 
 
@@ -7184,13 +7740,21 @@
         el.input.value.trim();
 
 
+      /*
+       * Image-only messages are allowed.
+       */
+
       if (
+
         (
           !text &&
-          !pendingImages.length
+          selectedImages.length === 0
         )
+
         ||
+
         isSending
+
       ) {
 
         return;
@@ -7201,8 +7765,24 @@
       removeWelcome();
 
 
+      closePlusMenu();
+
+
       const imagesForMessage =
-        [...pendingImages];
+        safeCloneImages(
+          selectedImages
+        );
+
+
+      /*
+       * Clear composer immediately after copying the images.
+       */
+
+      selectedImages =
+        [];
+
+
+      updateSelectedImagesUI();
 
 
       el.input.value =
@@ -7212,17 +7792,17 @@
       resizeInput();
 
 
+      /*
+       * Show the user message immediately with all images.
+       */
+
       addUserMessage(
+
         text,
+
         imagesForMessage
+
       );
-
-
-      pendingImages =
-        [];
-
-
-      renderImagePreviews();
 
 
       isSending =
@@ -7256,12 +7836,33 @@
         }
 
 
-        const reply =
+        /*
+         * Send current images to the server.
+         *
+         * The server analyzes them only for this request.
+         */
+
+        const result =
           await streamMessage(
+
             text,
+
             imagesForMessage
+
           );
 
+
+        /*
+         * Save the USER message with:
+         *
+         * - the original text
+         * - the original images
+         * - the completed vision description
+         *
+         * The description is what Greg will receive later
+         * when this message is inside the recent 80-message
+         * memory window.
+         */
 
         state.conversation.push({
 
@@ -7269,10 +7870,21 @@
             "user",
 
           content:
-            text
+            text,
+
+          images:
+            imagesForMessage,
+
+          imageDescription:
+            result.imageDescription ||
+            null
 
         });
 
+
+        /*
+         * Save Greg's answer separately.
+         */
 
         state.conversation.push({
 
@@ -7280,10 +7892,20 @@
             "assistant",
 
           content:
-            reply
+            result.answerText,
+
+          images:
+            [],
+
+          imageDescription:
+            null
 
         });
 
+
+        /*
+         * Keep the full local chat at 80 messages.
+         */
 
         state.conversation =
           state.conversation.slice(
@@ -7470,61 +8092,6 @@
     }
 
 
-    /* ========================================================
-       ATTACH MENU
-       ======================================================== */
-
-    el.attachButton.addEventListener(
-      "click",
-      event => {
-
-        event.stopPropagation();
-
-
-        el.attachMenu.classList.toggle(
-          "open"
-        );
-
-
-        el.attachButton.classList.toggle(
-          "open"
-        );
-
-
-        el.presetMenu.classList.remove(
-          "open"
-        );
-
-      }
-    );
-
-
-    el.uploadImageOption.addEventListener(
-      "click",
-      () => {
-
-        el.imageInput.click();
-
-      }
-    );
-
-
-    el.imageInput.addEventListener(
-      "change",
-      event => {
-
-        addImageFiles(
-          event.target.files
-        );
-
-      }
-    );
-
-
-    /* ========================================================
-       PRESET MENU
-       ======================================================== */
-
     el.presetButton.addEventListener(
       "click",
       event => {
@@ -7537,29 +8104,31 @@
         );
 
 
-        el.attachMenu.classList.remove(
-          "open"
-        );
-
-
-        el.attachButton.classList.remove(
-          "open"
-        );
+        closePlusMenu();
 
       }
     );
 
+
+    /* ========================================================
+       GLOBAL MENU CLOSE
+       ======================================================== */
 
     document.addEventListener(
       "click",
       event => {
 
         if (
+
           !el.presetMenu.contains(
             event.target
-          ) &&
+          )
+
+          &&
+
           event.target !==
           el.presetButton
+
         ) {
 
           el.presetMenu.classList.remove(
@@ -7570,21 +8139,19 @@
 
 
         if (
-          !el.attachMenu.contains(
+
+          !el.plusMenu.contains(
             event.target
-          ) &&
+          )
+
+          &&
+
           event.target !==
-          el.attachButton
+          el.plusButton
+
         ) {
 
-          el.attachMenu.classList.remove(
-            "open"
-          );
-
-
-          el.attachButton.classList.remove(
-            "open"
-          );
+          closePlusMenu();
 
         }
 
@@ -7611,6 +8178,10 @@
       );
 
 
+    /*
+     * Preset always starts Default.
+     */
+
     updatePresetUI();
 
 
@@ -7636,6 +8207,13 @@
 
 
       saveState();
+
+
+      selectedImages =
+        [];
+
+
+      updateSelectedImagesUI();
 
 
       el.messages.innerHTML =
@@ -7746,7 +8324,11 @@
         ) {
 
           addUserMessage(
-            item.content
+
+            item.content || "",
+
+            item.images || []
+
           );
 
         } else if (
@@ -7755,7 +8337,9 @@
         ) {
 
           addStaticGregMessage(
-            item.content
+
+            item.content || ""
+
           );
 
         }
@@ -7785,9 +8369,14 @@
       event => {
 
         if (
+
           event.key ===
-          "Enter" &&
+          "Enter"
+
+          &&
+
           !event.shiftKey
+
         ) {
 
           event.preventDefault();
@@ -7838,8 +8427,12 @@
 
     resizeInput();
 
-    renderImagePreviews();
+    updateSelectedImagesUI();
 
+
+    /*
+     * Connection test does not disable the text box.
+     */
 
     setTimeout(
       testApi,
