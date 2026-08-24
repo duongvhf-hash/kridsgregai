@@ -1120,6 +1120,123 @@
 
 
     /* ========================================================
+       SENT IMAGES
+       ======================================================== */
+
+    .sent-image-strip {
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        8px;
+
+      margin-bottom:
+        9px;
+
+      animation:
+        sentImagesIn .32s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+
+    @keyframes sentImagesIn {
+
+      from {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(8px)
+          scale(.98);
+      }
+
+      to {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0)
+          scale(1);
+      }
+    }
+
+
+    .sent-image {
+
+      width:
+        120px;
+
+      height:
+        120px;
+
+      overflow:
+        hidden;
+
+      border-radius:
+        14px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.10);
+
+      background:
+        rgba(255,255,255,.04);
+
+      box-shadow:
+        0 10px 24px
+        rgba(0,0,0,.20);
+
+      animation:
+        sentImageIn .28s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+
+    @keyframes sentImageIn {
+
+      from {
+
+        opacity:
+          0;
+
+        transform:
+          scale(.85)
+          translateY(6px);
+      }
+
+      to {
+
+        opacity:
+          1;
+
+        transform:
+          scale(1)
+          translateY(0);
+      }
+    }
+
+
+    .sent-image img {
+
+      width:
+        100%;
+
+      height:
+        100%;
+
+      object-fit:
+        cover;
+
+      display:
+        block;
+    }
+
+
+    /* ========================================================
        THINKING
        ======================================================== */
 
@@ -1834,6 +1951,289 @@
     }
 
 
+    /* ========================================================
+       IMAGE ATTACHMENTS
+       ======================================================== */
+
+    .attachment-strip {
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        9px;
+
+      padding:
+        4px 4px 10px;
+
+      overflow:
+        hidden;
+
+      animation:
+        attachmentStripIn .28s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+
+    .attachment-strip.hidden {
+
+      display:
+        none;
+    }
+
+
+    @keyframes attachmentStripIn {
+
+      from {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(8px);
+      }
+
+      to {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0);
+      }
+    }
+
+
+    .attachment-item {
+
+      position:
+        relative;
+
+      width:
+        78px;
+
+      height:
+        78px;
+
+      flex:
+        none;
+
+      border-radius:
+        14px;
+
+      overflow:
+        visible;
+
+      background:
+        rgba(255,255,255,.04);
+
+      border:
+        1px solid
+        rgba(255,255,255,.11);
+
+      box-shadow:
+        0 10px 24px
+        rgba(0,0,0,.22);
+
+      animation:
+        attachmentIn .28s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+
+    @keyframes attachmentIn {
+
+      from {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(10px)
+          scale(.82);
+      }
+
+      to {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0)
+          scale(1);
+      }
+    }
+
+
+    .attachment-item.removing {
+
+      animation:
+        attachmentOut .22s ease forwards;
+    }
+
+
+    @keyframes attachmentOut {
+
+      from {
+
+        opacity:
+          1;
+
+        transform:
+          scale(1);
+      }
+
+      to {
+
+        opacity:
+          0;
+
+        transform:
+          scale(.72)
+          translateY(5px);
+      }
+    }
+
+
+    .attachment-item img {
+
+      width:
+        100%;
+
+      height:
+        100%;
+
+      display:
+        block;
+
+      border-radius:
+        13px;
+
+      object-fit:
+        cover;
+    }
+
+
+    .attachment-remove {
+
+      position:
+        absolute;
+
+      top:
+        -7px;
+
+      right:
+        -7px;
+
+      width:
+        22px;
+
+      height:
+        22px;
+
+      padding:
+        0;
+
+      border:
+        1px solid
+        rgba(255,255,255,.15);
+
+      border-radius:
+        50%;
+
+      background:
+        rgba(8,14,11,.95);
+
+      color:
+        #ecf7ef;
+
+      font-size:
+        13px;
+
+      line-height:
+        20px;
+
+      cursor:
+        pointer;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      box-shadow:
+        0 6px 14px
+        rgba(0,0,0,.32);
+
+      z-index:
+        2;
+
+      transition:
+        transform .15s ease,
+        background .15s ease,
+        opacity .15s ease;
+    }
+
+
+    .attachment-remove:hover {
+
+      transform:
+        scale(1.08);
+
+      background:
+        rgba(255,127,127,.18);
+    }
+
+
+    .attachment-name {
+
+      position:
+        absolute;
+
+      left:
+        4px;
+
+      right:
+        4px;
+
+      bottom:
+        4px;
+
+      padding:
+        3px 5px;
+
+      border-radius:
+        7px;
+
+      color:
+        rgba(236,247,239,.88);
+
+      background:
+        rgba(0,0,0,.58);
+
+      backdrop-filter:
+        blur(6px);
+
+      font-size:
+        8px;
+
+      white-space:
+        nowrap;
+
+      overflow:
+        hidden;
+
+      text-overflow:
+        ellipsis;
+    }
+
+
+    /* ========================================================
+       INPUT ROW
+       ======================================================== */
+
     .input-row {
 
       display:
@@ -1987,6 +2387,207 @@
 
       gap:
         8px;
+    }
+
+
+    /* ========================================================
+       ATTACH BUTTON
+       ======================================================== */
+
+    .attach-menu-wrap {
+
+      position:
+        relative;
+    }
+
+
+    .attach-button {
+
+      width:
+        32px;
+
+      height:
+        32px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.08);
+
+      background:
+        rgba(255,255,255,.04);
+
+      color:
+        var(--text);
+
+      border-radius:
+        999px;
+
+      padding:
+        0;
+
+      cursor:
+        pointer;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      font-size:
+        20px;
+
+      line-height:
+        1;
+
+      transition:
+        transform .15s ease,
+        background .15s ease,
+        border-color .15s ease;
+    }
+
+
+    .attach-button:hover {
+
+      transform:
+        translateY(-1px)
+        rotate(4deg);
+
+      background:
+        rgba(255,255,255,.08);
+
+      border-color:
+        rgba(255,255,255,.16);
+    }
+
+
+    .attach-button.open {
+
+      transform:
+        rotate(45deg);
+    }
+
+
+    .attach-menu {
+
+      position:
+        absolute;
+
+      left:
+        0;
+
+      bottom:
+        40px;
+
+      width:
+        180px;
+
+      padding:
+        7px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.10);
+
+      border-radius:
+        16px;
+
+      background:
+        rgba(8,14,11,.97);
+
+      backdrop-filter:
+        blur(18px);
+
+      box-shadow:
+        0 18px 40px
+        rgba(0,0,0,.42);
+
+      opacity:
+        0;
+
+      visibility:
+        hidden;
+
+      transform:
+        translateY(7px)
+        scale(.97);
+
+      transition:
+        opacity .16s ease,
+        transform .16s ease,
+        visibility .16s ease;
+    }
+
+
+    .attach-menu.open {
+
+      opacity:
+        1;
+
+      visibility:
+        visible;
+
+      transform:
+        translateY(0)
+        scale(1);
+    }
+
+
+    .attach-option {
+
+      width:
+        100%;
+
+      border:
+        0;
+
+      background:
+        transparent;
+
+      color:
+        var(--text);
+
+      text-align:
+        left;
+
+      padding:
+        10px 11px;
+
+      border-radius:
+        11px;
+
+      cursor:
+        pointer;
+
+      font-size:
+        12px;
+
+      font-weight:
+        700;
+
+      transition:
+        background .12s ease,
+        transform .12s ease;
+    }
+
+
+    .attach-option:hover {
+
+      background:
+        rgba(255,255,255,.07);
+
+      transform:
+        translateX(2px);
+    }
+
+
+    #imageInput {
+
+      display:
+        none;
     }
 
 
@@ -2262,6 +2863,26 @@
           space-between;
       }
 
+
+      .sent-image {
+
+        width:
+          92px;
+
+        height:
+          92px;
+      }
+
+
+      .attachment-item {
+
+        width:
+          68px;
+
+        height:
+          68px;
+      }
+
     }
 
 
@@ -2432,6 +3053,16 @@
           <div class="composer">
 
 
+            <!-- ==================================================
+                 ATTACHMENT PREVIEWS
+                 ================================================== -->
+
+            <div
+              class="attachment-strip hidden"
+              id="attachmentStrip"
+            ></div>
+
+
             <div class="input-row">
 
               <textarea
@@ -2455,6 +3086,52 @@
 
               <div class="composer-left">
 
+
+                <!-- ==================================================
+                     PLUS / ATTACH
+                     ================================================== -->
+
+                <div class="attach-menu-wrap">
+
+                  <button
+                    class="attach-button"
+                    id="attachButton"
+                    type="button"
+                    title="Add attachment"
+                  >
+                    +
+                  </button>
+
+
+                  <div
+                    class="attach-menu"
+                    id="attachMenu"
+                  >
+
+                    <button
+                      class="attach-option"
+                      id="uploadImageOption"
+                      type="button"
+                    >
+                      Upload image
+                    </button>
+
+                  </div>
+
+
+                  <input
+                    id="imageInput"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                  >
+
+                </div>
+
+
+                <!-- ==================================================
+                     PRESET
+                     ================================================== -->
 
                 <div class="preset-menu-wrap">
 
@@ -2551,7 +3228,7 @@
                         <br>
 
                         <span class="preset-description">
-                          Longer replies
+                          Longer and better replies
                         </span>
 
                       </span>
@@ -2963,7 +3640,7 @@
        API
        ======================================================== */
 
-    const API_URL = "https://comparisons-feedback-figured-linear.trycloudflare.com";
+    const API_URL = "https://heather-birthday-greensboro-antivirus.trycloudflare.com";
 
 
     /* ========================================================
@@ -3138,6 +3815,31 @@
       presetMenu:
         document.getElementById(
           "presetMenu"
+        ),
+
+      attachButton:
+        document.getElementById(
+          "attachButton"
+        ),
+
+      attachMenu:
+        document.getElementById(
+          "attachMenu"
+        ),
+
+      uploadImageOption:
+        document.getElementById(
+          "uploadImageOption"
+        ),
+
+      imageInput:
+        document.getElementById(
+          "imageInput"
+        ),
+
+      attachmentStrip:
+        document.getElementById(
+          "attachmentStrip"
         )
 
     };
@@ -3162,6 +3864,360 @@
     let activePreset =
       state.preset ||
       "default";
+
+
+    /* ========================================================
+       IMAGE ATTACHMENTS
+       ======================================================== */
+
+    let pendingImages = [];
+
+
+    function makeImageId() {
+
+      return (
+
+        Date.now().toString(
+          36
+        )
+        +
+        Math.random()
+          .toString(
+            36
+          )
+          .slice(
+            2
+          )
+
+      );
+
+    }
+
+
+    function readImageFile(
+      file
+    ) {
+
+      return new Promise(
+        (
+          resolve,
+          reject
+        ) => {
+
+          const reader =
+            new FileReader();
+
+
+          reader.onload =
+            () => {
+
+              resolve({
+
+                id:
+                  makeImageId(),
+
+                name:
+                  file.name,
+
+                type:
+                  file.type,
+
+                size:
+                  file.size,
+
+                dataUrl:
+                  reader.result
+
+              });
+
+            };
+
+
+          reader.onerror =
+            () => {
+
+              reject(
+                reader.error
+              );
+
+            };
+
+
+          reader.readAsDataURL(
+            file
+          );
+
+        }
+      );
+
+    }
+
+
+    async function addImageFiles(
+      files
+    ) {
+
+      const fileArray =
+        Array.from(
+          files || []
+        );
+
+
+      if (
+        !fileArray.length
+      ) {
+
+        return;
+
+      }
+
+
+      const imageFiles =
+        fileArray.filter(
+          file =>
+            file.type &&
+            file.type.startsWith(
+              "image/"
+            )
+        );
+
+
+      for (
+        const file
+        of imageFiles
+      ) {
+
+        try {
+
+          const image =
+            await readImageFile(
+              file
+            );
+
+
+          pendingImages.push(
+            image
+          );
+
+        } catch (
+          error
+        ) {
+
+          console.error(
+            "Could not read image:",
+            error
+          );
+
+        }
+
+      }
+
+
+      renderImagePreviews();
+
+
+      el.attachMenu.classList.remove(
+        "open"
+      );
+
+
+      el.attachButton.classList.remove(
+        "open"
+      );
+
+
+      el.imageInput.value =
+        "";
+
+    }
+
+
+    function removePendingImage(
+      id
+    ) {
+
+      const item =
+        document.querySelector(
+          `[data-image-id="${id}"]`
+        );
+
+
+      if (
+        item
+      ) {
+
+        item.classList.add(
+          "removing"
+        );
+
+
+        setTimeout(
+          () => {
+
+            pendingImages =
+              pendingImages.filter(
+                image =>
+                  image.id !==
+                  id
+              );
+
+
+            renderImagePreviews();
+
+          },
+          220
+        );
+
+
+        return;
+
+      }
+
+
+      pendingImages =
+        pendingImages.filter(
+          image =>
+            image.id !==
+            id
+        );
+
+
+      renderImagePreviews();
+
+    }
+
+
+    function renderImagePreviews() {
+
+      if (
+        !pendingImages.length
+      ) {
+
+        el.attachmentStrip.innerHTML =
+          "";
+
+        el.attachmentStrip.classList.add(
+          "hidden"
+        );
+
+        return;
+
+      }
+
+
+      el.attachmentStrip.classList.remove(
+        "hidden"
+      );
+
+
+      el.attachmentStrip.innerHTML =
+        "";
+
+
+      pendingImages.forEach(
+        image => {
+
+          const item =
+            document.createElement(
+              "div"
+            );
+
+
+          item.className =
+            "attachment-item";
+
+
+          item.dataset.imageId =
+            image.id;
+
+
+          const img =
+            document.createElement(
+              "img"
+            );
+
+
+          img.src =
+            image.dataUrl;
+
+
+          img.alt =
+            image.name ||
+            "Attached image";
+
+
+          const remove =
+            document.createElement(
+              "button"
+            );
+
+
+          remove.type =
+            "button";
+
+
+          remove.className =
+            "attachment-remove";
+
+
+          remove.textContent =
+            "×";
+
+
+          remove.title =
+            "Remove image";
+
+
+          remove.addEventListener(
+            "click",
+            () => {
+
+              removePendingImage(
+                image.id
+              );
+
+            }
+          );
+
+
+          const name =
+            document.createElement(
+              "div"
+            );
+
+
+          name.className =
+            "attachment-name";
+
+
+          name.textContent =
+            image.name ||
+            "image";
+
+
+          item.appendChild(
+            img
+          );
+
+
+          item.appendChild(
+            remove
+          );
+
+
+          item.appendChild(
+            name
+          );
+
+
+          el.attachmentStrip.appendChild(
+            item
+          );
+
+        }
+      );
+
+    }
 
 
     /* ========================================================
@@ -3531,23 +4587,6 @@
     }
 
 
-    /*
-     * The model can split:
-     *
-     * <thi
-     * nk>
-     *
-     * or:
-     *
-     * </thin
-     * k>
-     *
-     * across network chunks.
-     *
-     * This processor keeps enough text buffered so those
-     * markers are detected correctly.
-     */
-
     function processThinkingStream(
       chunk,
       parser,
@@ -3795,11 +4834,6 @@
         stream.thinkingMode
       ) {
 
-        /*
-         * If the stream ends while the model is still inside
-         * <think>, treat the remaining characters as thinking.
-         */
-
         appendThinkingText(
           stream,
           stream.thinkingBuffer
@@ -3819,11 +4853,6 @@
 
       }
 
-
-      /*
-       * No active thinking section.
-       * Whatever remains is normal answer text.
-       */
 
       stream.answerText +=
         stream.thinkingBuffer;
@@ -4029,7 +5058,8 @@
        ======================================================== */
 
     function addUserMessage(
-      text
+      text,
+      images = []
     ) {
 
       removeWelcome();
@@ -4049,6 +5079,14 @@
 
         <div class="message-content">
 
+          ${
+            images.length
+              ? `
+                <div class="sent-image-strip"></div>
+              `
+              : ""
+          }
+
           <div class="message-text"></div>
 
         </div>
@@ -4064,6 +5102,59 @@
         ".message-text"
       ).textContent =
         text;
+
+
+      if (
+        images.length
+      ) {
+
+        const strip =
+          row.querySelector(
+            ".sent-image-strip"
+          );
+
+
+        images.forEach(
+          image => {
+
+            const wrapper =
+              document.createElement(
+                "div"
+              );
+
+
+            wrapper.className =
+              "sent-image";
+
+
+            const img =
+              document.createElement(
+                "img"
+              );
+
+
+            img.src =
+              image.dataUrl;
+
+
+            img.alt =
+              image.name ||
+              "Sent image";
+
+
+            wrapper.appendChild(
+              img
+            );
+
+
+            strip.appendChild(
+              wrapper
+            );
+
+          }
+        );
+
+      }
 
 
       el.messages.appendChild(
@@ -4516,11 +5607,6 @@
       );
 
 
-      /*
-       * Insert first, then next frame open it.
-       * This makes the surrounding content move smoothly.
-       */
-
       requestAnimationFrame(
         () => {
 
@@ -4552,25 +5638,6 @@
 
     /* ========================================================
        ORDERED RENDER QUEUE
-       ========================================================
-       
-       THIS IS THE IMPORTANT FIX.
-
-       Every piece of output becomes an operation.
-
-       Example:
-
-       TEXT
-       CODE_OPEN
-       CODE_TEXT
-       CODE_TEXT
-       CODE_CLOSE
-       TEXT
-
-       One renderer processes those operations in exactly
-       that order.
-
-       Nothing can jump ahead of the text before it.
        ======================================================== */
 
     class OrderedRenderer {
@@ -4831,12 +5898,6 @@
         language
       ) {
 
-        /*
-         * Wait until whatever text came before it has fully
-         * finished typing. Because this function is called by
-         * the same queue, this is guaranteed.
-         */
-
         const code =
           createCodeBlock(
             language
@@ -4856,11 +5917,6 @@
           false
         );
 
-
-        /*
-         * Let the height-opening animation visibly begin before
-         * the next queued operation writes into it.
-         */
 
         await sleep(
           30
@@ -4882,17 +5938,6 @@
 
         }
 
-
-        /*
-         * NO typeText here.
-         *
-         * Code must preserve:
-         *
-         * spaces
-         * tabs
-         * indentation
-         * newlines
-         */
 
         this.code.codeContent.textContent +=
           text;
@@ -4959,13 +6004,6 @@
 
     /* ========================================================
        STREAM PARSER
-       ========================================================
-       
-       The parser ONLY creates ordered operations.
-
-       It never directly changes the screen.
-
-       That is what prevents the old ordering bug.
        ======================================================== */
 
     class StreamParser {
@@ -5018,10 +6056,6 @@
           this.pending.length
         ) {
 
-          /* ==================================================
-             NORMAL TEXT
-             ================================================== */
-
           if (
             this.mode ===
             "text"
@@ -5037,12 +6071,6 @@
               markerIndex ===
               -1
             ) {
-
-              /*
-               * Keep two chars in case a network packet splits:
-               *
-               * ```
-               */
 
               if (
                 this.pending.length <=
@@ -5122,10 +6150,6 @@
           }
 
 
-          /* ==================================================
-             LANGUAGE
-             ================================================== */
-
           if (
             this.mode ===
             "language"
@@ -5141,11 +6165,6 @@
               newlineIndex ===
               -1
             ) {
-
-              /*
-               * Wait for the newline so the language label is
-               * complete.
-               */
 
               return;
 
@@ -5188,10 +6207,6 @@
           }
 
 
-          /* ==================================================
-             CODE
-             ================================================== */
-
           if (
             this.mode ===
             "code"
@@ -5207,10 +6222,6 @@
               markerIndex ===
               -1
             ) {
-
-              /*
-               * Preserve a possible split closing fence.
-               */
 
               if (
                 this.pending.length <=
@@ -5322,12 +6333,6 @@
             "text"
           ) {
 
-            /*
-             * If the final two characters were backticks but the
-             * stream ended before a complete fence, they are
-             * actual text.
-             */
-
             this.renderer.enqueue({
 
               type:
@@ -5357,11 +6362,6 @@
             this.mode ===
             "language"
           ) {
-
-            /*
-             * Incomplete language marker:
-             * treat it as literal text rather than throwing it away.
-             */
 
             this.renderer.enqueue({
 
@@ -5395,7 +6395,8 @@
        ======================================================== */
 
     async function streamMessage(
-      userText
+      userText,
+      images = []
     ) {
 
       const controller =
@@ -5426,19 +6427,9 @@
         );
 
 
-      /*
-       * Browser-side conversation memory.
-       *
-       * Only the latest 20 stored messages are sent.
-       *
-       * The current user message is NOT included here because
-       * it is already sent separately as "message".
-       */
-
-
       const recentMessages =
         state.conversation
-          .slice(-20)
+          .slice(-25)
           .map(
             item =>
               `${
@@ -5480,7 +6471,23 @@
                     recentMessages,
 
                   params:
-                    state.params
+                    state.params,
+
+                  images:
+                    images.map(
+                      image => ({
+
+                        name:
+                          image.name,
+
+                        type:
+                          image.type,
+
+                        data_url:
+                          image.dataUrl
+
+                      })
+                    )
 
                 }),
 
@@ -5567,14 +6574,6 @@
           }
 
 
-          /*
-           * Split <think>...</think> away from the normal answer.
-           *
-           * Thinking text goes to the animated thinking panel.
-           *
-           * Answer text goes to the normal ordered renderer.
-           */
-
           processThinkingStream(
 
             chunk,
@@ -5614,11 +6613,6 @@
         }
 
 
-        /*
-         * Flush any characters still waiting in the thinking
-         * splitter.
-         */
-
         finishThinkingStream(
 
           parser,
@@ -5627,10 +6621,6 @@
 
         );
 
-
-        /*
-         * Wait until EVERY queued visual operation has finished.
-         */
 
         parser.finish();
 
@@ -5662,11 +6652,6 @@
           timeout
         );
 
-
-        /*
-         * If the request fails while Greg is thinking,
-         * collapse the thinking UI instead of leaving it open.
-         */
 
         finishThinkingUI(
           stream
@@ -6025,10 +7010,6 @@
         isSending;
 
 
-      /*
-       * The input stays enabled.
-       */
-
       el.input.disabled =
         false;
 
@@ -6204,7 +7185,11 @@
 
 
       if (
-        !text ||
+        (
+          !text &&
+          !pendingImages.length
+        )
+        ||
         isSending
       ) {
 
@@ -6216,6 +7201,10 @@
       removeWelcome();
 
 
+      const imagesForMessage =
+        [...pendingImages];
+
+
       el.input.value =
         "";
 
@@ -6224,8 +7213,16 @@
 
 
       addUserMessage(
-        text
+        text,
+        imagesForMessage
       );
+
+
+      pendingImages =
+        [];
+
+
+      renderImagePreviews();
 
 
       isSending =
@@ -6259,22 +7256,10 @@
         }
 
 
-        /*
-         * Stream from the server.
-         *
-         * The browser sends the latest 20 stored messages as
-         * the "memory" string.
-         *
-         * The stream processor separates:
-         *
-         *     <think>...</think>
-         *
-         * from the normal answer.
-         */
-
         const reply =
           await streamMessage(
-            text
+            text,
+            imagesForMessage
           );
 
 
@@ -6302,7 +7287,7 @@
 
         state.conversation =
           state.conversation.slice(
-            -24
+            -80
           );
 
 
@@ -6485,6 +7470,61 @@
     }
 
 
+    /* ========================================================
+       ATTACH MENU
+       ======================================================== */
+
+    el.attachButton.addEventListener(
+      "click",
+      event => {
+
+        event.stopPropagation();
+
+
+        el.attachMenu.classList.toggle(
+          "open"
+        );
+
+
+        el.attachButton.classList.toggle(
+          "open"
+        );
+
+
+        el.presetMenu.classList.remove(
+          "open"
+        );
+
+      }
+    );
+
+
+    el.uploadImageOption.addEventListener(
+      "click",
+      () => {
+
+        el.imageInput.click();
+
+      }
+    );
+
+
+    el.imageInput.addEventListener(
+      "change",
+      event => {
+
+        addImageFiles(
+          event.target.files
+        );
+
+      }
+    );
+
+
+    /* ========================================================
+       PRESET MENU
+       ======================================================== */
+
     el.presetButton.addEventListener(
       "click",
       event => {
@@ -6493,6 +7533,16 @@
 
 
         el.presetMenu.classList.toggle(
+          "open"
+        );
+
+
+        el.attachMenu.classList.remove(
+          "open"
+        );
+
+
+        el.attachButton.classList.remove(
           "open"
         );
 
@@ -6513,6 +7563,26 @@
         ) {
 
           el.presetMenu.classList.remove(
+            "open"
+          );
+
+        }
+
+
+        if (
+          !el.attachMenu.contains(
+            event.target
+          ) &&
+          event.target !==
+          el.attachButton
+        ) {
+
+          el.attachMenu.classList.remove(
+            "open"
+          );
+
+
+          el.attachButton.classList.remove(
             "open"
           );
 
@@ -6768,10 +7838,8 @@
 
     resizeInput();
 
+    renderImagePreviews();
 
-    /*
-     * Connection test does not disable the text box.
-     */
 
     setTimeout(
       testApi,
