@@ -513,7 +513,7 @@ requestAnimationFrame(
 	drawCanvasBg
 );
 
-const API_URL = "https://resource-exterior-exposure-participant.trycloudflare.com";
+const API_URL = "https://boundaries-arbor-entries-capacity.trycloudflare.com";
 
 const STORAGE_KEY =
 	"greg_ui_api_v6";
