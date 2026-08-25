@@ -4440,7 +4440,7 @@
        API
        ======================================================== */
 
-    const API_URL = "https://wizard-her-atmosphere-maximize.trycloudflare.com";
+    const API_URL = "https://substances-indication-taught-martin.trycloudflare.com";
 
 
     /* ========================================================
@@ -8660,7 +8660,6 @@
       const controller =
         new AbortController();
 
-
       const timeout =
         setTimeout(
           () =>
@@ -8668,22 +8667,21 @@
           1800000
         );
 
-
       const stream =
         createGregStream();
-
 
       const renderer =
         new OrderedRenderer(
           stream
         );
 
-
       const parser =
         new StreamParser(
           renderer
         );
 
+      let completed =
+        false;
 
       const recentMessages =
         state.conversation
@@ -8699,16 +8697,13 @@
                   ? "User"
                   : "Greg";
 
-
               let result =
                 `${speaker}: ${
                   item.content || ""
                 }`;
 
-
               if (
-                item.role ===
-                  "user" &&
+                item.role === "user" &&
                 item.imageDescription
               ) {
 
@@ -8723,7 +8718,6 @@
 
               }
 
-
               return result;
 
             }
@@ -8732,23 +8726,18 @@
             "\n\n"
           );
 
-
       const imagePayload =
         images.map(
           image =>
             image.dataUrl
         );
 
-
       try {
 
         const response =
           await fetch(
-
             `${API_URL}/chat/stream`,
-
             {
-
               method:
                 "POST",
 
@@ -8782,17 +8771,12 @@
                 controller.signal
 
             }
-
           );
 
-
-        if (
-          !response.ok
-        ) {
+        if (!response.ok) {
 
           const errorText =
             await response.text();
-
 
           throw new Error(
             `HTTP ${response.status}: ${
@@ -8803,10 +8787,7 @@
 
         }
 
-
-        if (
-          !response.body
-        ) {
+        if (!response.body) {
 
           throw new Error(
             "Browser streaming is unavailable."
@@ -8814,33 +8795,22 @@
 
         }
 
-
         const reader =
           response.body.getReader();
-
 
         const decoder =
           new TextDecoder(
             "utf-8"
           );
 
-
-        while (
-          true
-        ) {
+        while (true) {
 
           const result =
             await reader.read();
 
-
-          if (
-            result.done
-          ) {
-
+          if (result.done) {
             break;
-
           }
-
 
           const chunk =
             decoder.decode(
@@ -8851,15 +8821,9 @@
               }
             );
 
-
-          if (
-            !chunk
-          ) {
-
+          if (!chunk) {
             continue;
-
           }
-
 
           processStreamChunkWithMetadata(
             chunk,
@@ -8867,21 +8831,16 @@
             stream
           );
 
-
           scrollBottom(
             false
           );
 
         }
 
-
         const finalChunk =
           decoder.decode();
 
-
-        if (
-          finalChunk
-        ) {
+        if (finalChunk) {
 
           processStreamChunkWithMetadata(
             finalChunk,
@@ -8891,29 +8850,23 @@
 
         }
 
-
         finishStreamMetadata(
           parser,
           stream
         );
-
 
         finishThinkingStream(
           parser,
           stream
         );
 
-
         parser.finish();
 
-
         await renderer.finish();
-
 
         finishThinkingUI(
           stream
         );
-
 
         if (
           stream.cursor &&
@@ -8923,7 +8876,6 @@
           stream.cursor.remove();
 
         }
-
 
         if (
           stream.generatedFiles &&
@@ -8937,6 +8889,8 @@
 
         }
 
+        completed =
+          true;
 
         return {
 
@@ -8960,27 +8914,26 @@
 
         };
 
-
       } finally {
 
         clearTimeout(
           timeout
         );
 
-
         finishThinkingUI(
           stream
         );
 
+        if (!completed) {
 
-        parser.finish();
+          parser.finish();
 
+          await renderer.finish()
+            .catch(
+              () => {}
+            );
 
-        await renderer.finish()
-          .catch(
-            () => {}
-          );
-
+        }
 
         if (
           stream.cursor &&
@@ -8993,7 +8946,7 @@
 
       }
 
-}
+    }
 
 
     /* ========================================================
