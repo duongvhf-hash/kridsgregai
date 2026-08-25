@@ -873,28 +873,53 @@ textarea {
 }
 
 .home-title {
+
 	margin:
 		22px 0 0;
+
 	max-width:
 		950px;
+
 	font-size:
 		clamp(42px,8vw,88px);
+
 	line-height:
 		.95;
+
 	font-weight:
 		1000;
+
 	letter-spacing:
 		-.055em;
+
 	display:
 		flex;
+
 	flex-wrap:
 		wrap;
+
 	justify-content:
 		center;
+
 	align-items:
 		baseline;
+
 	gap:
 		0.01em;
+
+	animation:
+		homeTitleIn .9s cubic-bezier(.2,.8,.2,1) both;
+
+}
+
+.home-title span {
+
+	display:
+		inline-block;
+
+	white-space:
+		pre;
+
 	background:
 		linear-gradient(
 			90deg,
@@ -905,96 +930,71 @@ textarea {
 			#ffd56a 84%,
 			#8df0a0 100%
 		);
+
 	background-size:
-		220% 100%;
-		-webkit-background-clip:
-			text;
+		2200% 100%;
+
+	background-position:
+		calc(var(--letter-index) * -4.6%) 50%;
+
+	-webkit-background-clip:
+		text;
+
 	background-clip:
 		text;
+
+	-webkit-text-fill-color:
+		transparent;
+
 	color:
 		transparent;
-	animation:
-		homeTitleGradient 8s linear infinite,
-		homeTitleIn .9s cubic-bezier(.2,.8,.2,1) both;
-}
-
-.home-title span {
-	display:
-		inline-block;
-		white-space:
-		pre;
-		transform:
-		translateY(0);
-		animation:
-		homeLetterWave 2.2s ease-in-out infinite;
-		animation-delay:
-		calc(var(--letter-index) * -0.085s);
 }
 
 @keyframes homeTitleGradient {
+
 	from {
+
 		background-position:
 			0% 50%;
+
 	}
+
 	to {
+
 		background-position:
 			220% 50%;
+
 	}
+
 }
 
 @keyframes homeTitleIn {
+
 	from {
+
 		opacity:
 			0;
+
 		filter:
 			blur(10px);
+
 		transform:
 			translateY(22px)
 			scale(.96);
+
 	}
+
 	to {
+
 		opacity:
 			1;
+
 		filter:
 			blur(0);
+
 		transform:
 			translateY(0)
 			scale(1);
-	}
-}
-
-@keyframes homeLetterWave {
-
-	0%,
-	100% {
-
-		transform:
-			translateY(0)
-			rotate(0deg);
-
-	}
-
-	25% {
-
-		transform:
-			translateY(-11px)
-			rotate(-1.2deg);
-
-	}
-
-	50% {
-
-		transform:
-			translateY(0)
-			rotate(0deg);
-
-	}
-
-	75% {
-
-		transform:
-			translateY(8px)
-			rotate(1.2deg);
 
 	}
 
