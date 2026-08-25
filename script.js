@@ -513,7 +513,7 @@ requestAnimationFrame(
 	drawCanvasBg
 );
 
-const API_URL = "https://planned-nvidia-referring-spokesman.trycloudflare.com";
+const API_URL = "https://safer-enhance-constraints-gage.trycloudflare.com";
 
 const STORAGE_KEY =
 	"greg_ui_api_v6";
@@ -2111,13 +2111,10 @@ function saveState() {
 	try {
 
 		localStorage.setItem(
-
 			STORAGE_KEY,
-
 			JSON.stringify(
 				state
 			)
-
 		);
 
 	} catch (
@@ -2156,53 +2153,58 @@ function resizeInput() {
 		Math.min(
 			el.input.scrollHeight,
 			190
-		) +
+		)
+		+
 		"px";
 
 }
 
-let shouldAutoScroll =
+/* ========================================================
+   CHAT SCROLL
+   ======================================================== */
+
+let userIsAtBottom =
 	true;
 
-function isMessagesAtBottom() {
+function updateScrollState() {
 
 	if (
 		!el.messages
 	) {
 
-		return true;
+		return;
 
 	}
 
-	return (
+	const distanceFromBottom =
 		el.messages.scrollHeight
 		-
 		el.messages.scrollTop
 		-
-		el.messages.clientHeight
-		<=
-		40
-	);
+		el.messages.clientHeight;
+
+	userIsAtBottom =
+		distanceFromBottom <=
+		40;
 
 }
 
-el.messages.addEventListener(
-	"scroll",
-	() => {
-
-		shouldAutoScroll =
-			isMessagesAtBottom();
-
-	}
-);
-
 function scrollBottom(
-	smooth = true
+	smooth = true,
+	force = false
 ) {
 
 	if (
-		!el.messages ||
-		!shouldAutoScroll
+		!el.messages
+	) {
+
+		return;
+
+	}
+
+	if (
+		!force &&
+		!userIsAtBottom
 	) {
 
 		return;
@@ -2222,6 +2224,23 @@ function scrollBottom(
 	});
 
 }
+
+if (
+	el.messages
+) {
+
+	el.messages.addEventListener(
+		"scroll",
+		updateScrollState
+	);
+
+	updateScrollState();
+
+}
+
+/* ========================================================
+   IMAGE STORAGE
+   ======================================================== */
 
 function cloneImagesForStorage(
 	images
@@ -2314,10 +2333,8 @@ function buildWavyText(
 			char;
 
 		const waveDelay =
-			(
-				index *
-				0.06
-			);
+			index *
+			0.06;
 
 		span.style.setProperty(
 			"--thinking-delay",
@@ -3000,13 +3017,18 @@ function addUserMessage(
 			text;
 
 	}
-	shouldAutoScroll =
+
+	userIsAtBottom =
 		true;
+
 	el.messages.appendChild(
 		row
 	);
 
-	scrollBottom();
+	scrollBottom(
+		true,
+		true
+	);
 
 	return row;
 
@@ -3261,11 +3283,17 @@ function addGeneratedFiles(
 		}
 	);
 
+	userIsAtBottom =
+		true;
+
 	el.messages.appendChild(
 		row
 	);
 
-	scrollBottom();
+	scrollBottom(
+		true,
+		true
+	);
 
 }
 
@@ -3303,11 +3331,17 @@ function addThinkingMessage() {
 
 	`;
 
+	userIsAtBottom =
+		true;
+
 	el.messages.appendChild(
 		row
 	);
 
-	scrollBottom();
+	scrollBottom(
+		true,
+		true
+	);
 
 	return row;
 
@@ -3373,11 +3407,17 @@ function createGregStream() {
 
 	`;
 
+	userIsAtBottom =
+		true;
+
 	el.messages.appendChild(
 		row
 	);
 
-	scrollBottom();
+	scrollBottom(
+		true,
+		true
+	);
 
 	return {
 
@@ -3482,42 +3522,48 @@ async function typeText(
 			delay;
 
 		if (
-			ch === " "
+			ch ===
+			" "
 		) {
 
 			wait +=
 				10;
 
 		} else if (
-			ch === ","
+			ch ===
+			","
 		) {
 
 			wait +=
 				40;
 
 		} else if (
-			ch === "."
+			ch ===
+			"."
 		) {
 
 			wait +=
 				80;
 
 		} else if (
-			ch === "!"
+			ch ===
+			"!"
 		) {
 
 			wait +=
 				90;
 
 		} else if (
-			ch === "?"
+			ch ===
+			"?"
 		) {
 
 			wait +=
 				90;
 
 		} else if (
-			ch === "\n"
+			ch ===
+			"\n"
 		) {
 
 			wait +=
@@ -4095,7 +4141,8 @@ class StreamParser {
 					const safeText =
 						this.pending.slice(
 							0,
-							this.pending.length - 2
+							this.pending.length -
+							2
 						);
 
 					this.pending =
@@ -4141,7 +4188,8 @@ class StreamParser {
 
 				this.pending =
 					this.pending.slice(
-						markerIndex + 3
+						markerIndex +
+						3
 					);
 
 				this.mode =
@@ -4180,7 +4228,8 @@ class StreamParser {
 
 				this.pending =
 					this.pending.slice(
-						newlineIndex + 1
+						newlineIndex +
+						1
 					);
 
 				this.renderer.enqueue({
@@ -4228,7 +4277,8 @@ class StreamParser {
 					const safeCode =
 						this.pending.slice(
 							0,
-							this.pending.length - 2
+							this.pending.length -
+							2
 						);
 
 					this.pending =
@@ -4274,7 +4324,8 @@ class StreamParser {
 
 				this.pending =
 					this.pending.slice(
-						markerIndex + 3
+						markerIndex +
+						3
 					);
 
 				this.renderer.enqueue({
@@ -4468,10 +4519,8 @@ function processStreamChunkWithMetadata(
 
 	stream.metaBuffer =
 		stream.metaScanBuffer.slice(
-
 			markerIndex +
 			META_MARKER.length
-
 		);
 
 	stream.metaScanBuffer =
@@ -4521,7 +4570,6 @@ function finishStreamMetadata(
 		) {
 
 			stream.imageDescription =
-
 				typeof metadata.image_description ===
 				"string"
 
@@ -4622,7 +4670,8 @@ async function streamMessage(
 						}`;
 
 					if (
-						item.role === "user" &&
+						item.role ===
+							"user" &&
 						item.imageDescription
 					) {
 
@@ -4638,7 +4687,8 @@ async function streamMessage(
 					}
 
 					if (
-						item.role === "user" &&
+						item.role ===
+							"user" &&
 						Array.isArray(
 							item.files
 						) &&
@@ -4765,7 +4815,9 @@ async function streamMessage(
 				"utf-8"
 			);
 
-		while (true) {
+		while (
+			true
+		) {
 
 			const result =
 				await reader.read();
@@ -5259,12 +5311,16 @@ function addStaticGregMessage(
 
 	}
 
+	userIsAtBottom =
+		true;
+
 	el.messages.appendChild(
 		row
 	);
 
 	scrollBottom(
-		false
+		false,
+		true
 	);
 
 	return row;
@@ -5333,11 +5389,8 @@ async function testApi() {
 
 		const response =
 			await fetch(
-
 				`${API_URL}/chat`,
-
 				{
-
 					method:
 						"POST",
 
@@ -5379,7 +5432,6 @@ async function testApi() {
 						})
 
 				}
-
 			);
 
 		if (
@@ -5475,13 +5527,9 @@ async function sendMessage() {
 	resizeInput();
 
 	addUserMessage(
-
 		text,
-
 		imagesForMessage,
-
 		filesForMessage
-
 	);
 
 	pendingImages =
@@ -5521,13 +5569,9 @@ async function sendMessage() {
 
 		const result =
 			await streamMessage(
-
 				text,
-
 				imagesForMessage,
-
 				filesForMessage
-
 			);
 
 		state.conversation.push({
@@ -5669,7 +5713,8 @@ function updatePresetUI() {
 	el.presetButtonText.textContent =
 		labels[
 			activePreset
-		] ||
+		]
+		||
 		"Default";
 
 	document
@@ -5930,11 +5975,19 @@ function clearChat() {
 	renderImagePreviews();
 
 	renderFilePreviews();
-	shouldAutoScroll =true;
+
+	userIsAtBottom =
+		true;
+
 	el.messages.innerHTML =
 		"";
 
 	showWelcome();
+
+	scrollBottom(
+		false,
+		true
+	);
 
 	el.input.focus();
 
@@ -5991,8 +6044,10 @@ function exportChat() {
 }
 
 function replayConversation() {
-	shouldAutoScroll =
+
+	userIsAtBottom =
 		true;
+
 	el.messages.innerHTML =
 		"";
 
@@ -6061,8 +6116,12 @@ function replayConversation() {
 
 	}
 
+	userIsAtBottom =
+		true;
+
 	scrollBottom(
-		false
+		false,
+		true
 	);
 
 }
@@ -6134,7 +6193,8 @@ setTimeout(
 		if (
 			el.input &&
 			el.chatScreen &&
-			el.chatScreen.style.display !== "none"
+			el.chatScreen.style.display !==
+			"none"
 		) {
 
 			el.input.focus();
@@ -6144,6 +6204,7 @@ setTimeout(
 	},
 	700
 );
+
 function startHomeTitleWave() {
 
 	const title =

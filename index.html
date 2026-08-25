@@ -558,6 +558,12 @@ textarea {
 		0;
 	width:
 		100%;
+	display:
+		flex;
+	flex-direction:
+		column;
+	overflow:
+		hidden;
 }
 
 .home-screen {
@@ -1465,35 +1471,68 @@ textarea {
 .messages {
 	width:
 		100%;
+
 	height:
 		100%;
+
 	overflow-y:
 		auto;
+
+	overflow-x:
+		hidden;
+
 	padding:
 		30px 24px 220px;
+
 	scroll-behavior:
 		smooth;
+
 	scrollbar-width:
-		thin;
+		auto;
+
 	scrollbar-color:
-		rgba(255,255,255,.14)
-		transparent;
+		rgba(255,255,255,.18)
+		rgba(255,255,255,.03);
 }
 
 .messages::-webkit-scrollbar {
 	width:
-		10px;
+		12px;
+}
+
+.messages::-webkit-scrollbar-track {
+	background:
+		rgba(255,255,255,.03);
+
+	border-radius:
+		999px;
 }
 
 .messages::-webkit-scrollbar-thumb {
 	background:
-		rgba(255,255,255,0.12);
+		rgba(255,255,255,.18);
+
+	border:
+		3px solid
+		rgba(0,0,0,0);
+
 	border-radius:
 		999px;
-	border:
-		2px solid transparent;
+
 	background-clip:
-		content-box;
+		padding-box;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+	background:
+		rgba(255,255,255,.28);
+
+	border:
+		3px solid
+		rgba(0,0,0,0);
+
+	background-clip:
+		padding-box;
 }
 
 .welcome {
@@ -4025,10 +4064,9 @@ textarea {
 		</section>
 
 	</main>
-
 </div>
 
-<script src="script.js"></script>
+<script src="script.js" defer></script>
 
 </body>
 </html>
