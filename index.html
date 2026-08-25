@@ -3839,7 +3839,7 @@
   </div>
 
 
-  <script>
+<script>
 
 
     /* ========================================================
@@ -4440,7 +4440,7 @@
        API
        ======================================================== */
 
-    const API_URL = "https://substances-indication-taught-martin.trycloudflare.com";
+    const API_URL = "https://informational-they-coral-respected.trycloudflare.com";
 
 
     /* ========================================================
@@ -4938,9 +4938,11 @@
         el.attachmentStrip.innerHTML =
           "";
 
+
         el.attachmentStrip.classList.add(
           "hidden"
         );
+
 
         return;
 
@@ -6642,7 +6644,9 @@
                 el.input.value =
                   button.dataset.suggestion;
 
+
                 resizeInput();
+
 
                 el.input.focus();
 
@@ -6898,6 +6902,7 @@
         card.classList.add(
           "generated"
         );
+
 
         card.dataset.generatedFile =
           "true";
@@ -7709,6 +7714,7 @@
 
         this.wake();
 
+
         this.run();
 
       }
@@ -7723,8 +7729,10 @@
           const resolve =
             this.waiter;
 
+
           this.waiter =
             null;
+
 
           resolve();
 
@@ -7793,6 +7801,7 @@
 
               await this.waitForQueue();
 
+
               continue;
 
             }
@@ -7831,6 +7840,7 @@
             operation.text
           );
 
+
           return;
 
         }
@@ -7845,6 +7855,7 @@
             operation.language
           );
 
+
           return;
 
         }
@@ -7858,6 +7869,7 @@
           this.renderCodeText(
             operation.text
           );
+
 
           return;
 
@@ -8410,6 +8422,7 @@
         this.pending =
           "";
 
+
         this.finished =
           true;
 
@@ -8443,6 +8456,7 @@
 
         stream.metaBuffer +=
           chunk;
+
 
         return;
 
@@ -8573,6 +8587,7 @@
         stream.metaScanBuffer =
           "";
 
+
         return;
 
       }
@@ -8660,6 +8675,7 @@
       const controller =
         new AbortController();
 
+
       const timeout =
         setTimeout(
           () =>
@@ -8667,21 +8683,26 @@
           1800000
         );
 
+
       const stream =
         createGregStream();
+
 
       const renderer =
         new OrderedRenderer(
           stream
         );
 
+
       const parser =
         new StreamParser(
           renderer
         );
 
+
       let completed =
         false;
+
 
       const recentMessages =
         state.conversation
@@ -8697,10 +8718,12 @@
                   ? "User"
                   : "Greg";
 
+
               let result =
                 `${speaker}: ${
                   item.content || ""
                 }`;
+
 
               if (
                 item.role === "user" &&
@@ -8718,6 +8741,7 @@
 
               }
 
+
               return result;
 
             }
@@ -8726,11 +8750,13 @@
             "\n\n"
           );
 
+
       const imagePayload =
         images.map(
           image =>
             image.dataUrl
         );
+
 
       try {
 
@@ -8773,10 +8799,12 @@
             }
           );
 
+
         if (!response.ok) {
 
           const errorText =
             await response.text();
+
 
           throw new Error(
             `HTTP ${response.status}: ${
@@ -8787,6 +8815,7 @@
 
         }
 
+
         if (!response.body) {
 
           throw new Error(
@@ -8795,22 +8824,29 @@
 
         }
 
+
         const reader =
           response.body.getReader();
+
 
         const decoder =
           new TextDecoder(
             "utf-8"
           );
 
+
         while (true) {
 
           const result =
             await reader.read();
 
+
           if (result.done) {
+
             break;
+
           }
+
 
           const chunk =
             decoder.decode(
@@ -8821,9 +8857,13 @@
               }
             );
 
+
           if (!chunk) {
+
             continue;
+
           }
+
 
           processStreamChunkWithMetadata(
             chunk,
@@ -8831,14 +8871,17 @@
             stream
           );
 
+
           scrollBottom(
             false
           );
 
         }
 
+
         const finalChunk =
           decoder.decode();
+
 
         if (finalChunk) {
 
@@ -8850,23 +8893,29 @@
 
         }
 
+
         finishStreamMetadata(
           parser,
           stream
         );
+
 
         finishThinkingStream(
           parser,
           stream
         );
 
+
         parser.finish();
 
+
         await renderer.finish();
+
 
         finishThinkingUI(
           stream
         );
+
 
         if (
           stream.cursor &&
@@ -8877,20 +8926,10 @@
 
         }
 
-        if (
-          stream.generatedFiles &&
-          stream.generatedFiles.length
-        ) {
-
-          renderGeneratedFiles(
-            stream.row,
-            stream.generatedFiles
-          );
-
-        }
 
         completed =
           true;
+
 
         return {
 
@@ -8920,13 +8959,16 @@
           timeout
         );
 
+
         finishThinkingUI(
           stream
         );
 
+
         if (!completed) {
 
           parser.finish();
+
 
           await renderer.finish()
             .catch(
@@ -8934,6 +8976,7 @@
             );
 
         }
+
 
         if (
           stream.cursor &&
@@ -10181,6 +10224,7 @@
 
         showWelcome();
 
+
         return;
 
       }
@@ -10271,6 +10315,7 @@
 
           event.preventDefault();
 
+
           sendMessage();
 
         }
@@ -10313,11 +10358,15 @@
 
     replayConversation();
 
+
     updateUI();
+
 
     resizeInput();
 
+
     renderImagePreviews();
+
 
     renderFilePreviews();
 
