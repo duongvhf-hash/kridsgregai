@@ -513,7 +513,7 @@ requestAnimationFrame(
 	drawCanvasBg
 );
 
-const API_URL = "https://boundaries-arbor-entries-capacity.trycloudflare.com";
+const API_URL = "https://planned-nvidia-referring-spokesman.trycloudflare.com";
 
 const STORAGE_KEY =
 	"greg_ui_api_v6";
@@ -2161,9 +2161,53 @@ function resizeInput() {
 
 }
 
+let shouldAutoScroll =
+	true;
+
+function isMessagesAtBottom() {
+
+	if (
+		!el.messages
+	) {
+
+		return true;
+
+	}
+
+	return (
+		el.messages.scrollHeight
+		-
+		el.messages.scrollTop
+		-
+		el.messages.clientHeight
+		<=
+		40
+	);
+
+}
+
+el.messages.addEventListener(
+	"scroll",
+	() => {
+
+		shouldAutoScroll =
+			isMessagesAtBottom();
+
+	}
+);
+
 function scrollBottom(
 	smooth = true
 ) {
+
+	if (
+		!el.messages ||
+		!shouldAutoScroll
+	) {
+
+		return;
+
+	}
 
 	el.messages.scrollTo({
 
@@ -2956,7 +3000,8 @@ function addUserMessage(
 			text;
 
 	}
-
+	shouldAutoScroll =
+		true;
 	el.messages.appendChild(
 		row
 	);
@@ -5885,7 +5930,7 @@ function clearChat() {
 	renderImagePreviews();
 
 	renderFilePreviews();
-
+	shouldAutoScroll =true;
 	el.messages.innerHTML =
 		"";
 
@@ -5946,7 +5991,8 @@ function exportChat() {
 }
 
 function replayConversation() {
-
+	shouldAutoScroll =
+		true;
 	el.messages.innerHTML =
 		"";
 
