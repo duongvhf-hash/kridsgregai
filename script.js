@@ -513,7 +513,7 @@ requestAnimationFrame(
 	drawCanvasBg
 );
 
-const API_URL = "https://safer-enhance-constraints-gage.trycloudflare.com";
+const API_URL = "https://years-existing-swim-integral.trycloudflare.com";
 
 const STORAGE_KEY =
 	"greg_ui_api_v6";
