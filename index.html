@@ -4440,7 +4440,7 @@
        API
        ======================================================== */
 
-    const API_URL = "https://reid-suggestion-render-widespread.trycloudflare.com";
+    const API_URL = "https://writing-leadership-configure-inch.trycloudflare.com";
 
 
     /* ========================================================
@@ -8800,7 +8800,9 @@
           );
 
 
-        if (!response.ok) {
+        if (
+          !response.ok
+        ) {
 
           const errorText =
             await response.text();
@@ -8816,7 +8818,9 @@
         }
 
 
-        if (!response.body) {
+        if (
+          !response.body
+        ) {
 
           throw new Error(
             "Browser streaming is unavailable."
@@ -8841,7 +8845,9 @@
             await reader.read();
 
 
-          if (result.done) {
+          if (
+            result.done
+          ) {
 
             break;
 
@@ -8858,7 +8864,9 @@
             );
 
 
-          if (!chunk) {
+          if (
+            !chunk
+          ) {
 
             continue;
 
@@ -8883,7 +8891,9 @@
           decoder.decode();
 
 
-        if (finalChunk) {
+        if (
+          finalChunk
+        ) {
 
           processStreamChunkWithMetadata(
             finalChunk,
@@ -8927,6 +8937,72 @@
         }
 
 
+        /*
+        * Put generated files directly into
+        * the SAME Greg message row.
+        */
+
+        if (
+          Array.isArray(
+            stream.generatedFiles
+          ) &&
+          stream.generatedFiles.length
+        ) {
+
+          const messageContent =
+            stream.row.querySelector(
+              ".message-content"
+            );
+
+
+          if (
+            messageContent
+          ) {
+
+            const strip =
+              document.createElement(
+                "div"
+              );
+
+
+            strip.className =
+              "sent-file-strip";
+
+
+            stream.generatedFiles.forEach(
+              file => {
+
+                const card =
+                  createFileCard(
+                    file.filename ||
+                    "greg_file",
+                    file.type ||
+                    "file",
+                    true,
+                    file
+                  );
+
+
+                strip.appendChild(
+                  card
+                );
+
+              }
+            );
+
+
+            messageContent.appendChild(
+              strip
+            );
+
+
+            scrollBottom();
+
+          }
+
+        }
+
+
         completed =
           true;
 
@@ -8953,6 +9029,7 @@
 
         };
 
+
       } finally {
 
         clearTimeout(
@@ -8965,7 +9042,9 @@
         );
 
 
-        if (!completed) {
+        if (
+          !completed
+        ) {
 
           parser.finish();
 
@@ -9723,20 +9802,7 @@
           );
 
 
-        saveState();
-
-
-        if (
-          result.generatedFiles &&
-          result.generatedFiles.length
-        ) {
-
-          addGeneratedFiles(
-            result.generatedFiles
-          );
-
-        }
-
+        saveState()
 
         connected =
           true;
