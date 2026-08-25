@@ -513,7 +513,7 @@ requestAnimationFrame(
 	drawCanvasBg
 );
 
-const API_URL = "https://instance-machinery-becoming-warning.trycloudflare.com";
+const API_URL = "https://proceeding-ballet-everybody-biography.trycloudflare.com";
 
 const STORAGE_KEY =
 	"greg_ui_api_v6";
