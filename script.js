@@ -513,7 +513,7 @@ requestAnimationFrame(
 	drawCanvasBg
 );
 
-const API_URL = "https://conference-edge-like-saturn.trycloudflare.com";
+const API_URL = "https://resource-exterior-exposure-participant.trycloudflare.com";
 
 const STORAGE_KEY =
 	"greg_ui_api_v6";
@@ -716,6 +716,26 @@ const el = {
 	fileAttachmentStrip:
 		document.getElementById(
 			"fileAttachmentStrip"
+		),
+
+	homeScreen:
+		document.getElementById(
+			"homeScreen"
+		),
+
+	chatScreen:
+		document.getElementById(
+			"chatScreen"
+		),
+
+	homeNavButton:
+		document.getElementById(
+			"homeNavButton"
+		),
+
+	chatNavButton:
+		document.getElementById(
+			"chatNavButton"
 		)
 
 };
@@ -737,6 +757,133 @@ let pendingImages =
 
 let pendingFiles =
 	[];
+
+function showHome() {
+
+	if (
+		!el.homeScreen ||
+		!el.chatScreen
+	) {
+
+		return;
+
+	}
+
+	el.chatScreen.style.display =
+		"none";
+
+	el.homeScreen.style.display =
+		"flex";
+
+	if (
+		el.homeNavButton
+	) {
+
+		el.homeNavButton.classList.add(
+			"active"
+		);
+
+	}
+
+	if (
+		el.chatNavButton
+	) {
+
+		el.chatNavButton.classList.remove(
+			"active"
+		);
+
+	}
+
+}
+
+function showChat() {
+
+	if (
+		!el.homeScreen ||
+		!el.chatScreen
+	) {
+
+		return;
+
+	}
+
+	el.homeScreen.style.display =
+		"none";
+
+	el.chatScreen.style.display =
+		"flex";
+
+	if (
+		el.homeNavButton
+	) {
+
+		el.homeNavButton.classList.remove(
+			"active"
+		);
+
+	}
+
+	if (
+		el.chatNavButton
+	) {
+
+		el.chatNavButton.classList.add(
+			"active"
+		);
+
+	}
+
+	setTimeout(
+		() => {
+
+			if (
+				el.input
+			) {
+
+				el.input.focus();
+
+			}
+
+		},
+		120
+	);
+
+}
+
+if (
+	el.homeNavButton
+) {
+
+	el.homeNavButton.addEventListener(
+		"click",
+		() => {
+
+			playClick();
+
+			showHome();
+
+		}
+	);
+
+}
+
+if (
+	el.chatNavButton
+) {
+
+	el.chatNavButton.addEventListener(
+		"click",
+		() => {
+
+			playClick();
+
+			showChat();
+
+		}
+	);
+
+}
 
 function makeImageId() {
 
@@ -1410,6 +1557,176 @@ async function addFileFiles(
 		"";
 
 }
+
+function addFilesFromDataTransfer(
+	files
+) {
+
+	const fileArray =
+		Array.from(
+			files || []
+		);
+
+	if (
+		!fileArray.length
+	) {
+
+		return;
+
+	}
+
+	const imageFiles =
+		fileArray.filter(
+			file =>
+				file.type &&
+				file.type.startsWith(
+					"image/"
+				)
+		);
+
+	const otherFiles =
+		fileArray.filter(
+			file =>
+				!(
+					file.type &&
+					file.type.startsWith(
+						"image/"
+					)
+				)
+		);
+
+	if (
+		imageFiles.length
+	) {
+
+		addImageFiles(
+			imageFiles
+		);
+
+	}
+
+	if (
+		otherFiles.length
+	) {
+
+		addFileFiles(
+			otherFiles
+		);
+
+	}
+
+}
+
+const dropTargets = [
+	el.input,
+	el.input.parentElement
+];
+
+dropTargets.forEach(
+	target => {
+
+		if (
+			!target
+		) {
+
+			return;
+
+		}
+
+		target.addEventListener(
+			"dragover",
+			event => {
+
+				event.preventDefault();
+
+				event.stopPropagation();
+
+				if (
+					event.dataTransfer
+				) {
+
+					event.dataTransfer.dropEffect =
+						"copy";
+
+				}
+
+			}
+		);
+
+		target.addEventListener(
+			"dragenter",
+			event => {
+
+				event.preventDefault();
+
+				event.stopPropagation();
+
+			}
+		);
+
+		target.addEventListener(
+			"dragleave",
+			event => {
+
+				event.preventDefault();
+
+				event.stopPropagation();
+
+			}
+		);
+
+		target.addEventListener(
+			"drop",
+			event => {
+
+				event.preventDefault();
+
+				event.stopPropagation();
+
+				const files =
+					event.dataTransfer &&
+					event.dataTransfer.files;
+
+				if (
+					files &&
+					files.length
+				) {
+
+					addFilesFromDataTransfer(
+						files
+					);
+
+				}
+
+			}
+		);
+
+	}
+);
+
+el.input.addEventListener(
+	"paste",
+	event => {
+
+		const files =
+			event.clipboardData &&
+			event.clipboardData.files;
+
+		if (
+			files &&
+			files.length
+		) {
+
+			event.preventDefault();
+
+			addFilesFromDataTransfer(
+				files
+			);
+
+		}
+
+	}
+);
 
 function removePendingFile(
 	id
@@ -2331,7 +2648,7 @@ function finishThinkingStream(
 	);
 
 	stream.thinkingBuffer =
-		"";
+	"";
 
 }
 
@@ -5758,6 +6075,8 @@ renderImagePreviews();
 
 renderFilePreviews();
 
+showHome();
+
 setTimeout(
 	testApi,
 	500
@@ -5766,8 +6085,99 @@ setTimeout(
 setTimeout(
 	() => {
 
-		el.input.focus();
+		if (
+			el.input &&
+			el.chatScreen &&
+			el.chatScreen.style.display !== "none"
+		) {
+
+			el.input.focus();
+
+		}
 
 	},
 	700
 );
+function startHomeTitleWave() {
+
+	const title =
+		document.querySelector(
+			".home-title"
+		);
+
+	if (
+		!title
+	) {
+
+		return;
+
+	}
+
+	const chars =
+		Array.from(
+			title.querySelectorAll(
+				"span"
+			)
+		);
+
+	const startTime =
+		performance.now();
+
+	function animate(
+		time
+	) {
+
+		const elapsed =
+			(
+				time -
+				startTime
+			) /
+			1000;
+
+		chars.forEach(
+			(
+				char,
+				index
+			) => {
+
+				const offset =
+					index *
+					0.22;
+
+				const y =
+					Math.sin(
+						elapsed *
+						2.8
+						-
+						offset
+					) *
+					10;
+
+				const rotation =
+					Math.sin(
+						elapsed *
+						2.8
+						-
+						offset
+					) *
+					1.5;
+
+				char.style.transform =
+					`translateY(${y}px) rotate(${rotation}deg)`;
+
+			}
+		);
+
+		requestAnimationFrame(
+			animate
+		);
+
+	}
+
+	requestAnimationFrame(
+		animate
+	);
+
+}
+
+startHomeTitleWave();
