@@ -4440,7 +4440,7 @@
        API
        ======================================================== */
 
-    const API_URL = "https://molecules-along-showers-named.trycloudflare.com";
+    const API_URL = "https://shaped-its-windsor-air.trycloudflare.com";
 
 
     /* ========================================================
@@ -8687,11 +8687,9 @@
 
       const recentMessages =
         state.conversation
-
           .slice(
             -MEMORY_LIMIT
           )
-
           .map(
             item => {
 
@@ -8704,19 +8702,17 @@
 
               let result =
                 `${speaker}: ${
-                  item.content ||
-                  ""
+                  item.content || ""
                 }`;
 
 
               if (
                 item.role ===
-                "user" &&
+                  "user" &&
                 item.imageDescription
               ) {
 
                 result +=
-
                   "\n[Visual information from "
                   +
                   "images attached to this earlier "
@@ -8728,60 +8724,10 @@
               }
 
 
-              if (
-                item.role ===
-                "user" &&
-                Array.isArray(
-                  item.files
-                ) &&
-                item.files.length
-              ) {
-
-                result +=
-
-                  "\n[Files attached to this earlier "
-                  +
-                  "message:]\n";
-
-
-                result +=
-                  item.files
-                    .map(
-                      file =>
-                        "File "
-                        +
-                        (
-                          file.index ||
-                          ""
-                        )
-                        +
-                        " — "
-                        +
-                        (
-                          file.fileType ||
-                          file.type ||
-                          "File"
-                        )
-                        +
-                        ": "
-                        +
-                        (
-                          file.name ||
-                          "file"
-                        )
-                    )
-                    .join(
-                      "\n"
-                    );
-
-              }
-
-
               return result;
 
             }
           )
-
           .join(
             "\n\n"
           );
@@ -8791,23 +8737,6 @@
         images.map(
           image =>
             image.dataUrl
-        );
-
-
-      const filePayload =
-        files.map(
-          file => ({
-
-            name:
-              file.name,
-
-            type:
-              file.type,
-
-            data_url:
-              file.dataUrl
-
-          })
         );
 
 
@@ -8845,7 +8774,7 @@
                     imagePayload,
 
                   files:
-                    filePayload
+                    files
 
                 }),
 
@@ -8866,12 +8795,10 @@
 
 
           throw new Error(
-
             `HTTP ${response.status}: ${
               errorText ||
               "Request failed"
             }`
-
           );
 
         }
@@ -8917,14 +8844,11 @@
 
           const chunk =
             decoder.decode(
-
               result.value,
-
               {
                 stream:
                   true
               }
-
             );
 
 
@@ -9001,6 +8925,19 @@
         }
 
 
+        if (
+          stream.generatedFiles &&
+          stream.generatedFiles.length
+        ) {
+
+          renderGeneratedFiles(
+            stream.row,
+            stream.generatedFiles
+          );
+
+        }
+
+
         return {
 
           answer:
@@ -9056,7 +8993,7 @@
 
       }
 
-    }
+}
 
 
     /* ========================================================
