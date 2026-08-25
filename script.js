@@ -513,7 +513,7 @@ requestAnimationFrame(
 	drawCanvasBg
 );
 
-const API_URL = "https://years-existing-swim-integral.trycloudflare.com";
+const API_URL = "https://bibliographic-lodge-empty-criticism.trycloudflare.com";
 
 const STORAGE_KEY =
 	"greg_ui_api_v6";
