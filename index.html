@@ -4440,7 +4440,7 @@
        API
        ======================================================== */
 
-    const API_URL = "https://writing-leadership-configure-inch.trycloudflare.com";
+    const API_URL = "https://subjects-williams-discrete-awarded.trycloudflare.com";
 
 
     /* ========================================================
@@ -8742,6 +8742,47 @@
               }
 
 
+              if (
+                item.role === "user" &&
+                Array.isArray(
+                  item.files
+                ) &&
+                item.files.length
+              ) {
+
+                result +=
+                  "\n[Files attached to this earlier "
+                  +
+                  "message:]\n";
+
+
+                item.files.forEach(
+                  file => {
+
+                    result +=
+                      `File: ${
+                        file.name ||
+                        "file"
+                      }`;
+
+                    if (
+                      file.fileType
+                    ) {
+
+                      result +=
+                        ` (${file.fileType})`;
+
+                    }
+
+                    result +=
+                      "\n";
+
+                  }
+                );
+
+              }
+
+
               return result;
 
             }
@@ -9753,14 +9794,23 @@
             filesForMessage.map(
               file => ({
 
+                id:
+                  file.id,
+
                 name:
                   file.name,
 
                 type:
                   file.type,
 
+                size:
+                  file.size,
+
                 fileType:
-                  file.fileType
+                  file.fileType,
+
+                dataUrl:
+                  file.dataUrl
 
               })
             ),
@@ -9802,7 +9852,8 @@
           );
 
 
-        saveState()
+        saveState();
+
 
         connected =
           true;
