@@ -513,7 +513,7 @@ requestAnimationFrame(
 	drawCanvasBg
 );
 
-const API_URL = "https://proceeding-ballet-everybody-biography.trycloudflare.com";
+const API_URL = "https://upgrade-government-home-existed.trycloudflare.com";
 
 const STORAGE_KEY =
 	"greg_ui_api_v6";
