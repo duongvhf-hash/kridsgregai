@@ -513,7 +513,7 @@ requestAnimationFrame(
 	drawCanvasBg
 );
 
-const API_URL = "https://fcc-pdf-published-worker.trycloudflare.com";
+const API_URL = "https://wake-cheque-shut-input.trycloudflare.com";
 
 const STORAGE_KEY =
 	"greg_ui_api_v6";
