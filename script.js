@@ -513,7 +513,7 @@ requestAnimationFrame(
 	drawCanvasBg
 );
 
-const API_URL = "https://reprint-surplus-cottage-florist.trycloudflare.com";
+const API_URL = "https://ocean-reveal-residents-differences.trycloudflare.com";
 
 const STORAGE_KEY =
 	"greg_ui_api_v6";
