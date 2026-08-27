@@ -592,7 +592,7 @@ requestAnimationFrame(
    API
    ======================================================== */
 
-const API_URL = "https://adopted-others-ivory-sbjct.trycloudflare.com";
+const API_URL = "https://physicians-judicial-developed-racing.trycloudflare.com";
 
 
 /* ========================================================
@@ -5081,83 +5081,41 @@ function finishStreamMetadata(
     stream.metaScanBuffer =
       "";
 
+    return;
+
+  }
+
+
+  const rawMetadata =
+    String(
+      stream.metaBuffer ||
+      ""
+    ).trim();
+
+
+  if (
+    !rawMetadata
+  ) {
+
+    console.error(
+      "Greg metadata was empty."
+    );
 
     return;
 
   }
 
 
+  let metadata =
+    null;
+
+
   try {
 
-    const metadata =
+    metadata =
       JSON.parse(
-        stream.metaBuffer.trim()
+        rawMetadata
       );
-
-
-    if (
-      metadata &&
-      typeof metadata ===
-      "object"
-    ) {
-
-      stream.imageDescription =
-
-        typeof metadata.image_description ===
-        "string"
-
-          ? metadata.image_description.trim()
-
-          : null;
-
-
-      stream.imageCount =
-        Number(
-          metadata.image_count ||
-          0
-        );
-
-
-      stream.fileCount =
-        Number(
-          metadata.file_count ||
-          0
-        );
-
-
-      stream.files =
-        Array.isArray(
-          metadata.files
-        )
-          ? metadata.files
-          : [];
-
-
-      stream.generatedFiles =
-        Array.isArray(
-          metadata.generated_files
-        )
-          ? metadata.generated_files
-          : [];
-
-
-      stream.imageRequest =
-        metadata.image_request &&
-        typeof metadata.image_request ===
-        "object"
-          ? metadata.image_request
-          : null;
-
-
-      stream.imageResult =
-        normalizeGregImageResult(
-          metadata.image_result ||
-          metadata.generated_image ||
-          metadata.image ||
-          null
-        );
-
-    }
 
   } catch (
     error
@@ -5168,7 +5126,176 @@ function finishStreamMetadata(
       error
     );
 
+
+    console.error(
+      "Raw metadata:",
+      rawMetadata.slice(
+        0,
+        5000
+      )
+    );
+
+
+    try {
+
+      const firstBrace =
+        rawMetadata.indexOf(
+          "{"
+        );
+
+
+      const lastBrace =
+        rawMetadata.lastIndexOf(
+          "}"
+        );
+
+
+      if (
+        firstBrace !== -1 &&
+        lastBrace !== -1 &&
+        lastBrace > firstBrace
+      ) {
+
+        metadata =
+          JSON.parse(
+            rawMetadata.slice(
+              firstBrace,
+              lastBrace + 1
+            )
+          );
+
+      }
+
+    } catch (
+      recoveryError
+    ) {
+
+      console.error(
+        "Greg metadata recovery failed:",
+        recoveryError
+      );
+
+    }
+
   }
+
+
+  if (
+    !metadata ||
+    typeof metadata !==
+    "object"
+  ) {
+
+    return;
+
+  }
+
+
+  stream.imageDescription =
+
+    typeof metadata.image_description ===
+    "string"
+
+      ? metadata.image_description.trim()
+
+      : null;
+
+
+  stream.imageCount =
+    Number(
+      metadata.image_count ||
+      0
+    );
+
+
+  stream.fileCount =
+    Number(
+      metadata.file_count ||
+      0
+    );
+
+
+  stream.files =
+    Array.isArray(
+      metadata.files
+    )
+      ? metadata.files
+      : [];
+
+
+  stream.generatedFiles =
+    Array.isArray(
+      metadata.generated_files
+    )
+      ? metadata.generated_files
+      : [];
+
+
+  stream.imageRequest =
+    metadata.image_request &&
+    typeof metadata.image_request ===
+    "object"
+
+      ? metadata.image_request
+
+      : null;
+
+
+  const rawImageResult =
+    metadata.image_result ||
+    metadata.generated_image ||
+    metadata.image ||
+    null;
+
+
+  if (
+    rawImageResult
+  ) {
+
+    const normalized =
+      normalizeGregImageResult(
+        rawImageResult
+      );
+
+
+    if (
+      normalized &&
+      normalized.dataUrl
+    ) {
+
+      stream.imageResult =
+        normalized;
+
+      console.log(
+        "Greg generated image received:",
+        normalized.filename,
+        normalized.width,
+        normalized.height
+      );
+
+    } else {
+
+      console.error(
+        "Greg metadata contained an image result, but it could not be normalized:",
+        rawImageResult
+      );
+
+    }
+
+  }
+
+
+  console.log(
+    "Greg metadata received:",
+    {
+      imageRequest:
+        stream.imageRequest,
+      imageResult:
+        stream.imageResult,
+      generatedFiles:
+        stream.generatedFiles
+    }
+  );
 
 }
 
