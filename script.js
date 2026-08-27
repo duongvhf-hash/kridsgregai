@@ -1,1547 +1,919 @@
+const bgMusic =
+  document.getElementById(
+    "bgMusic"
+  );
 
 
-    const bgMusic =
-      document.getElementById(
-        "bgMusic"
-      );
+bgMusic.volume =
+  0.3;
 
 
-    bgMusic.volume =
-      0.3;
+bgMusic
+  .play()
+  .catch(() => {});
 
 
-    bgMusic
-      .play()
-      .catch(() => {});
+document.addEventListener(
+  "click",
+  () => {
+
+    if (
+      bgMusic.paused
+    ) {
+
+      bgMusic
+        .play()
+        .catch(() => {});
+
+    }
+
+  },
+  {
+    once:
+      true
+  }
+);
 
 
-    document.addEventListener(
-      "click",
-      () => {
+/* ========================================================
+   SFX
+   ======================================================== */
 
-        if (
-          bgMusic.paused
-        ) {
+const SFX_VOLUME =
+  0.06;
 
-          bgMusic
-            .play()
-            .catch(() => {});
 
-        }
+const SFX_MIN_PITCH =
+  0.80;
 
-      },
-      {
-        once:
-          true
-      }
+
+const SFX_MAX_PITCH =
+  1.20;
+
+
+function playSfx(
+  file
+) {
+
+  const audio =
+    new Audio(
+      file
     );
 
 
-    /* ========================================================
-       SFX
-       ======================================================== */
-
-    const SFX_VOLUME =
-      0.06;
+  audio.volume =
+    SFX_VOLUME;
 
 
-    const SFX_MIN_PITCH =
-      0.80;
+  audio.playbackRate =
+    SFX_MIN_PITCH
+    +
+    Math.random()
+    *
+    (
+      SFX_MAX_PITCH
+      -
+      SFX_MIN_PITCH
+    );
 
 
-    const SFX_MAX_PITCH =
-      1.20;
+  audio.play().catch(
+    () => {}
+  );
+
+}
 
 
-    function playSfx(
-      file
+function playHover1() {
+
+  playSfx(
+    "hover1.wav"
+  );
+
+}
+
+
+function playHover2() {
+
+  playSfx(
+    "hover2.wav"
+  );
+
+}
+
+
+function playClick() {
+
+  playSfx(
+    "click1.wav"
+  );
+
+}
+
+
+let lastHoverTarget =
+  null;
+
+
+document.addEventListener(
+  "mouseover",
+  event => {
+
+    const target =
+      event.target.closest(
+        "button,.file-card,.generated-file-card"
+      );
+
+
+    if (
+      !target
     ) {
 
-      const audio =
-        new Audio(
-          file
-        );
-
-
-      audio.volume =
-        SFX_VOLUME;
-
-
-      audio.playbackRate =
-        SFX_MIN_PITCH
-        +
-        Math.random()
-        *
-        (
-          SFX_MAX_PITCH
-          -
-          SFX_MIN_PITCH
-        );
-
-
-      audio.play().catch(
-        () => {}
-      );
+      return;
 
     }
 
 
-    function playHover1() {
+    if (
+      target ===
+      lastHoverTarget
+    ) {
 
-      playSfx(
-        "hover1.wav"
-      );
-
-    }
-
-
-    function playHover2() {
-
-      playSfx(
-        "hover2.wav"
-      );
+      return;
 
     }
 
 
-    function playClick() {
+    lastHoverTarget =
+      target;
 
-      playSfx(
-        "click1.wav"
-      );
+
+    if (
+
+      target.classList.contains(
+        "attach-button"
+      )
+
+      ||
+
+      target.classList.contains(
+        "attachment-remove"
+      )
+
+      ||
+
+      target.classList.contains(
+        "attach-option"
+      )
+
+      ||
+
+      target.classList.contains(
+        "file-card"
+      )
+
+      ||
+
+      target.classList.contains(
+        "generated-file-card"
+      )
+
+    ) {
+
+      playHover2();
+
+    } else {
+
+      playHover1();
 
     }
 
-
-    let lastHoverTarget =
-      null;
-
-
-    document.addEventListener(
-      "mouseover",
-      event => {
-
-        const target =
-          event.target.closest(
-            "button,.file-card,.generated-file-card"
-          );
+  }
+);
 
 
-        if (
-          !target
-        ) {
+document.addEventListener(
+  "mouseout",
+  event => {
 
-          return;
+    const target =
+      event.target.closest(
+        "button,.file-card,.generated-file-card"
+      );
 
-        }
+
+    if (
+      target &&
+      target ===
+      lastHoverTarget
+    ) {
+
+      const related =
+        event.relatedTarget;
 
 
-        if (
-          target ===
-          lastHoverTarget
-        ) {
-
-          return;
-
-        }
-
+      if (
+        !related ||
+        !target.contains(
+          related
+        )
+      ) {
 
         lastHoverTarget =
-          target;
-
-
-        if (
-
-          target.classList.contains(
-            "attach-button"
-          )
-
-          ||
-
-          target.classList.contains(
-            "attachment-remove"
-          )
-
-          ||
-
-          target.classList.contains(
-            "attach-option"
-          )
-
-          ||
-
-          target.classList.contains(
-            "file-card"
-          )
-
-          ||
-
-          target.classList.contains(
-            "generated-file-card"
-          )
-
-        ) {
-
-          playHover2();
-
-        } else {
-
-          playHover1();
-
-        }
+          null;
 
       }
-    );
-
-
-    document.addEventListener(
-      "mouseout",
-      event => {
-
-        const target =
-          event.target.closest(
-            "button,.file-card,.generated-file-card"
-          );
-
-
-        if (
-          target &&
-          target ===
-          lastHoverTarget
-        ) {
-
-          const related =
-            event.relatedTarget;
-
-
-          if (
-            !related ||
-            !target.contains(
-              related
-            )
-          ) {
-
-            lastHoverTarget =
-              null;
-
-          }
-
-        }
-
-      }
-    );
-
-
-    document.addEventListener(
-      "click",
-      event => {
-
-        const target =
-          event.target.closest(
-            "button,.file-card"
-          );
-
-
-        if (
-          !target
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          target.dataset.generatedFile ===
-          "true"
-        ) {
-
-          return;
-
-        }
-
-
-        playClick();
-
-      }
-    );
-
-
-    /* ========================================================
-       BACKGROUND CANVAS
-       ======================================================== */
-
-    const canvas =
-      document.getElementById(
-        "bgCanvas"
-      );
-
-
-    const ctx =
-      canvas.getContext(
-        "2d"
-      );
-
-
-    function resizeCanvas() {
-
-      const dpr =
-        Math.max(
-          1,
-          window.devicePixelRatio || 1
-        );
-
-
-      canvas.width =
-        Math.floor(
-          window.innerWidth *
-          dpr
-        );
-
-
-      canvas.height =
-        Math.floor(
-          window.innerHeight *
-          dpr
-        );
-
-
-      canvas.style.width =
-        window.innerWidth +
-        "px";
-
-
-      canvas.style.height =
-        window.innerHeight +
-        "px";
-
-
-      ctx.setTransform(
-        dpr,
-        0,
-        0,
-        dpr,
-        0,
-        0
-      );
 
     }
 
-
-    window.addEventListener(
-      "resize",
-      resizeCanvas
-    );
+  }
+);
 
 
-    resizeCanvas();
+document.addEventListener(
+  "click",
+  event => {
 
-
-    const particles =
-      Array.from(
-        {
-          length:
-            42
-        },
-        () => ({
-
-          x:
-            Math.random() *
-            window.innerWidth,
-
-          y:
-            Math.random() *
-            window.innerHeight,
-
-          r:
-            18 +
-            Math.random() *
-            55,
-
-          vx:
-            (
-              Math.random() -
-              0.5
-            ) *
-            0.22,
-
-          vy:
-            (
-              Math.random() -
-              0.5
-            ) *
-            0.18,
-
-          hue:
-            Math.floor(
-              Math.random() *
-              360
-            ),
-
-          alpha:
-            0.05 +
-            Math.random() *
-            0.18,
-
-          pulse:
-            Math.random() *
-            Math.PI *
-            2
-
-        })
+    const target =
+      event.target.closest(
+        "button,.file-card"
       );
 
 
-    function drawCanvasBg() {
-
-      const w =
-        window.innerWidth;
-
-
-      const h =
-        window.innerHeight;
-
-
-      ctx.clearRect(
-        0,
-        0,
-        w,
-        h
-      );
-
-
-      const g =
-        ctx.createLinearGradient(
-          0,
-          0,
-          w,
-          h
-        );
-
-
-      g.addColorStop(
-        0,
-        "rgba(10,18,14,0.10)"
-      );
-
-
-      g.addColorStop(
-        1,
-        "rgba(3,6,5,0.14)"
-      );
-
-
-      ctx.fillStyle =
-        g;
-
-
-      ctx.fillRect(
-        0,
-        0,
-        w,
-        h
-      );
-
-
-      ctx.save();
-
-
-      ctx.globalCompositeOperation =
-        "lighter";
-
-
-      for (
-        const p
-        of particles
-      ) {
-
-        p.x +=
-          p.vx;
-
-
-        p.y +=
-          p.vy;
-
-
-        p.pulse +=
-          0.018;
-
-
-        if (
-          p.x < -120
-        ) {
-
-          p.x =
-            w + 120;
-
-        }
-
-
-        if (
-          p.x > w + 120
-        ) {
-
-          p.x =
-            -120;
-
-        }
-
-
-        if (
-          p.y < -120
-        ) {
-
-          p.y =
-            h + 120;
-
-        }
-
-
-        if (
-          p.y > h + 120
-        ) {
-
-          p.y =
-            -120;
-
-        }
-
-
-        const r =
-          p.r +
-          Math.sin(
-            p.pulse
-          ) *
-          10;
-
-
-        const grad =
-          ctx.createRadialGradient(
-            p.x,
-            p.y,
-            0,
-            p.x,
-            p.y,
-            r
-          );
-
-
-        grad.addColorStop(
-          0,
-          `hsla(
-            ${p.hue},
-            95%,
-            72%,
-            ${p.alpha}
-          )`
-        );
-
-
-        grad.addColorStop(
-          0.45,
-          `hsla(
-            ${(p.hue + 40) % 360},
-            95%,
-            62%,
-            ${p.alpha * 0.45}
-          )`
-        );
-
-
-        grad.addColorStop(
-          1,
-          "rgba(0,0,0,0)"
-        );
-
-
-        ctx.fillStyle =
-          grad;
-
-
-        ctx.beginPath();
-
-
-        ctx.arc(
-          p.x,
-          p.y,
-          r,
-          0,
-          Math.PI * 2
-        );
-
-
-        ctx.fill();
-
-      }
-
-
-      ctx.restore();
-
-
-      requestAnimationFrame(
-        drawCanvasBg
-      );
-
-    }
-
-
-    requestAnimationFrame(
-      drawCanvasBg
-    );
-
-
-    /* ========================================================
-       API
-       ======================================================== */
-
-    const API_URL = "https://hawaiian-robin-qualified-entirely.trycloudflare.com";
-
-
-    /* ========================================================
-       STORAGE
-       ======================================================== */
-
-    const STORAGE_KEY =
-      "greg_ui_api_v6";
-
-
-    const MEMORY_LIMIT =
-      80;
-
-
-    const META_MARKER =
-      "__GREG_META__";
-
-
-    /* ========================================================
-       PRESETS
-       ======================================================== */
-
-    const DEFAULT_PARAMS = {
-
-      max_new_tokens:
-        2000,
-
-      temperature:
-        0.6,
-
-      top_p:
-        0.85,
-
-      top_k:
-        40,
-
-      repetition_penalty:
-        1.0,
-
-      no_repeat_ngram_size:
-        0
-
-    };
-
-
-    const PRESET_PARAMS = {
-
-      default: {
-
-        max_new_tokens:
-          2000,
-
-        temperature:
-          0.6,
-
-        top_p:
-          0.85,
-
-        top_k:
-          40,
-
-        repetition_penalty:
-          1.0,
-
-        no_repeat_ngram_size:
-          0
-
-      },
-
-
-      fast: {
-
-        max_new_tokens:
-          2500,
-
-        temperature:
-          0.5,
-
-        top_p:
-          0.8,
-
-        top_k:
-          30,
-
-        repetition_penalty:
-          1.0,
-
-        no_repeat_ngram_size:
-          0
-
-      },
-
-
-      smart: {
-
-        max_new_tokens:
-          3000,
-
-        temperature:
-          0.7,
-
-        top_p:
-          0.9,
-
-        top_k:
-          50,
-
-        repetition_penalty:
-          1.0,
-
-        no_repeat_ngram_size:
-          0
-
-      }
-
-    };
-
-
-    /* ========================================================
-       ELEMENTS
-       ======================================================== */
-
-    const el = {
-
-      messages:
-        document.getElementById(
-          "messages"
-        ),
-
-      input:
-        document.getElementById(
-          "input"
-        ),
-
-      sendBtn:
-        document.getElementById(
-          "sendBtn"
-        ),
-
-      testBtn:
-        document.getElementById(
-          "testBtn"
-        ),
-
-      clearBtn:
-        document.getElementById(
-          "clearBtn"
-        ),
-
-      exportBtn:
-        document.getElementById(
-          "exportBtn"
-        ),
-
-      statusLine:
-        document.getElementById(
-          "statusLine"
-        ),
-
-      memoryHint:
-        document.getElementById(
-          "memoryHint"
-        ),
-
-      orb:
-        document.getElementById(
-          "orb"
-        ),
-
-      presetButton:
-        document.getElementById(
-          "presetButton"
-        ),
-
-      presetButtonText:
-        document.getElementById(
-          "presetButtonText"
-        ),
-
-      presetMenu:
-        document.getElementById(
-          "presetMenu"
-        ),
-
-      attachButton:
-        document.getElementById(
-          "attachButton"
-        ),
-
-      attachMenu:
-        document.getElementById(
-          "attachMenu"
-        ),
-
-      uploadImageOption:
-        document.getElementById(
-          "uploadImageOption"
-        ),
-
-      uploadFileOption:
-        document.getElementById(
-          "uploadFileOption"
-        ),
-
-      imageInput:
-        document.getElementById(
-          "imageInput"
-        ),
-
-      fileInput:
-        document.getElementById(
-          "fileInput"
-        ),
-
-      attachmentStrip:
-        document.getElementById(
-          "attachmentStrip"
-        ),
-
-      fileAttachmentStrip:
-        document.getElementById(
-          "fileAttachmentStrip"
-        )
-
-    };
-
-
-    /* ========================================================
-       STATE
-       ======================================================== */
-
-    let state =
-      loadState();
-
-
-    let isSending =
-      false;
-
-
-    let connected =
-      false;
-
-
-    let activePreset =
-      "default";
-
-
-    let pendingImages =
-      [];
-
-
-    let pendingFiles =
-      [];
-
-
-    /* ========================================================
-       IMAGE HELPERS
-       ======================================================== */
-
-    function makeImageId() {
-
-      return (
-
-        Date.now().toString(
-          36
-        )
-        +
-        Math.random()
-          .toString(
-            36
-          )
-          .slice(
-            2
-          )
-
-      );
-
-    }
-
-
-    function readImageFile(
-      file
+    if (
+      !target
     ) {
 
-      return new Promise(
+      return;
+
+    }
+
+
+    if (
+      target.dataset.generatedFile ===
+      "true"
+    ) {
+
+      return;
+
+    }
+
+
+    playClick();
+
+  }
+);
+
+
+/* ========================================================
+   BACKGROUND CANVAS
+   ======================================================== */
+
+const canvas =
+  document.getElementById(
+    "bgCanvas"
+  );
+
+
+const ctx =
+  canvas.getContext(
+    "2d"
+  );
+
+
+function resizeCanvas() {
+
+  const dpr =
+    Math.max(
+      1,
+      window.devicePixelRatio || 1
+    );
+
+
+  canvas.width =
+    Math.floor(
+      window.innerWidth *
+      dpr
+    );
+
+
+  canvas.height =
+    Math.floor(
+      window.innerHeight *
+      dpr
+    );
+
+
+  canvas.style.width =
+    window.innerWidth +
+    "px";
+
+
+  canvas.style.height =
+    window.innerHeight +
+    "px";
+
+
+  ctx.setTransform(
+    dpr,
+    0,
+    0,
+    dpr,
+    0,
+    0
+  );
+
+}
+
+
+window.addEventListener(
+  "resize",
+  resizeCanvas
+);
+
+
+resizeCanvas();
+
+
+const particles =
+  Array.from(
+    {
+      length:
+        42
+    },
+    () => ({
+
+      x:
+        Math.random() *
+        window.innerWidth,
+
+      y:
+        Math.random() *
+        window.innerHeight,
+
+      r:
+        18 +
+        Math.random() *
+        55,
+
+      vx:
         (
-          resolve,
-          reject
-        ) => {
-
-          const reader =
-            new FileReader();
-
-
-          reader.onload =
-            () => {
-
-              resolve({
-
-                id:
-                  makeImageId(),
-
-                name:
-                  file.name,
-
-                type:
-                  file.type,
-
-                size:
-                  file.size,
-
-                dataUrl:
-                  reader.result
-
-              });
-
-            };
-
-
-          reader.onerror =
-            () => {
-
-              reject(
-                reader.error
-              );
-
-            };
-
-
-          reader.readAsDataURL(
-            file
-          );
-
-        }
-      );
-
-    }
-
-
-    async function addImageFiles(
-      files
-    ) {
-
-      const fileArray =
-        Array.from(
-          files || []
-        );
-
-
-      if (
-        !fileArray.length
-      ) {
-
-        return;
-
-      }
-
-
-      const imageFiles =
-        fileArray.filter(
-          file =>
-            file.type &&
-            file.type.startsWith(
-              "image/"
-            )
-        );
-
-
-      if (
-        imageFiles.length
-      ) {
-
-        playClick();
-
-      }
-
-
-      for (
-        const file
-        of imageFiles
-      ) {
-
-        try {
-
-          const image =
-            await readImageFile(
-              file
-            );
-
-
-          pendingImages.push(
-            image
-          );
-
-        } catch (
-          error
-        ) {
-
-          console.error(
-            "Could not read image:",
-            error
-          );
-
-        }
-
-      }
-
-
-      renderImagePreviews();
-
-
-      el.attachMenu.classList.remove(
-        "open"
-      );
-
-
-      el.attachButton.classList.remove(
-        "open"
-      );
-
-
-      el.imageInput.value =
-        "";
-
-    }
-
-
-    function removePendingImage(
-      id
-    ) {
-
-      const item =
-        document.querySelector(
-          `[data-image-id="${id}"]`
-        );
-
-
-      if (
-        item
-      ) {
-
-        item.classList.add(
-          "removing"
-        );
-
-
-        playClick();
-
-
-        setTimeout(
-          () => {
-
-            pendingImages =
-              pendingImages.filter(
-                image =>
-                  image.id !==
-                  id
-              );
-
-
-            renderImagePreviews();
-
-          },
-          220
-        );
-
-
-        return;
-
-      }
-
-
-      playClick();
-
-
-      pendingImages =
-        pendingImages.filter(
-          image =>
-            image.id !==
-            id
-        );
-
-
-      renderImagePreviews();
-
-    }
-
-
-    function renderImagePreviews() {
-
-      if (
-        !pendingImages.length
-      ) {
-
-        el.attachmentStrip.innerHTML =
-          "";
-
-
-        el.attachmentStrip.classList.add(
-          "hidden"
-        );
-
-
-        return;
-
-      }
-
-
-      el.attachmentStrip.classList.remove(
-        "hidden"
-      );
-
-
-      el.attachmentStrip.innerHTML =
-        "";
-
-
-      pendingImages.forEach(
-        image => {
-
-          const item =
-            document.createElement(
-              "div"
-            );
-
-
-          item.className =
-            "attachment-item";
-
-
-          item.dataset.imageId =
-            image.id;
-
-
-          const img =
-            document.createElement(
-              "img"
-            );
-
-
-          img.src =
-            image.dataUrl;
-
-
-          img.alt =
-            image.name ||
-            "Attached image";
-
-
-          const remove =
-            document.createElement(
-              "button"
-            );
-
-
-          remove.type =
-            "button";
-
-
-          remove.className =
-            "attachment-remove";
-
-
-          remove.textContent =
-            "×";
-
-
-          remove.title =
-            "Remove image";
-
-
-          remove.addEventListener(
-            "click",
-            event => {
-
-              event.stopPropagation();
-
-
-              removePendingImage(
-                image.id
-              );
-
-            }
-          );
-
-
-          const name =
-            document.createElement(
-              "div"
-            );
-
-
-          name.className =
-            "attachment-name";
-
-
-          name.textContent =
-            image.name ||
-            "image";
-
-
-          item.appendChild(
-            img
-          );
-
-
-          item.appendChild(
-            remove
-          );
-
-
-          item.appendChild(
-            name
-          );
-
-
-          el.attachmentStrip.appendChild(
-            item
-          );
-
-        }
-      );
-
-    }
-
-
-    /* ========================================================
-       FILE HELPERS
-       ======================================================== */
-
-    function makeFileId() {
-
-      return (
-
-        Date.now().toString(
-          36
-        )
-        +
-        Math.random()
-          .toString(
-            36
-          )
-          .slice(
-            2
-          )
-
-      );
-
-    }
-
-
-    function getFileTypeName(
-      name,
-      type
-    ) {
-
-      const lower =
-        String(
-          name ||
-          ""
-        ).toLowerCase();
-
-
-      const map = {
-
-        ".docx":
-          "DOCX",
-
-        ".pptx":
-          "PPTX",
-
-        ".py":
-          "Python",
-
-        ".lua":
-          "Lua",
-
-        ".html":
-          "HTML",
-
-        ".htm":
-          "HTML",
-
-        ".js":
-          "JavaScript",
-
-        ".mjs":
-          "JavaScript",
-
-        ".cjs":
-          "JavaScript",
-
-        ".ts":
-          "TypeScript",
-
-        ".tsx":
-          "TypeScript",
-
-        ".css":
-          "CSS",
-
-        ".json":
-          "JSON",
-
-        ".xml":
-          "XML",
-
-        ".svg":
-          "SVG",
-
-        ".sql":
-          "SQL",
-
-        ".md":
-          "Markdown",
-
-        ".markdown":
-          "Markdown",
-
-        ".txt":
-          "TXT",
-
-        ".log":
-          "LOG",
-
-        ".csv":
-          "CSV",
-
-        ".tsv":
-          "TSV",
-
-        ".c":
-          "C",
-
-        ".h":
-          "C Header",
-
-        ".cpp":
-          "C++",
-
-        ".cc":
-          "C++",
-
-        ".cxx":
-          "C++",
-
-        ".hpp":
-          "C++ Header",
-
-        ".java":
-          "Java",
-
-        ".cs":
-          "C#",
-
-        ".rs":
-          "Rust",
-
-        ".go":
-          "Go",
-
-        ".rb":
-          "Ruby",
-
-        ".php":
-          "PHP",
-
-        ".sh":
-          "Shell",
-
-        ".bat":
-          "Batch",
-
-        ".cmd":
-          "Batch",
-
-        ".ps1":
-          "PowerShell",
-
-        ".yaml":
-          "YAML",
-
-        ".yml":
-          "YAML",
-
-        ".ini":
-          "INI",
-
-        ".toml":
-          "TOML",
-
-        ".tex":
-          "LaTeX",
-
-        ".jsx":
-          "JavaScript",
-
-        ".dart":
-          "Dart",
-
-        ".swift":
-          "Swift",
-
-        ".kt":
-          "Kotlin",
-
-        ".kts":
-          "Kotlin",
-
-        ".zig":
-          "Zig",
-
-        ".asm":
-          "Assembly",
-
-        ".s":
-          "Assembly"
-
-      };
-
-
-      for (
-        const extension
-        of Object.keys(
-          map
-        )
-      ) {
-
-        if (
-          lower.endsWith(
-            extension
-          )
-        ) {
-
-          return map[
-            extension
-          ];
-
-        }
-
-      }
-
-
-      if (
-        type &&
-        type.startsWith(
-          "image/"
-        )
-      ) {
-
-        return type
-          .split(
-            "/"
-          )[1]
-          .toUpperCase();
-
-      }
-
-
-      return "File";
-
-    }
-
-
-    function readFileDataUrl(
-      file
-    ) {
-
-      return new Promise(
+          Math.random() -
+          0.5
+        ) *
+        0.22,
+
+      vy:
         (
-          resolve,
-          reject
-        ) => {
+          Math.random() -
+          0.5
+        ) *
+        0.18,
 
-          const reader =
-            new FileReader();
+      hue:
+        Math.floor(
+          Math.random() *
+          360
+        ),
 
+      alpha:
+        0.05 +
+        Math.random() *
+        0.18,
 
-          reader.onload =
-            () => {
+      pulse:
+        Math.random() *
+        Math.PI *
+        2
 
-              resolve(
-                reader.result
-              );
-
-            };
-
-
-          reader.onerror =
-            () => {
-
-              reject(
-                reader.error
-              );
-
-            };
+    })
+  );
 
 
-          reader.readAsDataURL(
-            file
-          );
+function drawCanvasBg() {
 
-        }
-      );
+  const w =
+    window.innerWidth;
+
+
+  const h =
+    window.innerHeight;
+
+
+  ctx.clearRect(
+    0,
+    0,
+    w,
+    h
+  );
+
+
+  const g =
+    ctx.createLinearGradient(
+      0,
+      0,
+      w,
+      h
+    );
+
+
+  g.addColorStop(
+    0,
+    "rgba(10,18,14,0.10)"
+  );
+
+
+  g.addColorStop(
+    1,
+    "rgba(3,6,5,0.14)"
+  );
+
+
+  ctx.fillStyle =
+    g;
+
+
+  ctx.fillRect(
+    0,
+    0,
+    w,
+    h
+  );
+
+
+  ctx.save();
+
+
+  ctx.globalCompositeOperation =
+    "lighter";
+
+
+  for (
+    const p
+    of particles
+  ) {
+
+    p.x +=
+      p.vx;
+
+
+    p.y +=
+      p.vy;
+
+
+    p.pulse +=
+      0.018;
+
+
+    if (
+      p.x < -120
+    ) {
+
+      p.x =
+        w + 120;
 
     }
 
 
-    async function addFileFiles(
-      files
+    if (
+      p.x > w + 120
     ) {
 
-      const fileArray =
-        Array.from(
-          files || []
-        );
+      p.x =
+        -120;
+
+    }
 
 
-      if (
-        !fileArray.length
-      ) {
+    if (
+      p.y < -120
+    ) {
 
-        return;
+      p.y =
+        h + 120;
 
-      }
-
-
-      playClick();
+    }
 
 
-      for (
-        const file
-        of fileArray
-      ) {
+    if (
+      p.y > h + 120
+    ) {
 
-        try {
+      p.y =
+        -120;
 
-          const dataUrl =
-            await readFileDataUrl(
-              file
-            );
+    }
 
 
-          pendingFiles.push({
+    const r =
+      p.r +
+      Math.sin(
+        p.pulse
+      ) *
+      10;
+
+
+    const grad =
+      ctx.createRadialGradient(
+        p.x,
+        p.y,
+        0,
+        p.x,
+        p.y,
+        r
+      );
+
+
+    grad.addColorStop(
+      0,
+      `hsla(
+        ${p.hue},
+        95%,
+        72%,
+        ${p.alpha}
+      )`
+    );
+
+
+    grad.addColorStop(
+      0.45,
+      `hsla(
+        ${(p.hue + 40) % 360},
+        95%,
+        62%,
+        ${p.alpha * 0.45}
+      )`
+    );
+
+
+    grad.addColorStop(
+      1,
+      "rgba(0,0,0,0)"
+    );
+
+
+    ctx.fillStyle =
+      grad;
+
+
+    ctx.beginPath();
+
+
+    ctx.arc(
+      p.x,
+      p.y,
+      r,
+      0,
+      Math.PI * 2
+    );
+
+
+    ctx.fill();
+
+  }
+
+
+  ctx.restore();
+
+
+  requestAnimationFrame(
+    drawCanvasBg
+  );
+
+}
+
+
+requestAnimationFrame(
+  drawCanvasBg
+);
+
+
+/* ========================================================
+   API
+   ======================================================== */
+
+const API_URL = "https://uni-bid-depot-itself.trycloudflare.com";
+
+
+/* ========================================================
+   STORAGE
+   ======================================================== */
+
+const STORAGE_KEY =
+  "greg_ui_api_v6";
+
+
+const MEMORY_LIMIT =
+  80;
+
+
+const META_MARKER =
+  "__GREG_META__";
+
+
+/* ========================================================
+   PRESETS
+   ======================================================== */
+
+const DEFAULT_PARAMS = {
+
+  max_new_tokens:
+    2000,
+
+  temperature:
+    0.6,
+
+  top_p:
+    0.85,
+
+  top_k:
+    40,
+
+  repetition_penalty:
+    1.0,
+
+  no_repeat_ngram_size:
+    0
+
+};
+
+
+const PRESET_PARAMS = {
+
+  default: {
+
+    max_new_tokens:
+      2000,
+
+    temperature:
+      0.6,
+
+    top_p:
+      0.85,
+
+    top_k:
+      40,
+
+    repetition_penalty:
+      1.0,
+
+    no_repeat_ngram_size:
+      0
+
+  },
+
+
+  fast: {
+
+    max_new_tokens:
+      2500,
+
+    temperature:
+      0.5,
+
+    top_p:
+      0.8,
+
+    top_k:
+      30,
+
+    repetition_penalty:
+      1.0,
+
+    no_repeat_ngram_size:
+      0
+
+  },
+
+
+  smart: {
+
+    max_new_tokens:
+      3000,
+
+    temperature:
+      0.7,
+
+    top_p:
+      0.9,
+
+    top_k:
+      50,
+
+    repetition_penalty:
+      1.0,
+
+    no_repeat_ngram_size:
+      0
+
+  }
+
+};
+
+
+/* ========================================================
+   ELEMENTS
+   ======================================================== */
+
+const el = {
+
+  messages:
+    document.getElementById(
+      "messages"
+    ),
+
+  input:
+    document.getElementById(
+      "input"
+    ),
+
+  sendBtn:
+    document.getElementById(
+      "sendBtn"
+    ),
+
+  testBtn:
+    document.getElementById(
+      "testBtn"
+    ),
+
+  clearBtn:
+    document.getElementById(
+      "clearBtn"
+    ),
+
+  exportBtn:
+    document.getElementById(
+      "exportBtn"
+    ),
+
+  statusLine:
+    document.getElementById(
+      "statusLine"
+    ),
+
+  memoryHint:
+    document.getElementById(
+      "memoryHint"
+    ),
+
+  orb:
+    document.getElementById(
+      "orb"
+    ),
+
+  presetButton:
+    document.getElementById(
+      "presetButton"
+    ),
+
+  presetButtonText:
+    document.getElementById(
+      "presetButtonText"
+    ),
+
+  presetMenu:
+    document.getElementById(
+      "presetMenu"
+    ),
+
+  attachButton:
+    document.getElementById(
+      "attachButton"
+    ),
+
+  attachMenu:
+    document.getElementById(
+      "attachMenu"
+    ),
+
+  uploadImageOption:
+    document.getElementById(
+      "uploadImageOption"
+    ),
+
+  uploadFileOption:
+    document.getElementById(
+      "uploadFileOption"
+    ),
+
+  imageInput:
+    document.getElementById(
+      "imageInput"
+    ),
+
+  fileInput:
+    document.getElementById(
+      "fileInput"
+    ),
+
+  attachmentStrip:
+    document.getElementById(
+      "attachmentStrip"
+    ),
+
+  fileAttachmentStrip:
+    document.getElementById(
+      "fileAttachmentStrip"
+    ),
+
+  homeScreen:
+    document.getElementById(
+      "homeScreen"
+    ),
+
+  chatScreen:
+    document.getElementById(
+      "chatScreen"
+    ),
+
+  homeNavButton:
+    document.getElementById(
+      "homeNavButton"
+    ),
+
+  chatNavButton:
+    document.getElementById(
+      "chatNavButton"
+    )
+
+};
+
+
+/* ========================================================
+   STATE
+   ======================================================== */
+
+let state =
+  loadState();
+
+
+let isSending =
+  false;
+
+
+let connected =
+  false;
+
+
+let activePreset =
+  "default";
+
+
+let pendingImages =
+  [];
+
+
+let pendingFiles =
+  [];
+
+
+/* ========================================================
+   IMAGE HELPERS
+   ======================================================== */
+
+function makeImageId() {
+
+  return (
+
+    Date.now().toString(
+      36
+    )
+    +
+    Math.random()
+      .toString(
+        36
+      )
+      .slice(
+        2
+      )
+
+  );
+
+}
+
+
+function readImageFile(
+  file
+) {
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        () => {
+
+          resolve({
 
             id:
-              makeFileId(),
+              makeImageId(),
 
             name:
               file.name,
@@ -1553,1628 +925,798 @@
               file.size,
 
             dataUrl:
-              dataUrl,
-
-            fileType:
-              getFileTypeName(
-                file.name,
-                file.type
-              )
+              reader.result
 
           });
 
-        } catch (
-          error
-        ) {
+        };
 
-          console.error(
-            "Could not read file:",
-            error
+
+      reader.onerror =
+        () => {
+
+          reject(
+            reader.error
           );
 
-        }
-
-      }
+        };
 
 
-      renderFilePreviews();
-
-
-      el.attachMenu.classList.remove(
-        "open"
+      reader.readAsDataURL(
+        file
       );
 
+    }
+  );
 
-      el.attachButton.classList.remove(
-        "open"
+}
+
+
+async function addImageFiles(
+  files
+) {
+
+  const fileArray =
+    Array.from(
+      files || []
+    );
+
+
+  if (
+    !fileArray.length
+  ) {
+
+    return;
+
+  }
+
+
+  const imageFiles =
+    fileArray.filter(
+      file =>
+        file.type &&
+        file.type.startsWith(
+          "image/"
+        )
+    );
+
+
+  if (
+    imageFiles.length
+  ) {
+
+    playClick();
+
+  }
+
+
+  for (
+    const file
+    of imageFiles
+  ) {
+
+    try {
+
+      const image =
+        await readImageFile(
+          file
+        );
+
+
+      pendingImages.push(
+        image
       );
 
+    } catch (
+      error
+    ) {
 
-      el.fileInput.value =
-        "";
+      console.error(
+        "Could not read image:",
+        error
+      );
 
     }
 
+  }
 
-    function removePendingFile(
-      id
-    ) {
+
+  renderImagePreviews();
+
+
+  el.attachMenu.classList.remove(
+    "open"
+  );
+
+
+  el.attachButton.classList.remove(
+    "open"
+  );
+
+
+  el.imageInput.value =
+    "";
+
+}
+
+
+function removePendingImage(
+  id
+) {
+
+  const item =
+    document.querySelector(
+      `[data-image-id="${id}"]`
+    );
+
+
+  if (
+    item
+  ) {
+
+    item.classList.add(
+      "removing"
+    );
+
+
+    playClick();
+
+
+    setTimeout(
+      () => {
+
+        pendingImages =
+          pendingImages.filter(
+            image =>
+              image.id !==
+              id
+          );
+
+
+        renderImagePreviews();
+
+      },
+      220
+    );
+
+
+    return;
+
+  }
+
+
+  playClick();
+
+
+  pendingImages =
+    pendingImages.filter(
+      image =>
+        image.id !==
+        id
+    );
+
+
+  renderImagePreviews();
+
+}
+
+
+function renderImagePreviews() {
+
+  if (
+    !pendingImages.length
+  ) {
+
+    el.attachmentStrip.innerHTML =
+      "";
+
+
+    el.attachmentStrip.classList.add(
+      "hidden"
+    );
+
+
+    return;
+
+  }
+
+
+  el.attachmentStrip.classList.remove(
+    "hidden"
+  );
+
+
+  el.attachmentStrip.innerHTML =
+    "";
+
+
+  pendingImages.forEach(
+    image => {
 
       const item =
-        document.querySelector(
-          `[data-file-id="${id}"]`
+        document.createElement(
+          "div"
         );
 
 
-      if (
+      item.className =
+        "attachment-item";
+
+
+      item.dataset.imageId =
+        image.id;
+
+
+      const img =
+        document.createElement(
+          "img"
+        );
+
+
+      img.src =
+        image.dataUrl;
+
+
+      img.alt =
+        image.name ||
+        "Attached image";
+
+
+      const remove =
+        document.createElement(
+          "button"
+        );
+
+
+      remove.type =
+        "button";
+
+
+      remove.className =
+        "attachment-remove";
+
+
+      remove.textContent =
+        "×";
+
+
+      remove.title =
+        "Remove image";
+
+
+      remove.addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+
+          removePendingImage(
+            image.id
+          );
+
+        }
+      );
+
+
+      const name =
+        document.createElement(
+          "div"
+        );
+
+
+      name.className =
+        "attachment-name";
+
+
+      name.textContent =
+        image.name ||
+        "image";
+
+
+      item.appendChild(
+        img
+      );
+
+
+      item.appendChild(
+        remove
+      );
+
+
+      item.appendChild(
+        name
+      );
+
+
+      el.attachmentStrip.appendChild(
         item
-      ) {
-
-        item.classList.add(
-          "removing"
-        );
-
-
-        playClick();
-
-
-        setTimeout(
-          () => {
-
-            pendingFiles =
-              pendingFiles.filter(
-                file =>
-                  file.id !==
-                  id
-              );
-
-
-            renderFilePreviews();
-
-          },
-          220
-        );
-
-
-        return;
-
-      }
-
-
-      playClick();
-
-
-      pendingFiles =
-        pendingFiles.filter(
-          file =>
-            file.id !==
-            id
-        );
-
-
-      renderFilePreviews();
-
-    }
-
-
-    function renderFilePreviews() {
-
-      if (
-        !pendingFiles.length
-      ) {
-
-        el.fileAttachmentStrip.style.display =
-          "none";
-
-
-        el.fileAttachmentStrip.innerHTML =
-          "";
-
-
-        return;
-
-      }
-
-
-      el.fileAttachmentStrip.style.display =
-        "flex";
-
-
-      el.fileAttachmentStrip.innerHTML =
-        "";
-
-
-      pendingFiles.forEach(
-        file => {
-
-          const item =
-            document.createElement(
-              "div"
-            );
-
-
-          item.className =
-            "file-attachment";
-
-
-          item.dataset.fileId =
-            file.id;
-
-
-          const icon =
-            document.createElement(
-              "div"
-            );
-
-
-          icon.className =
-            "file-attachment-icon";
-
-
-          icon.textContent =
-            getFileTypeShortName(
-              file.fileType
-            );
-
-
-          const info =
-            document.createElement(
-              "div"
-            );
-
-
-          info.className =
-            "file-attachment-info";
-
-
-          const name =
-            document.createElement(
-              "div"
-            );
-
-
-          name.className =
-            "file-attachment-name";
-
-
-          name.textContent =
-            file.name;
-
-
-          const type =
-            document.createElement(
-              "div"
-            );
-
-
-          type.className =
-            "file-attachment-type";
-
-
-          type.textContent =
-            file.fileType;
-
-
-          const remove =
-            document.createElement(
-              "button"
-            );
-
-
-          remove.type =
-            "button";
-
-
-          remove.className =
-            "attachment-remove";
-
-
-          remove.textContent =
-            "×";
-
-
-          remove.title =
-            "Remove file";
-
-
-          remove.addEventListener(
-            "click",
-            event => {
-
-              event.stopPropagation();
-
-
-              removePendingFile(
-                file.id
-              );
-
-            }
-          );
-
-
-          info.appendChild(
-            name
-          );
-
-
-          info.appendChild(
-            type
-          );
-
-
-          item.appendChild(
-            icon
-          );
-
-
-          item.appendChild(
-            info
-          );
-
-
-          item.appendChild(
-            remove
-          );
-
-
-          el.fileAttachmentStrip.appendChild(
-            item
-          );
-
-        }
       );
 
     }
+  );
+
+}
 
 
-    function getFileTypeShortName(
-      type
+/* ========================================================
+   FILE HELPERS
+   ======================================================== */
+
+function makeFileId() {
+
+  return (
+
+    Date.now().toString(
+      36
+    )
+    +
+    Math.random()
+      .toString(
+        36
+      )
+      .slice(
+        2
+      )
+
+  );
+
+}
+
+
+function getFileTypeName(
+  name,
+  type
+) {
+
+  const lower =
+    String(
+      name ||
+      ""
+    ).toLowerCase();
+
+
+  const map = {
+
+    ".docx":
+      "DOCX",
+
+    ".pptx":
+      "PPTX",
+
+    ".py":
+      "Python",
+
+    ".lua":
+      "Lua",
+
+    ".html":
+      "HTML",
+
+    ".htm":
+      "HTML",
+
+    ".js":
+      "JavaScript",
+
+    ".mjs":
+      "JavaScript",
+
+    ".cjs":
+      "JavaScript",
+
+    ".ts":
+      "TypeScript",
+
+    ".tsx":
+      "TypeScript",
+
+    ".css":
+      "CSS",
+
+    ".json":
+      "JSON",
+
+    ".xml":
+      "XML",
+
+    ".svg":
+      "SVG",
+
+    ".sql":
+      "SQL",
+
+    ".md":
+      "Markdown",
+
+    ".markdown":
+      "Markdown",
+
+    ".txt":
+      "TXT",
+
+    ".log":
+      "LOG",
+
+    ".csv":
+      "CSV",
+
+    ".tsv":
+      "TSV",
+
+    ".c":
+      "C",
+
+    ".h":
+      "C Header",
+
+    ".cpp":
+      "C++",
+
+    ".cc":
+      "C++",
+
+    ".cxx":
+      "C++",
+
+    ".hpp":
+      "C++ Header",
+
+    ".java":
+      "Java",
+
+    ".cs":
+      "C#",
+
+    ".rs":
+      "Rust",
+
+    ".go":
+      "Go",
+
+    ".rb":
+      "Ruby",
+
+    ".php":
+      "PHP",
+
+    ".sh":
+      "Shell",
+
+    ".bat":
+      "Batch",
+
+    ".cmd":
+      "Batch",
+
+    ".ps1":
+      "PowerShell",
+
+    ".yaml":
+      "YAML",
+
+    ".yml":
+      "YAML",
+
+    ".ini":
+      "INI",
+
+    ".toml":
+      "TOML",
+
+    ".tex":
+      "LaTeX",
+
+    ".jsx":
+      "JavaScript",
+
+    ".dart":
+      "Dart",
+
+    ".swift":
+      "Swift",
+
+    ".kt":
+      "Kotlin",
+
+    ".kts":
+      "Kotlin",
+
+    ".zig":
+      "Zig",
+
+    ".asm":
+      "Assembly",
+
+    ".s":
+      "Assembly"
+
+  };
+
+
+  for (
+    const extension
+    of Object.keys(
+      map
+    )
+  ) {
+
+    if (
+      lower.endsWith(
+        extension
+      )
     ) {
 
-      const value =
-        String(
-          type ||
-          "FILE"
-        );
-
-
-      if (
-        value ===
-        "JavaScript"
-      ) {
-
-        return "JS";
-
-      }
-
-
-      if (
-        value ===
-        "TypeScript"
-      ) {
-
-        return "TS";
-
-      }
-
-
-      if (
-        value ===
-        "PowerShell"
-      ) {
-
-        return "PS";
-
-      }
-
-
-      if (
-        value ===
-        "Markdown"
-      ) {
-
-        return "MD";
-
-      }
-
-
-      if (
-        value.length >
-        5
-      ) {
-
-        return value
-          .slice(
-            0,
-            5
-          )
-          .toUpperCase();
-
-      }
-
-
-      return value.toUpperCase();
+      return map[
+        extension
+      ];
 
     }
 
+  }
 
-    function cloneFilesForStorage(
-      files
-    ) {
 
-      if (
-        !Array.isArray(
-          files
-        )
-      ) {
+  if (
+    type &&
+    type.startsWith(
+      "image/"
+    )
+  ) {
 
-        return [];
+    return type
+      .split(
+        "/"
+      )[1]
+      .toUpperCase();
 
-      }
+  }
 
 
-      return files.map(
-        file => ({
+  return "File";
 
-          id:
-            file.id ||
-            makeFileId(),
+}
 
-          name:
-            file.name ||
-            "file",
 
-          type:
-            file.type ||
-            "",
+function readFileDataUrl(
+  file
+) {
 
-          size:
-            file.size ||
-            0,
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
 
-          fileType:
-            file.fileType ||
-            getFileTypeName(
-              file.name,
-              file.type
-            ),
+      const reader =
+        new FileReader();
 
-          dataUrl:
-            file.dataUrl ||
-            ""
 
-        })
-      );
-
-    }
-
-
-    /* ========================================================
-       LOAD / SAVE STATE
-       ======================================================== */
-
-    function loadState() {
-
-      try {
-
-        const raw =
-          localStorage.getItem(
-            STORAGE_KEY
-          );
-
-
-        if (
-          !raw
-        ) {
-
-          return {
-
-            params:
-              {
-                ...PRESET_PARAMS.default
-              },
-
-            conversation:
-              [],
-
-            preset:
-              "default"
-
-          };
-
-        }
-
-
-        const parsed =
-          JSON.parse(
-            raw
-          );
-
-
-        return {
-
-          params:
-            {
-              ...PRESET_PARAMS.default
-            },
-
-          conversation:
-            Array.isArray(
-              parsed.conversation
-            )
-              ? parsed.conversation
-              : [],
-
-          preset:
-            "default"
-
-        };
-
-      } catch {
-
-        return {
-
-          params:
-            {
-              ...PRESET_PARAMS.default
-            },
-
-          conversation:
-            [],
-
-          preset:
-            "default"
-
-        };
-
-      }
-
-    }
-
-
-    function saveState() {
-
-      try {
-
-        localStorage.setItem(
-
-          STORAGE_KEY,
-
-          JSON.stringify(
-            state
-          )
-
-        );
-
-      } catch (
-        error
-      ) {
-
-        console.error(
-          "Could not save Greg state:",
-          error
-        );
-
-      }
-
-    }
-
-
-    /* ========================================================
-       HELPERS
-       ======================================================== */
-
-    function sleep(
-      ms
-    ) {
-
-      return new Promise(
-        resolve =>
-          setTimeout(
-            resolve,
-            ms
-          )
-      );
-
-    }
-
-
-    function resizeInput() {
-
-      el.input.style.height =
-        "auto";
-
-
-      el.input.style.height =
-        Math.min(
-          el.input.scrollHeight,
-          190
-        ) +
-        "px";
-
-    }
-
-
-    function scrollBottom(
-      smooth = true
-    ) {
-
-      el.messages.scrollTo({
-
-        top:
-          el.messages.scrollHeight,
-
-        behavior:
-          smooth
-            ? "smooth"
-            : "auto"
-
-      });
-
-    }
-
-
-    function cloneImagesForStorage(
-      images
-    ) {
-
-      if (
-        !Array.isArray(
-          images
-        )
-      ) {
-
-        return [];
-
-      }
-
-
-      return images.map(
-        image => ({
-
-          id:
-            image.id ||
-            makeImageId(),
-
-          name:
-            image.name ||
-            "image",
-
-          type:
-            image.type ||
-            "image/*",
-
-          size:
-            image.size ||
-            0,
-
-          dataUrl:
-            image.dataUrl ||
-            ""
-
-        })
-      );
-
-    }
-
-
-    /* ========================================================
-       THINKING
-       ======================================================== */
-
-    function buildWavyText(
-      element,
-      text,
-      startIndex = 0
-    ) {
-
-      const chars =
-        Array.from(
-          String(text)
-        );
-
-
-      let index =
-        startIndex;
-
-
-      for (
-        const char
-        of chars
-      ) {
-
-        if (
-          char ===
-          "\n"
-        ) {
-
-          element.appendChild(
-            document.createElement(
-              "br"
-            )
-          );
-
-
-          index +=
-            1;
-
-
-          continue;
-
-        }
-
-
-        const span =
-          document.createElement(
-            "span"
-          );
-
-
-        span.className =
-          "thinking-label-char";
-
-
-        span.textContent =
-          char;
-
-
-        const waveDelay =
-          (
-            index *
-            0.06
-          );
-
-
-        span.style.setProperty(
-          "--thinking-delay",
-          `${waveDelay}s`
-        );
-
-
-        element.appendChild(
-          span
-        );
-
-
-        index +=
-          1;
-
-      }
-
-
-      return index;
-
-    }
-
-
-    function appendThinkingText(
-      stream,
-      text
-    ) {
-
-      if (
-        !text
-      ) {
-
-        return;
-
-      }
-
-
-      stream.thinkingContent.textContent +=
-        text;
-
-
-      stream.thinkingPanel.classList.add(
-        "visible"
-      );
-
-
-      scrollBottom(
-        false
-      );
-
-    }
-
-
-    function startThinkingUI(
-      stream
-    ) {
-
-      if (
-        stream.thinkingStarted
-      ) {
-
-        return;
-
-      }
-
-
-      stream.thinkingStarted =
-        true;
-
-
-      stream.thinkingEnded =
-        false;
-
-
-      stream.thinkingContent.textContent =
-        "";
-
-
-      stream.thinkingLabel.innerHTML =
-        "";
-
-
-      buildWavyText(
-        stream.thinkingLabel,
-        "Thinking",
-        0
-      );
-
-
-      stream.thinkingPanel.classList.remove(
-        "closing"
-      );
-
-
-      requestAnimationFrame(
+      reader.onload =
         () => {
 
-          stream.thinkingPanel.classList.add(
-            "visible"
+          resolve(
+            reader.result
           );
 
-        }
-      );
+        };
 
 
-      scrollBottom(
-        false
-      );
-
-    }
-
-
-    function finishThinkingUI(
-      stream
-    ) {
-
-      if (
-        !stream.thinkingStarted ||
-        stream.thinkingEnded
-      ) {
-
-        return;
-
-      }
-
-
-      stream.thinkingEnded =
-        true;
-
-
-      stream.thinkingPanel.classList.add(
-        "closing"
-      );
-
-
-      setTimeout(
+      reader.onerror =
         () => {
 
-          if (
-            stream.thinkingPanel
-          ) {
-
-            stream.thinkingPanel.classList.remove(
-              "visible"
-            );
-
-          }
-
-        },
-        420
-      );
-
-    }
-
-
-    function processThinkingStream(
-      chunk,
-      parser,
-      stream
-    ) {
-
-      if (
-        !chunk
-      ) {
-
-        return;
-
-      }
-
-
-      stream.thinkingBuffer +=
-        chunk;
-
-
-      while (
-        stream.thinkingBuffer.length
-      ) {
-
-        if (
-          !stream.thinkingMode
-        ) {
-
-          const startIndex =
-            stream.thinkingBuffer.indexOf(
-              "<think>"
-            );
-
-
-          if (
-            startIndex ===
-            -1
-          ) {
-
-            const keepLength =
-              "<think>".length -
-              1;
-
-
-            if (
-              stream.thinkingBuffer.length <=
-              keepLength
-            ) {
-
-              return;
-
-            }
-
-
-            const safeLength =
-              stream.thinkingBuffer.length -
-              keepLength;
-
-
-            const safeText =
-              stream.thinkingBuffer.slice(
-                0,
-                safeLength
-              );
-
-
-            stream.thinkingBuffer =
-              stream.thinkingBuffer.slice(
-                safeLength
-              );
-
-
-            if (
-              safeText
-            ) {
-
-              stream.answerText +=
-                safeText;
-
-
-              parser.feed(
-                safeText
-              );
-
-            }
-
-
-            continue;
-
-          }
-
-
-          const answerBeforeThink =
-            stream.thinkingBuffer.slice(
-              0,
-              startIndex
-            );
-
-
-          if (
-            answerBeforeThink
-          ) {
-
-            stream.answerText +=
-              answerBeforeThink;
-
-
-            parser.feed(
-              answerBeforeThink
-            );
-
-          }
-
-
-          stream.thinkingBuffer =
-            stream.thinkingBuffer.slice(
-              startIndex +
-              "<think>".length
-            );
-
-
-          stream.thinkingMode =
-            true;
-
-
-          startThinkingUI(
-            stream
+          reject(
+            reader.error
           );
 
-
-          continue;
-
-        }
-
-
-        const endIndex =
-          stream.thinkingBuffer.indexOf(
-            "</think>"
-          );
-
-
-        if (
-          endIndex ===
-          -1
-        ) {
-
-          const keepLength =
-            "</think>".length -
-            1;
-
-
-          if (
-            stream.thinkingBuffer.length <=
-            keepLength
-          ) {
-
-            return;
-
-          }
-
-
-          const safeLength =
-            stream.thinkingBuffer.length -
-            keepLength;
-
-
-          const thinkingText =
-            stream.thinkingBuffer.slice(
-              0,
-              safeLength
-            );
-
-
-          stream.thinkingBuffer =
-            stream.thinkingBuffer.slice(
-              safeLength
-            );
-
-
-          appendThinkingText(
-            stream,
-            thinkingText
-          );
-
-
-          continue;
-
-        }
-
-
-        const thinkingText =
-          stream.thinkingBuffer.slice(
-            0,
-            endIndex
-          );
-
-
-        if (
-          thinkingText
-        ) {
-
-          appendThinkingText(
-            stream,
-            thinkingText
-          );
-
-        }
-
-
-        stream.thinkingBuffer =
-          stream.thinkingBuffer.slice(
-            endIndex +
-            "</think>".length
-          );
-
-
-        stream.thinkingMode =
-          false;
-
-
-        finishThinkingUI(
-          stream
-        );
-
-
-        continue;
-
-      }
-
-    }
-
-
-    function finishThinkingStream(
-      parser,
-      stream
-    ) {
-
-      if (
-        !stream.thinkingBuffer
-      ) {
-
-        return;
-
-      }
-
-
-      if (
-        stream.thinkingMode
-      ) {
-
-        appendThinkingText(
-          stream,
-          stream.thinkingBuffer
-        );
-
-
-        stream.thinkingBuffer =
-          "";
-
-
-        finishThinkingUI(
-          stream
-        );
-
-
-        return;
-
-      }
-
-
-      stream.answerText +=
-        stream.thinkingBuffer;
-
-
-      parser.feed(
-        stream.thinkingBuffer
-      );
-
-
-      stream.thinkingBuffer =
-        "";
-
-    }
-
-
-    /* ========================================================
-       WELCOME
-       ======================================================== */
-
-    function showWelcome() {
-
-      if (
-        document.getElementById(
-          "welcome"
-        )
-      ) {
-
-        return;
-
-      }
-
-
-      const welcome =
-        document.createElement(
-          "div"
-        );
-
-
-      welcome.id =
-        "welcome";
-
-
-      welcome.className =
-        "welcome";
-
-
-      welcome.innerHTML = `
-
-        <div class="welcome-orb">
-          G
-        </div>
-
-        <h1>
-          What can I help you with?
-        </h1>
-
-        <p>
-          Talk to Greg naturally.
-          This is one single continuous chat.
-        </p>
-
-        <div class="welcome-suggestions">
-
-          <button
-            class="suggestion"
-            data-suggestion="Tell me something interesting."
-          >
-
-            <div class="suggestion-title">
-              Something interesting
-            </div>
-
-            <div class="suggestion-text">
-              Ask Greg for a random fact or idea.
-            </div>
-
-          </button>
-
-
-          <button
-            class="suggestion"
-            data-suggestion="Explain how something works."
-          >
-
-            <div class="suggestion-title">
-              Explain something
-            </div>
-
-            <div class="suggestion-text">
-              Give Greg a topic and let him explain it.
-            </div>
-
-          </button>
-
-
-          <button
-            class="suggestion"
-            data-suggestion="Give me a creative idea."
-          >
-
-            <div class="suggestion-title">
-              Get creative
-            </div>
-
-            <div class="suggestion-text">
-              Ask for a story, idea, name, or concept.
-            </div>
-
-          </button>
-
-
-          <button
-            class="suggestion"
-            data-suggestion="Let's have a normal conversation."
-          >
-
-            <div class="suggestion-title">
-              Just talk
-            </div>
-
-            <div class="suggestion-text">
-              Start a normal conversation with Greg.
-            </div>
-
-          </button>
-
-        </div>
-
-      `;
-
-
-      el.messages.appendChild(
-        welcome
-      );
-
-
-      welcome
-        .querySelectorAll(
-          ".suggestion"
-        )
-        .forEach(
-          button => {
-
-            button.addEventListener(
-              "click",
-              () => {
-
-                el.input.value =
-                  button.dataset.suggestion;
-
-
-                resizeInput();
-
-
-                el.input.focus();
-
-              }
-            );
-
-          }
-        );
-
-    }
-
-
-    function removeWelcome() {
-
-      const welcome =
-        document.getElementById(
-          "welcome"
-        );
-
-
-      if (
-        welcome &&
-        welcome.parentNode
-      ) {
-
-        welcome.style.transition =
-          "opacity .25s ease, transform .25s ease";
-
-
-        welcome.style.opacity =
-          "0";
-
-
-        welcome.style.transform =
-          "translateY(-10px) scale(.98)";
-
-
-        setTimeout(
-          () =>
-            welcome.remove(),
-          250
-        );
-
-      }
-
-    }
-
-
-    /* ========================================================
-       USER MESSAGE
-       ======================================================== */
-
-    function addUserMessage(
-      text,
-      images = [],
-      files = []
-    ) {
-
-      removeWelcome();
-
-
-      const row =
-        document.createElement(
-          "div"
-        );
-
-
-      row.className =
-        "message-row user";
-
-
-      row.innerHTML = `
-
-        <div class="message-content">
-
-          ${
-            images.length
-              ? `
-                <div class="sent-image-strip"></div>
-              `
-              : ""
-          }
-
-          ${
-            files.length
-              ? `
-                <div class="sent-file-strip"></div>
-              `
-              : ""
-          }
-
-          ${
-            text
-              ? `
-                <div class="message-text"></div>
-              `
-              : ""
-          }
-
-        </div>
-
-        <div class="avatar">
-          U
-        </div>
-
-      `;
-
-
-      if (
-        images.length
-      ) {
-
-        const strip =
-          row.querySelector(
-            ".sent-image-strip"
-          );
-
-
-        images.forEach(
-          image => {
-
-            const wrapper =
-              document.createElement(
-                "div"
-              );
-
-
-            wrapper.className =
-              "sent-image";
-
-
-            const img =
-              document.createElement(
-                "img"
-              );
-
-
-            img.src =
-              image.dataUrl;
-
-
-            img.alt =
-              image.name ||
-              "Sent image";
-
-
-            wrapper.appendChild(
-              img
-            );
-
-
-            strip.appendChild(
-              wrapper
-            );
-
-          }
-        );
-
-      }
-
-
-      if (
-        files.length
-      ) {
-
-        const strip =
-          row.querySelector(
-            ".sent-file-strip"
-          );
-
-
-        files.forEach(
-          file => {
-
-            const card =
-              createFileCard(
-                file.name,
-                file.fileType ||
-                getFileTypeName(
-                  file.name,
-                  file.type
-                ),
-                false
-              );
-
-
-            strip.appendChild(
-              card
-            );
-
-          }
-        );
-
-      }
-
-
-      if (
-        text
-      ) {
-
-        row.querySelector(
-          ".message-text"
-        ).textContent =
-          text;
-
-      }
-
-
-      el.messages.appendChild(
-        row
-      );
-
-
-      scrollBottom();
-
-
-      return row;
-
-    }
-
-
-    /* ========================================================
-       GREG GENERATED IMAGE
-       ======================================================== */
-
-    function normalizeGregImageResult(
-      value
-    ) {
-
-      if (!value) return null;
-
-      if (typeof value === "string") {
-        return {
-          dataUrl: value,
-          width: null,
-          height: null,
-          filename: "greg-image.png"
         };
-      }
 
-      if (typeof value !== "object") return null;
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
+
+}
+
+
+async function addFileFiles(
+  files
+) {
+
+  const fileArray =
+    Array.from(
+      files || []
+    );
+
+
+  if (
+    !fileArray.length
+  ) {
+
+    return;
+
+  }
+
+
+  playClick();
+
+
+  for (
+    const file
+    of fileArray
+  ) {
+
+    try {
 
       const dataUrl =
-        value.data_url ||
-        value.dataUrl ||
-        value.url ||
-        value.image_url ||
-        value.imageUrl ||
-        value.src ||
-        "";
-
-      if (!dataUrl) return null;
-
-      return {
-        dataUrl: dataUrl,
-        width: Number(value.width) || null,
-        height: Number(value.height) || null,
-        filename: value.filename || value.name || "greg-image.png"
-      };
-    }
+        await readFileDataUrl(
+          file
+        );
 
 
-    function downloadGeneratedImage(
-      image
-    ) {
+      pendingFiles.push({
 
-      const normalized = normalizeGregImageResult(image);
+        id:
+          makeFileId(),
 
-      if (!normalized || !normalized.dataUrl) return;
+        name:
+          file.name,
 
-      const link = document.createElement("a");
-      link.href = normalized.dataUrl;
-      link.download = normalized.filename || "greg-image.png";
-      link.style.display = "none";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    }
+        type:
+          file.type,
 
+        size:
+          file.size,
 
-    function createGregImageCard(
-      image
-    ) {
+        dataUrl:
+          dataUrl,
 
-      const normalized = normalizeGregImageResult(image);
+        fileType:
+          getFileTypeName(
+            file.name,
+            file.type
+          )
 
-      if (!normalized || !normalized.dataUrl) return null;
-
-      const card = document.createElement("div");
-      card.className = "greg-image-card";
-
-      const imageElement = document.createElement("img");
-      imageElement.className = "greg-generated-image";
-      imageElement.src = normalized.dataUrl;
-      imageElement.alt = "Greg generated image";
-      imageElement.loading = "lazy";
-
-      const downloadButton = document.createElement("button");
-      downloadButton.type = "button";
-      downloadButton.className = "greg-image-download";
-      downloadButton.textContent = "Download";
-      downloadButton.title = "Download image";
-
-      downloadButton.addEventListener("click",event => {
-        event.preventDefault();
-        event.stopPropagation();
-        if (typeof playClick === "function") playClick();
-        downloadGeneratedImage(normalized);
       });
 
-      card.appendChild(imageElement);
-      card.appendChild(downloadButton);
-
-      return card;
-    }
-
-
-    function addGeneratedImage(
-      row,
-      image
+    } catch (
+      error
     ) {
 
-      const card = createGregImageCard(image);
-      if (!card || !row) return;
+      console.error(
+        "Could not read file:",
+        error
+      );
 
-      const messageContent = row.querySelector(".message-content");
-      if (!messageContent) return;
-
-      messageContent.appendChild(card);
-      row.classList.add("greg-image-message");
-      scrollBottom();
     }
 
+  }
 
-    /* ========================================================
-       CREATE FILE CARD
-       ======================================================== */
 
-    function createFileCard(
-      filename,
-      type,
-      generated = false,
-      downloadData = null
-    ) {
+  renderFilePreviews();
 
-      const card =
+
+  el.attachMenu.classList.remove(
+    "open"
+  );
+
+
+  el.attachButton.classList.remove(
+    "open"
+  );
+
+
+  el.fileInput.value =
+    "";
+
+}
+
+
+function removePendingFile(
+  id
+) {
+
+  const item =
+    document.querySelector(
+      `[data-file-id="${id}"]`
+    );
+
+
+  if (
+    item
+  ) {
+
+    item.classList.add(
+      "removing"
+    );
+
+
+    playClick();
+
+
+    setTimeout(
+      () => {
+
+        pendingFiles =
+          pendingFiles.filter(
+            file =>
+              file.id !==
+              id
+          );
+
+
+        renderFilePreviews();
+
+      },
+      220
+    );
+
+
+    return;
+
+  }
+
+
+  playClick();
+
+
+  pendingFiles =
+    pendingFiles.filter(
+      file =>
+        file.id !==
+        id
+    );
+
+
+  renderFilePreviews();
+
+}
+
+
+function renderFilePreviews() {
+
+  if (
+    !pendingFiles.length
+  ) {
+
+    el.fileAttachmentStrip.style.display =
+      "none";
+
+
+    el.fileAttachmentStrip.innerHTML =
+      "";
+
+
+    return;
+
+  }
+
+
+  el.fileAttachmentStrip.style.display =
+    "flex";
+
+
+  el.fileAttachmentStrip.innerHTML =
+    "";
+
+
+  pendingFiles.forEach(
+    file => {
+
+      const item =
         document.createElement(
           "div"
         );
 
 
-      card.className =
-        "file-card"
-        +
-        (
-          generated
-            ? " generated-file-card"
-            : ""
-        );
+      item.className =
+        "file-attachment";
 
 
-      if (
-        generated
-      ) {
-
-        card.classList.add(
-          "generated"
-        );
-
-
-        card.dataset.generatedFile =
-          "true";
-
-      }
+      item.dataset.fileId =
+        file.id;
 
 
       const icon =
@@ -3184,12 +1726,12 @@
 
 
       icon.className =
-        "file-icon";
+        "file-attachment-icon";
 
 
       icon.textContent =
         getFileTypeShortName(
-          type
+          file.fileType
         );
 
 
@@ -3200,7 +1742,7 @@
 
 
       info.className =
-        "file-info";
+        "file-attachment-info";
 
 
       const name =
@@ -3210,47 +1752,62 @@
 
 
       name.className =
-        "file-name";
+        "file-attachment-name";
 
 
       name.textContent =
-        filename;
+        file.name;
 
 
-      const typeLabel =
+      const type =
         document.createElement(
           "div"
         );
 
 
-      typeLabel.className =
-        "file-type";
+      type.className =
+        "file-attachment-type";
 
 
-      typeLabel.textContent =
-        generated
-          ? (
-              type.toUpperCase()
-              +
-              " · Click to download"
-            )
-          : type;
+      type.textContent =
+        file.fileType;
 
 
-      const action =
+      const remove =
         document.createElement(
-          "div"
+          "button"
         );
 
 
-      action.className =
-        "file-action";
+      remove.type =
+        "button";
 
 
-      action.textContent =
-        generated
-          ? "↓"
-          : "•";
+      remove.className =
+        "attachment-remove";
+
+
+      remove.textContent =
+        "×";
+
+
+      remove.title =
+        "Remove file";
+
+
+      remove.addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+
+          removePendingFile(
+            file.id
+          );
+
+        }
+      );
 
 
       info.appendChild(
@@ -3259,1505 +1816,638 @@
 
 
       info.appendChild(
-        typeLabel
+        type
       );
 
 
-      card.appendChild(
+      item.appendChild(
         icon
       );
 
 
-      card.appendChild(
+      item.appendChild(
         info
       );
 
 
-      card.appendChild(
-        action
+      item.appendChild(
+        remove
       );
 
 
-      if (
-        generated &&
-        downloadData
-      ) {
-
-        card.addEventListener(
-          "click",
-          () => {
-
-            playClick();
-
-
-            card.style.transform =
-              "scale(.97)";
-
-
-            setTimeout(
-              () => {
-
-                card.style.transform =
-                  "";
-
-              },
-              120
-            );
-
-
-            downloadGeneratedFile(
-              downloadData.data_url,
-              downloadData.filename
-            );
-
-          }
-        );
-
-      }
-
-
-      return card;
-
-    }
-
-
-    function downloadGeneratedFile(
-      dataUrl,
-      filename
-    ) {
-
-      const link =
-        document.createElement(
-          "a"
-        );
-
-
-      link.href =
-        dataUrl;
-
-
-      link.download =
-        filename;
-
-
-      link.style.display =
-        "none";
-
-
-      document.body.appendChild(
-        link
+      el.fileAttachmentStrip.appendChild(
+        item
       );
 
-
-      link.click();
-
-
-      link.remove();
-
     }
+  );
+
+}
 
 
-    function addGeneratedFiles(
+function getFileTypeShortName(
+  type
+) {
+
+  const value =
+    String(
+      type ||
+      "FILE"
+    );
+
+
+  if (
+    value ===
+    "JavaScript"
+  ) {
+
+    return "JS";
+
+  }
+
+
+  if (
+    value ===
+    "TypeScript"
+  ) {
+
+    return "TS";
+
+  }
+
+
+  if (
+    value ===
+    "PowerShell"
+  ) {
+
+    return "PS";
+
+  }
+
+
+  if (
+    value ===
+    "Markdown"
+  ) {
+
+    return "MD";
+
+  }
+
+
+  if (
+    value.length >
+    5
+  ) {
+
+    return value
+      .slice(
+        0,
+        5
+      )
+      .toUpperCase();
+
+  }
+
+
+  return value.toUpperCase();
+
+}
+
+
+function cloneFilesForStorage(
+  files
+) {
+
+  if (
+    !Array.isArray(
       files
+    )
+  ) {
+
+    return [];
+
+  }
+
+
+  return files.map(
+    file => ({
+
+      id:
+        file.id ||
+        makeFileId(),
+
+      name:
+        file.name ||
+        "file",
+
+      type:
+        file.type ||
+        "",
+
+      size:
+        file.size ||
+        0,
+
+      fileType:
+        file.fileType ||
+        getFileTypeName(
+          file.name,
+          file.type
+        ),
+
+      dataUrl:
+        file.dataUrl ||
+        ""
+
+    })
+  );
+
+}
+
+
+/* ========================================================
+   LOAD / SAVE STATE
+   ======================================================== */
+
+function loadState() {
+
+  try {
+
+    const raw =
+      localStorage.getItem(
+        STORAGE_KEY
+      );
+
+
+    if (
+      !raw
     ) {
-
-      if (
-        !Array.isArray(
-          files
-        ) ||
-        !files.length
-      ) {
-
-        return;
-
-      }
-
-
-      const row =
-        document.createElement(
-          "div"
-        );
-
-
-      row.className =
-        "message-row greg";
-
-
-      row.innerHTML = `
-
-        <div class="avatar">
-          G
-        </div>
-
-        <div class="message-content">
-
-          <div class="message-name">
-            Greg
-          </div>
-
-          <div class="sent-file-strip"></div>
-
-        </div>
-
-      `;
-
-
-      const strip =
-        row.querySelector(
-          ".sent-file-strip"
-        );
-
-
-      files.forEach(
-        file => {
-
-          const card =
-            createFileCard(
-              file.filename ||
-              "greg_file",
-              file.type ||
-              "file",
-              true,
-              file
-            );
-
-
-          strip.appendChild(
-            card
-          );
-
-        }
-      );
-
-
-      el.messages.appendChild(
-        row
-      );
-
-
-      scrollBottom();
-
-    }
-
-
-    /* ========================================================
-       THINKING
-       ======================================================== */
-
-    function addThinkingMessage() {
-
-      const row =
-        document.createElement(
-          "div"
-        );
-
-
-      row.className =
-        "message-row greg";
-
-
-      row.innerHTML = `
-
-        <div class="avatar">
-          G
-        </div>
-
-        <div class="message-content">
-
-          <div class="message-name">
-            Greg
-          </div>
-
-          <div class="typing-dots">
-
-            <span></span>
-            <span></span>
-            <span></span>
-
-          </div>
-
-        </div>
-
-      `;
-
-
-      el.messages.appendChild(
-        row
-      );
-
-
-      scrollBottom();
-
-
-      return row;
-
-    }
-
-
-    /* ========================================================
-       GREG STREAM CONTAINER
-       ======================================================== */
-
-    function createGregStream() {
-
-      const row =
-        document.createElement(
-          "div"
-        );
-
-
-      row.className =
-        "message-row greg";
-
-
-      row.innerHTML = `
-
-        <div class="avatar">
-          G
-        </div>
-
-        <div class="message-content">
-
-          <div class="message-name">
-            Greg
-          </div>
-
-          <div
-            class="thinking-panel"
-          >
-
-            <div
-              class="thinking-header"
-            >
-
-              <span
-                class="thinking-dot"
-              ></span>
-
-              <span
-                class="thinking-label"
-              >
-                Thinking
-              </span>
-
-            </div>
-
-            <div
-              class="thinking-content"
-            ></div>
-
-          </div>
-
-          <div
-            class="greg-output"
-          ></div>
-
-          <span
-            class="stream-cursor"
-          ></span>
-
-        </div>
-
-      `;
-
-
-      el.messages.appendChild(
-        row
-      );
-
-
-      scrollBottom();
-
 
       return {
 
-        row:
-          row,
+        params:
+          {
+            ...PRESET_PARAMS.default
+          },
 
-        output:
-          row.querySelector(
-            ".greg-output"
-          ),
-
-        cursor:
-          row.querySelector(
-            ".stream-cursor"
-          ),
-
-        thinkingPanel:
-          row.querySelector(
-            ".thinking-panel"
-          ),
-
-        thinkingLabel:
-          row.querySelector(
-            ".thinking-label"
-          ),
-
-        thinkingContent:
-          row.querySelector(
-            ".thinking-content"
-          ),
-
-        thinkingBuffer:
-          "",
-
-        thinkingMode:
-          false,
-
-        thinkingStarted:
-          false,
-
-        thinkingEnded:
-          false,
-
-        thinkingCharIndex:
-          0,
-
-        answerText:
-          "",
-
-        metaFound:
-          false,
-
-        metaBuffer:
-          "",
-
-        metaScanBuffer:
-          "",
-
-        imageDescription:
-          null,
-
-        imageCount:
-          0,
-
-        fileCount:
-          0,
-
-        files:
+        conversation:
           [],
 
-        generatedFiles:
-          [],
-
-        imageRequest:
-          null,
-
-        imageResult:
-          null
+        preset:
+          "default"
 
       };
 
     }
 
 
-    /* ========================================================
-       TYPEWRITER
-       ======================================================== */
+    const parsed =
+      JSON.parse(
+        raw
+      );
 
-    async function typeText(
-      element,
-      text,
-      delay = 5
+
+    return {
+
+      params:
+        {
+          ...PRESET_PARAMS.default,
+          ...(parsed.params || {})
+        },
+
+      conversation:
+        Array.isArray(
+          parsed.conversation
+        )
+          ? parsed.conversation
+          : [],
+
+      preset:
+        parsed.preset &&
+        PRESET_PARAMS[
+          parsed.preset
+        ]
+          ? parsed.preset
+          : "default"
+
+    };
+
+  } catch {
+
+    return {
+
+      params:
+        {
+          ...PRESET_PARAMS.default
+        },
+
+      conversation:
+        [],
+
+      preset:
+        "default"
+
+    };
+
+  }
+
+}
+
+
+function saveState() {
+
+  try {
+
+    localStorage.setItem(
+
+      STORAGE_KEY,
+
+      JSON.stringify(
+        state
+      )
+
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "Could not save Greg state:",
+      error
+    );
+
+  }
+
+}
+
+
+/* ========================================================
+   HELPERS
+   ======================================================== */
+
+function sleep(
+  ms
+) {
+
+  return new Promise(
+    resolve =>
+      setTimeout(
+        resolve,
+        ms
+      )
+  );
+
+}
+
+
+function resizeInput() {
+
+  el.input.style.height =
+    "auto";
+
+
+  el.input.style.height =
+    Math.min(
+      el.input.scrollHeight,
+      190
+    ) +
+    "px";
+
+}
+
+
+function scrollBottom(
+  smooth = true
+) {
+
+  el.messages.scrollTo({
+
+    top:
+      el.messages.scrollHeight,
+
+    behavior:
+      smooth
+        ? "smooth"
+        : "auto"
+
+  });
+
+}
+
+
+function cloneImagesForStorage(
+  images
+) {
+
+  if (
+    !Array.isArray(
+      images
+    )
+  ) {
+
+    return [];
+
+  }
+
+
+  return images.map(
+    image => ({
+
+      id:
+        image.id ||
+        makeImageId(),
+
+      name:
+        image.name ||
+        "image",
+
+      type:
+        image.type ||
+        "image/*",
+
+      size:
+        image.size ||
+        0,
+
+      dataUrl:
+        image.dataUrl ||
+        ""
+
+    })
+  );
+
+}
+
+
+/* ========================================================
+   THINKING
+   ======================================================== */
+
+function buildWavyText(
+  element,
+  text,
+  startIndex = 0
+) {
+
+  const chars =
+    Array.from(
+      String(text)
+    );
+
+
+  let index =
+    startIndex;
+
+
+  for (
+    const char
+    of chars
+  ) {
+
+    if (
+      char ===
+      "\n"
     ) {
 
-      const chars =
-        Array.from(
-          String(text)
-        );
+      element.appendChild(
+        document.createElement(
+          "br"
+        )
+      );
 
 
-      for (
-        let i = 0;
-        i < chars.length;
-        i++
-      ) {
-
-        const ch =
-          chars[i];
+      index +=
+        1;
 
 
-        element.textContent +=
-          ch;
-
-
-        let wait =
-          delay;
-
-
-        if (
-          ch === " "
-        ) {
-
-          wait +=
-            10;
-
-        } else if (
-          ch === ","
-        ) {
-
-          wait +=
-            40;
-
-        } else if (
-          ch === "."
-        ) {
-
-          wait +=
-            80;
-
-        } else if (
-          ch === "!"
-        ) {
-
-          wait +=
-            90;
-
-        } else if (
-          ch === "?"
-        ) {
-
-          wait +=
-            90;
-
-        } else if (
-          ch === "\n"
-        ) {
-
-          wait +=
-            120;
-
-        }
-
-
-        await sleep(
-          wait
-        );
-
-      }
+      continue;
 
     }
 
 
-    /* ========================================================
-       CODE BLOCK
-       ======================================================== */
-
-    function createCodeBlock(
-      language
-    ) {
-
-      const shell =
-        document.createElement(
-          "div"
-        );
-
-
-      shell.className =
-        "code-block-shell";
-
-
-      const inner =
-        document.createElement(
-          "div"
-        );
-
-
-      inner.className =
-        "code-block-inner";
-
-
-      const block =
-        document.createElement(
-          "div"
-        );
-
-
-      block.className =
-        "code-block live";
-
-
-      const header =
-        document.createElement(
-          "div"
-        );
-
-
-      header.className =
-        "code-header";
-
-
-      const languageLabel =
-        document.createElement(
-          "span"
-        );
-
-
-      languageLabel.className =
-        "code-language";
-
-
-      languageLabel.textContent =
-        language ||
-        "code";
-
-
-      const copyButton =
-        document.createElement(
-          "button"
-        );
-
-
-      copyButton.className =
-        "code-copy";
-
-
-      copyButton.type =
-        "button";
-
-
-      copyButton.textContent =
-        "Copy";
-
-
-      const codeContent =
-        document.createElement(
-          "div"
-        );
-
-
-      codeContent.className =
-        "code-content";
-
-
-      codeContent.textContent =
-        "";
-
-
-      copyButton.addEventListener(
-        "click",
-        async event => {
-
-          event.stopPropagation();
-
-
-          playClick();
-
-
-          try {
-
-            await navigator.clipboard.writeText(
-              codeContent.textContent
-            );
-
-
-            copyButton.textContent =
-              "Copied!";
-
-
-            setTimeout(
-              () =>
-                copyButton.textContent =
-                  "Copy",
-              1200
-            );
-
-
-          } catch {
-
-            copyButton.textContent =
-              "Copy failed";
-
-
-            setTimeout(
-              () =>
-                copyButton.textContent =
-                  "Copy",
-              1200
-            );
-
-          }
-
-        }
+    const span =
+      document.createElement(
+        "span"
       );
 
 
-      header.appendChild(
-        languageLabel
+    span.className =
+      "thinking-label-char";
+
+
+    span.textContent =
+      char;
+
+
+    const waveDelay =
+      (
+        index *
+        0.06
       );
 
 
-      header.appendChild(
-        copyButton
+    span.style.setProperty(
+      "--thinking-delay",
+      `${waveDelay}s`
+    );
+
+
+    element.appendChild(
+      span
+    );
+
+
+    index +=
+      1;
+
+  }
+
+
+  return index;
+
+}
+
+
+function appendThinkingText(
+  stream,
+  text
+) {
+
+  if (
+    !text
+  ) {
+
+    return;
+
+  }
+
+
+  stream.thinkingContent.textContent +=
+    text;
+
+
+  stream.thinkingPanel.classList.add(
+    "visible"
+  );
+
+
+  scrollBottom(
+    false
+  );
+
+}
+
+
+function startThinkingUI(
+  stream
+) {
+
+  if (
+    stream.thinkingStarted
+  ) {
+
+    return;
+
+  }
+
+
+  stream.thinkingStarted =
+    true;
+
+
+  stream.thinkingEnded =
+    false;
+
+
+  stream.thinkingContent.textContent =
+    "";
+
+
+  stream.thinkingLabel.innerHTML =
+    "";
+
+
+  buildWavyText(
+    stream.thinkingLabel,
+    "Thinking",
+    0
+  );
+
+
+  stream.thinkingPanel.classList.remove(
+    "closing"
+  );
+
+
+  requestAnimationFrame(
+    () => {
+
+      stream.thinkingPanel.classList.add(
+        "visible"
       );
-
-
-      block.appendChild(
-        header
-      );
-
-
-      block.appendChild(
-        codeContent
-      );
-
-
-      inner.appendChild(
-        block
-      );
-
-
-      shell.appendChild(
-        inner
-      );
-
-
-      requestAnimationFrame(
-        () => {
-
-          requestAnimationFrame(
-            () => {
-
-              shell.classList.add(
-                "open"
-              );
-
-            }
-          );
-
-        }
-      );
-
-
-      return {
-
-        shell,
-        block,
-        codeContent,
-        languageLabel
-
-      };
 
     }
+  );
 
 
-    /* ========================================================
-       ORDERED RENDER QUEUE
-       ======================================================== */
+  scrollBottom(
+    false
+  );
 
-    class OrderedRenderer {
+}
 
-      constructor(
-        stream
-      ) {
 
-        this.stream =
-          stream;
+function finishThinkingUI(
+  stream
+) {
 
-        this.queue =
-          [];
+  if (
+    !stream.thinkingStarted ||
+    stream.thinkingEnded
+  ) {
 
-        this.running =
-          false;
+    return;
 
-        this.finished =
-          false;
+  }
 
-        this.waiter =
-          null;
 
-        this.code =
-          null;
+  stream.thinkingEnded =
+    true;
 
-        this.textElement =
-          null;
 
-      }
+  stream.thinkingPanel.classList.add(
+    "closing"
+  );
 
 
-      enqueue(
-        operation
-      ) {
-
-        this.queue.push(
-          operation
-        );
-
-
-        this.wake();
-
-
-        this.run();
-
-      }
-
-
-      wake() {
-
-        if (
-          this.waiter
-        ) {
-
-          const resolve =
-            this.waiter;
-
-
-          this.waiter =
-            null;
-
-
-          resolve();
-
-        }
-
-      }
-
-
-      async waitForQueue() {
-
-        if (
-          this.queue.length
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          this.finished
-        ) {
-
-          return;
-
-        }
-
-
-        await new Promise(
-          resolve => {
-
-            this.waiter =
-              resolve;
-
-          }
-        );
-
-      }
-
-
-      async run() {
-
-        if (
-          this.running
-        ) {
-
-          return;
-
-        }
-
-
-        this.running =
-          true;
-
-
-        try {
-
-          while (
-            !this.finished ||
-            this.queue.length
-          ) {
-
-            if (
-              !this.queue.length
-            ) {
-
-              await this.waitForQueue();
-
-
-              continue;
-
-            }
-
-
-            const operation =
-              this.queue.shift();
-
-
-            await this.renderOperation(
-              operation
-            );
-
-          }
-
-        } finally {
-
-          this.running =
-            false;
-
-        }
-
-      }
-
-
-      async renderOperation(
-        operation
-      ) {
-
-        if (
-          operation.type ===
-          "text"
-        ) {
-
-          await this.renderText(
-            operation.text
-          );
-
-
-          return;
-
-        }
-
-
-        if (
-          operation.type ===
-          "code-open"
-        ) {
-
-          await this.renderCodeOpen(
-            operation.language
-          );
-
-
-          return;
-
-        }
-
-
-        if (
-          operation.type ===
-          "code-text"
-        ) {
-
-          this.renderCodeText(
-            operation.text
-          );
-
-
-          return;
-
-        }
-
-
-        if (
-          operation.type ===
-          "code-close"
-        ) {
-
-          this.renderCodeClose();
-
-        }
-
-      }
-
-
-      async renderText(
-        text
-      ) {
-
-        if (
-          !text
-        ) {
-
-          return;
-
-        }
-
-
-        const span =
-          document.createElement(
-            "span"
-          );
-
-
-        span.className =
-          "message-text";
-
-
-        this.stream.output.appendChild(
-          span
-        );
-
-
-        this.textElement =
-          span;
-
-
-        await typeText(
-          span,
-          text,
-          25
-        );
-
-
-        scrollBottom(
-          false
-        );
-
-      }
-
-
-      async renderCodeOpen(
-        language
-      ) {
-
-        const code =
-          createCodeBlock(
-            language
-          );
-
-
-        this.stream.output.appendChild(
-          code.shell
-        );
-
-
-        this.code =
-          code;
-
-
-        scrollBottom(
-          false
-        );
-
-
-        await sleep(
-          30
-        );
-
-      }
-
-
-      renderCodeText(
-        text
-      ) {
-
-        if (
-          !this.code ||
-          !text
-        ) {
-
-          return;
-
-        }
-
-
-        this.code.codeContent.textContent +=
-          text;
-
-
-        scrollBottom(
-          false
-        );
-
-      }
-
-
-      renderCodeClose() {
-
-        if (
-          !this.code
-        ) {
-
-          return;
-
-        }
-
-
-        this.code.block.classList.remove(
-          "live"
-        );
-
-
-        this.code =
-          null;
-
-
-        scrollBottom(
-          false
-        );
-
-      }
-
-
-      async finish() {
-
-        this.finished =
-          true;
-
-
-        this.wake();
-
-
-        while (
-          this.running ||
-          this.queue.length
-        ) {
-
-          await sleep(
-            10
-          );
-
-        }
-
-      }
-
-    }
-
-
-    /* ========================================================
-       STREAM PARSER
-       ======================================================== */
-
-    class StreamParser {
-
-      constructor(
-        renderer
-      ) {
-
-        this.renderer =
-          renderer;
-
-        this.mode =
-          "text";
-
-        this.pending =
-          "";
-
-        this.finished =
-          false;
-
-      }
-
-
-      feed(
-        incoming
-      ) {
-
-        if (
-          !incoming ||
-          this.finished
-        ) {
-
-          return;
-
-        }
-
-
-        this.pending +=
-          incoming;
-
-
-        this.process();
-
-      }
-
-
-      process() {
-
-        while (
-          this.pending.length
-        ) {
-
-          if (
-            this.mode ===
-            "text"
-          ) {
-
-            const markerIndex =
-              this.pending.indexOf(
-                "```"
-              );
-
-
-            if (
-              markerIndex ===
-              -1
-            ) {
-
-              if (
-                this.pending.length <=
-                2
-              ) {
-
-                return;
-
-              }
-
-
-              const safeText =
-                this.pending.slice(
-                  0,
-                  this.pending.length - 2
-                );
-
-
-              this.pending =
-                this.pending.slice(
-                  -2
-                );
-
-
-              this.renderer.enqueue({
-
-                type:
-                  "text",
-
-                text:
-                  safeText
-
-              });
-
-
-              continue;
-
-            }
-
-
-            const textBefore =
-              this.pending.slice(
-                0,
-                markerIndex
-              );
-
-
-            if (
-              textBefore
-            ) {
-
-              this.renderer.enqueue({
-
-                type:
-                  "text",
-
-                text:
-                  textBefore
-
-              });
-
-            }
-
-
-            this.pending =
-              this.pending.slice(
-                markerIndex + 3
-              );
-
-
-            this.mode =
-              "language";
-
-
-            continue;
-
-          }
-
-
-          if (
-            this.mode ===
-            "language"
-          ) {
-
-            const newlineIndex =
-              this.pending.indexOf(
-                "\n"
-              );
-
-
-            if (
-              newlineIndex ===
-              -1
-            ) {
-
-              return;
-
-            }
-
-
-            const language =
-              this.pending
-                .slice(
-                  0,
-                  newlineIndex
-                )
-                .trim();
-
-
-            this.pending =
-              this.pending.slice(
-                newlineIndex + 1
-              );
-
-
-            this.renderer.enqueue({
-
-              type:
-                "code-open",
-
-              language:
-                language ||
-                "code"
-
-            });
-
-
-            this.mode =
-              "code";
-
-
-            continue;
-
-          }
-
-
-          if (
-            this.mode ===
-            "code"
-          ) {
-
-            const markerIndex =
-              this.pending.indexOf(
-                "```"
-              );
-
-
-            if (
-              markerIndex ===
-              -1
-            ) {
-
-              if (
-                this.pending.length <=
-                2
-              ) {
-
-                return;
-
-              }
-
-
-              const safeCode =
-                this.pending.slice(
-                  0,
-                  this.pending.length - 2
-                );
-
-
-              this.pending =
-                this.pending.slice(
-                  -2
-                );
-
-
-              this.renderer.enqueue({
-
-                type:
-                  "code-text",
-
-                text:
-                  safeCode
-
-              });
-
-
-              continue;
-
-            }
-
-
-            const codeBefore =
-              this.pending.slice(
-                0,
-                markerIndex
-              );
-
-
-            if (
-              codeBefore
-            ) {
-
-              this.renderer.enqueue({
-
-                type:
-                  "code-text",
-
-                text:
-                  codeBefore
-
-              });
-
-            }
-
-
-            this.pending =
-              this.pending.slice(
-                markerIndex + 3
-              );
-
-
-            this.renderer.enqueue({
-
-              type:
-                "code-close"
-
-            });
-
-
-            this.mode =
-              "text";
-
-
-            continue;
-
-          }
-
-        }
-
-      }
-
-
-      finish() {
-
-        if (
-          this.finished
-        ) {
-
-          return;
-
-        }
-
-
-        if (
-          this.pending
-        ) {
-
-          if (
-            this.mode ===
-            "text"
-          ) {
-
-            this.renderer.enqueue({
-
-              type:
-                "text",
-
-              text:
-                this.pending
-
-            });
-
-          } else if (
-            this.mode ===
-            "code"
-          ) {
-
-            this.renderer.enqueue({
-
-              type:
-                "code-text",
-
-              text:
-                this.pending
-
-            });
-
-          } else if (
-            this.mode ===
-            "language"
-          ) {
-
-            this.renderer.enqueue({
-
-              type:
-                "text",
-
-              text:
-                "```" +
-                this.pending
-
-            });
-
-          }
-
-        }
-
-
-        this.pending =
-          "";
-
-
-        this.finished =
-          true;
-
-      }
-
-    }
-
-
-    /* ========================================================
-       METADATA
-       ======================================================== */
-
-    function processStreamChunkWithMetadata(
-      chunk,
-      parser,
-      stream
-    ) {
+  setTimeout(
+    () => {
 
       if (
-        !chunk
+        stream.thinkingPanel
       ) {
 
-        return;
+        stream.thinkingPanel.classList.remove(
+          "visible"
+        );
 
       }
 
+    },
+    420
+  );
 
-      if (
-        stream.metaFound
-      ) {
-
-        stream.metaBuffer +=
-          chunk;
+}
 
 
-        return;
+function processThinkingStream(
+  chunk,
+  parser,
+  stream
+) {
 
-      }
+  if (
+    !chunk
+  ) {
+
+    return;
+
+  }
 
 
-      stream.metaScanBuffer +=
-        chunk;
+  stream.thinkingBuffer +=
+    chunk;
 
 
-      const markerIndex =
-        stream.metaScanBuffer.indexOf(
-          META_MARKER
+  while (
+    stream.thinkingBuffer.length
+  ) {
+
+    if (
+      !stream.thinkingMode
+    ) {
+
+      const startIndex =
+        stream.thinkingBuffer.indexOf(
+          "<think>"
         );
 
 
       if (
-        markerIndex ===
+        startIndex ===
         -1
       ) {
 
         const keepLength =
-          META_MARKER.length -
+          "<think>".length -
           1;
 
 
         if (
-          stream.metaScanBuffer.length <=
+          stream.thinkingBuffer.length <=
           keepLength
         ) {
 
@@ -4767,972 +2457,3070 @@
 
 
         const safeLength =
-          stream.metaScanBuffer.length -
+          stream.thinkingBuffer.length -
           keepLength;
 
 
         const safeText =
-          stream.metaScanBuffer.slice(
+          stream.thinkingBuffer.slice(
             0,
             safeLength
           );
 
 
-        stream.metaScanBuffer =
-          stream.metaScanBuffer.slice(
+        stream.thinkingBuffer =
+          stream.thinkingBuffer.slice(
             safeLength
           );
 
 
-        processThinkingStream(
-          safeText,
-          parser,
-          stream
-        );
+        if (
+          safeText
+        ) {
+
+          stream.answerText +=
+            safeText;
 
 
-        return;
+          parser.feed(
+            safeText
+          );
+
+        }
+
+
+        continue;
 
       }
 
 
-      const answerBeforeMetadata =
-        stream.metaScanBuffer.slice(
+      const answerBeforeThink =
+        stream.thinkingBuffer.slice(
           0,
-          markerIndex
+          startIndex
         );
 
 
       if (
-        answerBeforeMetadata
+        answerBeforeThink
       ) {
 
-        processThinkingStream(
-          answerBeforeMetadata,
-          parser,
-          stream
+        stream.answerText +=
+          answerBeforeThink;
+
+
+        parser.feed(
+          answerBeforeThink
         );
 
       }
 
 
-      stream.metaFound =
+      stream.thinkingBuffer =
+        stream.thinkingBuffer.slice(
+          startIndex +
+          "<think>".length
+        );
+
+
+      stream.thinkingMode =
         true;
 
 
-      stream.metaBuffer =
-        stream.metaScanBuffer.slice(
-
-          markerIndex +
-          META_MARKER.length
-
-        );
+      startThinkingUI(
+        stream
+      );
 
 
-      stream.metaScanBuffer =
-        "";
+      continue;
 
     }
 
 
-    function finishStreamMetadata(
-      parser,
-      stream
+    const endIndex =
+      stream.thinkingBuffer.indexOf(
+        "</think>"
+      );
+
+
+    if (
+      endIndex ===
+      -1
     ) {
 
+      const keepLength =
+        "</think>".length -
+        1;
+
+
       if (
-        !stream.metaFound
+        stream.thinkingBuffer.length <=
+        keepLength
       ) {
-
-        if (
-          stream.metaScanBuffer
-        ) {
-
-          processThinkingStream(
-            stream.metaScanBuffer,
-            parser,
-            stream
-          );
-
-        }
-
-
-        stream.metaScanBuffer =
-          "";
-
 
         return;
 
       }
 
 
-      try {
-
-        const metadata =
-          JSON.parse(
-            stream.metaBuffer.trim()
-          );
+      const safeLength =
+        stream.thinkingBuffer.length -
+        keepLength;
 
 
-        if (
-          metadata &&
-          typeof metadata ===
-          "object"
-        ) {
-
-          stream.imageDescription =
-
-            typeof metadata.image_description ===
-            "string"
-
-              ? metadata.image_description.trim()
-
-              : null;
-
-
-          stream.imageCount =
-            Number(
-              metadata.image_count ||
-              0
-            );
-
-
-          stream.fileCount =
-            Number(
-              metadata.file_count ||
-              0
-            );
-
-
-          stream.files =
-            Array.isArray(
-              metadata.files
-            )
-              ? metadata.files
-              : [];
-
-
-          stream.generatedFiles =
-            Array.isArray(
-              metadata.generated_files
-            )
-              ? metadata.generated_files
-              : [];
-
-          stream.imageRequest =
-            metadata.image_request &&
-            typeof metadata.image_request ===
-            "object"
-              ? metadata.image_request
-              : null;
-
-          stream.imageResult =
-            normalizeGregImageResult(
-              metadata.image_result ||
-              metadata.generated_image ||
-              metadata.image ||
-              null
-            );
-
-        }
-
-      } catch (
-        error
-      ) {
-
-        console.error(
-          "Could not parse Greg metadata:",
-          error
+      const thinkingText =
+        stream.thinkingBuffer.slice(
+          0,
+          safeLength
         );
 
-      }
+
+      stream.thinkingBuffer =
+        stream.thinkingBuffer.slice(
+          safeLength
+        );
+
+
+      appendThinkingText(
+        stream,
+        thinkingText
+      );
+
+
+      continue;
 
     }
 
 
-    /* ========================================================
-       STREAM MESSAGE
-       ======================================================== */
+    const thinkingText =
+      stream.thinkingBuffer.slice(
+        0,
+        endIndex
+      );
 
-    async function streamMessage(
-      userText,
-      images = [],
-      files = []
+
+    if (
+      thinkingText
     ) {
 
-      const controller =
-        new AbortController();
+      appendThinkingText(
+        stream,
+        thinkingText
+      );
 
+    }
 
-      const timeout =
-        setTimeout(
-          () =>
-            controller.abort(),
-          1800000
-        );
 
+    stream.thinkingBuffer =
+      stream.thinkingBuffer.slice(
+        endIndex +
+        "</think>".length
+      );
 
-      const stream =
-        createGregStream();
 
+    stream.thinkingMode =
+      false;
 
-      const renderer =
-        new OrderedRenderer(
-          stream
-        );
 
+    finishThinkingUI(
+      stream
+    );
 
-      const parser =
-        new StreamParser(
-          renderer
-        );
 
+    continue;
 
-      let completed =
-        false;
+  }
 
+}
 
-      const recentMessages =
-        state.conversation
-          .slice(
-            -MEMORY_LIMIT
-          )
-          .map(
-            item => {
 
-              const speaker =
-                item.role ===
-                "user"
-                  ? "User"
-                  : "Greg";
+function finishThinkingStream(
+  parser,
+  stream
+) {
 
+  if (
+    !stream.thinkingBuffer
+  ) {
 
-              let result =
-                `${speaker}: ${
-                  item.content || ""
-                }`;
+    return;
 
+  }
 
-              if (
-                item.role === "user" &&
-                item.imageDescription
-              ) {
 
-                result +=
-                  "\n[Visual information from "
-                  +
-                  "images attached to this earlier "
-                  +
-                  "message:]\n"
-                  +
-                  item.imageDescription;
+  if (
+    stream.thinkingMode
+  ) {
 
-              }
+    appendThinkingText(
+      stream,
+      stream.thinkingBuffer
+    );
 
 
-              if (
-                item.role === "user" &&
-                Array.isArray(
-                  item.files
-                ) &&
-                item.files.length
-              ) {
+    stream.thinkingBuffer =
+      "";
 
-                result +=
-                  "\n[Files attached to this earlier "
-                  +
-                  "message:]\n";
 
+    finishThinkingUI(
+      stream
+    );
 
-                item.files.forEach(
-                  file => {
 
-                    result +=
-                      `File: ${
-                        file.name ||
-                        "file"
-                      }`;
+    return;
 
-                    if (
-                      file.fileType
-                    ) {
+  }
 
-                      result +=
-                        ` (${file.fileType})`;
 
-                    }
+  stream.answerText +=
+    stream.thinkingBuffer;
 
-                    result +=
-                      "\n";
 
-                  }
-                );
+  parser.feed(
+    stream.thinkingBuffer
+  );
 
-              }
 
+  stream.thinkingBuffer =
+    "";
 
-              return result;
+}
 
-            }
-          )
-          .join(
-            "\n\n"
-          );
 
+/* ========================================================
+   WELCOME
+   ======================================================== */
 
-      const imagePayload =
-        images.map(
-          image =>
-            image.dataUrl
-        );
+function showWelcome() {
 
+  if (
+    document.getElementById(
+      "welcome"
+    )
+  ) {
 
-      try {
+    return;
 
-        const response =
-          await fetch(
-            `${API_URL}/chat/stream`,
-            {
-              method:
-                "POST",
+  }
 
-              headers:
-                {
-                  "Content-Type":
-                    "application/json"
-                },
 
-              body:
-                JSON.stringify({
+  const welcome =
+    document.createElement(
+      "div"
+    );
 
-                  message:
-                    userText,
 
-                  memory:
-                    recentMessages,
+  welcome.id =
+    "welcome";
 
-                  params:
-                    state.params,
 
-                  images:
-                    imagePayload,
+  welcome.className =
+    "welcome";
 
-                  files:
-                    files
 
-                }),
+  welcome.innerHTML = `
 
-              signal:
-                controller.signal
+    <div class="welcome-orb">
+      G
+    </div>
 
-            }
-          );
+    <h1>
+      What can I help you with?
+    </h1>
 
+    <p>
+      Talk to Greg naturally.
+      This is one single continuous chat.
+    </p>
 
-        if (
-          !response.ok
-        ) {
+    <div class="welcome-suggestions">
 
-          const errorText =
-            await response.text();
+      <button
+        class="suggestion"
+        data-suggestion="Tell me something interesting."
+      >
 
+        <div class="suggestion-title">
+          Something interesting
+        </div>
 
-          throw new Error(
-            `HTTP ${response.status}: ${
-              errorText ||
-              "Request failed"
-            }`
-          );
+        <div class="suggestion-text">
+          Ask Greg for a random fact or idea.
+        </div>
 
-        }
+      </button>
 
 
-        if (
-          !response.body
-        ) {
+      <button
+        class="suggestion"
+        data-suggestion="Explain how something works."
+      >
 
-          throw new Error(
-            "Browser streaming is unavailable."
-          );
+        <div class="suggestion-title">
+          Explain something
+        </div>
 
-        }
+        <div class="suggestion-text">
+          Give Greg a topic and let him explain it.
+        </div>
 
+      </button>
 
-        const reader =
-          response.body.getReader();
 
+      <button
+        class="suggestion"
+        data-suggestion="Give me a creative idea."
+      >
 
-        const decoder =
-          new TextDecoder(
-            "utf-8"
-          );
+        <div class="suggestion-title">
+          Get creative
+        </div>
 
+        <div class="suggestion-text">
+          Ask for a story, idea, name, or concept.
+        </div>
 
-        while (true) {
+      </button>
 
-          const result =
-            await reader.read();
 
+      <button
+        class="suggestion"
+        data-suggestion="Let's have a normal conversation."
+      >
 
-          if (
-            result.done
-          ) {
+        <div class="suggestion-title">
+          Just talk
+        </div>
 
-            break;
+        <div class="suggestion-text">
+          Start a normal conversation with Greg.
+        </div>
+
+      </button>
+
+    </div>
+
+  `;
+
+
+  el.messages.appendChild(
+    welcome
+  );
+
+
+  welcome
+    .querySelectorAll(
+      ".suggestion"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            el.input.value =
+              button.dataset.suggestion;
+
+
+            resizeInput();
+
+
+            el.input.focus();
 
           }
+        );
+
+      }
+    );
+
+}
 
 
-          const chunk =
-            decoder.decode(
-              result.value,
-              {
-                stream:
-                  true
-              }
-            );
+function removeWelcome() {
+
+  const welcome =
+    document.getElementById(
+      "welcome"
+    );
 
 
-          if (
-            !chunk
-          ) {
+  if (
+    welcome &&
+    welcome.parentNode
+  ) {
 
-            continue;
+    welcome.style.transition =
+      "opacity .25s ease, transform .25s ease";
 
-          }
+
+    welcome.style.opacity =
+      "0";
 
 
-          processStreamChunkWithMetadata(
-            chunk,
-            parser,
-            stream
+    welcome.style.transform =
+      "translateY(-10px) scale(.98)";
+
+
+    setTimeout(
+      () =>
+        welcome.remove(),
+      250
+    );
+
+  }
+
+}
+
+
+/* ========================================================
+   USER MESSAGE
+   ======================================================== */
+
+function addUserMessage(
+  text,
+  images = [],
+  files = []
+) {
+
+  removeWelcome();
+
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+
+  row.className =
+    "message-row user";
+
+
+  row.innerHTML = `
+
+    <div class="message-content">
+
+      ${
+        images.length
+          ? `
+            <div class="sent-image-strip"></div>
+          `
+          : ""
+      }
+
+      ${
+        files.length
+          ? `
+            <div class="sent-file-strip"></div>
+          `
+          : ""
+      }
+
+      ${
+        text
+          ? `
+            <div class="message-text"></div>
+          `
+          : ""
+      }
+
+    </div>
+
+    <div class="avatar">
+      U
+    </div>
+
+  `;
+
+
+  if (
+    images.length
+  ) {
+
+    const strip =
+      row.querySelector(
+        ".sent-image-strip"
+      );
+
+
+    images.forEach(
+      image => {
+
+        const wrapper =
+          document.createElement(
+            "div"
           );
 
 
-          scrollBottom(
+        wrapper.className =
+          "sent-image";
+
+
+        const img =
+          document.createElement(
+            "img"
+          );
+
+
+        img.src =
+          image.dataUrl;
+
+
+        img.alt =
+          image.name ||
+          "Sent image";
+
+
+        wrapper.appendChild(
+          img
+        );
+
+
+        strip.appendChild(
+          wrapper
+        );
+
+      }
+    );
+
+  }
+
+
+  if (
+    files.length
+  ) {
+
+    const strip =
+      row.querySelector(
+        ".sent-file-strip"
+      );
+
+
+    files.forEach(
+      file => {
+
+        const card =
+          createFileCard(
+            file.name,
+            file.fileType ||
+            getFileTypeName(
+              file.name,
+              file.type
+            ),
             false
           );
 
-        }
+
+        strip.appendChild(
+          card
+        );
+
+      }
+    );
+
+  }
 
 
-        const finalChunk =
-          decoder.decode();
+  if (
+    text
+  ) {
+
+    row.querySelector(
+      ".message-text"
+    ).textContent =
+      text;
+
+  }
 
 
-        if (
-          finalChunk
-        ) {
-
-          processStreamChunkWithMetadata(
-            finalChunk,
-            parser,
-            stream
-          );
-
-        }
+  el.messages.appendChild(
+    row
+  );
 
 
-        finishStreamMetadata(
-          parser,
-          stream
+  scrollBottom();
+
+
+  return row;
+
+}
+
+
+/* ========================================================
+   GREG GENERATED IMAGE
+   ======================================================== */
+
+function normalizeGregImageResult(
+  value
+) {
+
+  if (!value) return null;
+
+  if (typeof value === "string") {
+
+    return {
+
+      dataUrl:
+        value,
+
+      width:
+        null,
+
+      height:
+        null,
+
+      filename:
+        "greg-image.png"
+
+    };
+
+  }
+
+  if (
+    typeof value !==
+    "object"
+  ) {
+
+    return null;
+
+  }
+
+  const dataUrl =
+    value.data_url ||
+    value.dataUrl ||
+    value.url ||
+    value.image_url ||
+    value.imageUrl ||
+    value.src ||
+    "";
+
+
+  if (!dataUrl) return null;
+
+
+  return {
+
+    dataUrl:
+      dataUrl,
+
+    width:
+      Number(value.width) ||
+      null,
+
+    height:
+      Number(value.height) ||
+      null,
+
+    filename:
+      value.filename ||
+      value.name ||
+      "greg-image.png"
+
+  };
+
+}
+
+
+function downloadGeneratedImage(
+  image
+) {
+
+  const normalized =
+    normalizeGregImageResult(
+      image
+    );
+
+
+  if (
+    !normalized ||
+    !normalized.dataUrl
+  ) {
+
+    return;
+
+  }
+
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+
+  link.href =
+    normalized.dataUrl;
+
+
+  link.download =
+    normalized.filename ||
+    "greg-image.png";
+
+
+  link.style.display =
+    "none";
+
+
+  document.body.appendChild(
+    link
+  );
+
+
+  link.click();
+
+
+  link.remove();
+
+}
+
+
+function createGregImageCard(
+  image
+) {
+
+  const normalized =
+    normalizeGregImageResult(
+      image
+    );
+
+
+  if (
+    !normalized ||
+    !normalized.dataUrl
+  ) {
+
+    return null;
+
+  }
+
+
+  const card =
+    document.createElement(
+      "div"
+    );
+
+
+  card.className =
+    "greg-image-card";
+
+
+  const imageElement =
+    document.createElement(
+      "img"
+    );
+
+
+  imageElement.className =
+    "greg-generated-image";
+
+
+  imageElement.src =
+    normalized.dataUrl;
+
+
+  imageElement.alt =
+    "Greg generated image";
+
+
+  imageElement.loading =
+    "lazy";
+
+
+  const downloadButton =
+    document.createElement(
+      "button"
+    );
+
+
+  downloadButton.type =
+    "button";
+
+
+  downloadButton.className =
+    "greg-image-download";
+
+
+  downloadButton.textContent =
+    "Download";
+
+
+  downloadButton.title =
+    "Download image";
+
+
+  downloadButton.addEventListener(
+    "click",
+    event => {
+
+      event.preventDefault();
+
+
+      event.stopPropagation();
+
+
+      if (
+        typeof playClick ===
+        "function"
+      ) {
+
+        playClick();
+
+      }
+
+
+      downloadGeneratedImage(
+        normalized
+      );
+
+    }
+  );
+
+
+  card.appendChild(
+    imageElement
+  );
+
+
+  card.appendChild(
+    downloadButton
+  );
+
+
+  return card;
+
+}
+
+
+function addGeneratedImage(
+  row,
+  image
+) {
+
+  const card =
+    createGregImageCard(
+      image
+    );
+
+
+  if (
+    !card ||
+    !row
+  ) {
+
+    return;
+
+  }
+
+
+  const messageContent =
+    row.querySelector(
+      ".message-content"
+    );
+
+
+  if (
+    !messageContent
+  ) {
+
+    return;
+
+  }
+
+
+  messageContent.appendChild(
+    card
+  );
+
+
+  row.classList.add(
+    "greg-image-message"
+  );
+
+
+  scrollBottom();
+
+}
+
+
+/* ========================================================
+   CREATE FILE CARD
+   ======================================================== */
+
+function createFileCard(
+  filename,
+  type,
+  generated = false,
+  downloadData = null
+) {
+
+  const card =
+    document.createElement(
+      "div"
+    );
+
+
+  card.className =
+    "file-card"
+    +
+    (
+      generated
+        ? " generated-file-card"
+        : ""
+    );
+
+
+  if (
+    generated
+  ) {
+
+    card.classList.add(
+      "generated"
+    );
+
+
+    card.dataset.generatedFile =
+      "true";
+
+  }
+
+
+  const icon =
+    document.createElement(
+      "div"
+    );
+
+
+  icon.className =
+    "file-icon";
+
+
+  icon.textContent =
+    getFileTypeShortName(
+      type
+    );
+
+
+  const info =
+    document.createElement(
+      "div"
+    );
+
+
+  info.className =
+    "file-info";
+
+
+  const name =
+    document.createElement(
+      "div"
+    );
+
+
+  name.className =
+    "file-name";
+
+
+  name.textContent =
+    filename;
+
+
+  const typeLabel =
+    document.createElement(
+      "div"
+    );
+
+
+  typeLabel.className =
+    "file-type";
+
+
+  typeLabel.textContent =
+    generated
+      ? (
+          String(
+            type ||
+            "file"
+          ).toUpperCase()
+          +
+          " · Click to download"
+        )
+      : type;
+
+
+  const action =
+    document.createElement(
+      "div"
+    );
+
+
+  action.className =
+    "file-action";
+
+
+  action.textContent =
+    generated
+      ? "↓"
+      : "•";
+
+
+  info.appendChild(
+    name
+  );
+
+
+  info.appendChild(
+    typeLabel
+  );
+
+
+  card.appendChild(
+    icon
+  );
+
+
+  card.appendChild(
+    info
+  );
+
+
+  card.appendChild(
+    action
+  );
+
+
+  if (
+    generated &&
+    downloadData
+  ) {
+
+    card.addEventListener(
+      "click",
+      () => {
+
+        playClick();
+
+
+        card.style.transform =
+          "scale(.97)";
+
+
+        setTimeout(
+          () => {
+
+            card.style.transform =
+              "";
+
+          },
+          120
         );
 
 
-        finishThinkingStream(
-          parser,
-          stream
+        downloadGeneratedFile(
+          downloadData.data_url ||
+          downloadData.dataUrl,
+          downloadData.filename ||
+          "greg_file"
+        );
+
+      }
+    );
+
+  }
+
+
+  return card;
+
+}
+
+
+function downloadGeneratedFile(
+  dataUrl,
+  filename
+) {
+
+  if (
+    !dataUrl
+  ) {
+
+    return;
+
+  }
+
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+
+  link.href =
+    dataUrl;
+
+
+  link.download =
+    filename ||
+    "greg_file";
+
+
+  link.style.display =
+    "none";
+
+
+  document.body.appendChild(
+    link
+  );
+
+
+  link.click();
+
+
+  link.remove();
+
+}
+
+
+function addGeneratedFiles(
+  files
+) {
+
+  if (
+    !Array.isArray(
+      files
+    ) ||
+    !files.length
+  ) {
+
+    return;
+
+  }
+
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+
+  row.className =
+    "message-row greg";
+
+
+  row.innerHTML = `
+
+    <div class="avatar">
+      G
+    </div>
+
+    <div class="message-content">
+
+      <div class="message-name">
+        Greg
+      </div>
+
+      <div class="sent-file-strip"></div>
+
+    </div>
+
+  `;
+
+
+  const strip =
+    row.querySelector(
+      ".sent-file-strip"
+    );
+
+
+  files.forEach(
+    file => {
+
+      const card =
+        createFileCard(
+          file.filename ||
+          "greg_file",
+          file.type ||
+          "file",
+          true,
+          file
         );
 
 
-        parser.finish();
+      strip.appendChild(
+        card
+      );
+
+    }
+  );
 
 
-        await renderer.finish();
+  el.messages.appendChild(
+    row
+  );
 
 
-        finishThinkingUI(
-          stream
+  scrollBottom();
+
+}
+
+
+/* ========================================================
+   THINKING
+   ======================================================== */
+
+function addThinkingMessage() {
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+
+  row.className =
+    "message-row greg";
+
+
+  row.innerHTML = `
+
+    <div class="avatar">
+      G
+    </div>
+
+    <div class="message-content">
+
+      <div class="message-name">
+        Greg
+      </div>
+
+      <div class="typing-dots">
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  el.messages.appendChild(
+    row
+  );
+
+
+  scrollBottom();
+
+
+  return row;
+
+}
+
+
+/* ========================================================
+   GREG STREAM CONTAINER
+   ======================================================== */
+
+function createGregStream() {
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+
+  row.className =
+    "message-row greg";
+
+
+  row.innerHTML = `
+
+    <div class="avatar">
+      G
+    </div>
+
+    <div class="message-content">
+
+      <div class="message-name">
+        Greg
+      </div>
+
+      <div
+        class="thinking-panel"
+      >
+
+        <div
+          class="thinking-header"
+        >
+
+          <span
+            class="thinking-dot"
+          ></span>
+
+          <span
+            class="thinking-label"
+          >
+            Thinking
+          </span>
+
+        </div>
+
+        <div
+          class="thinking-content"
+        ></div>
+
+      </div>
+
+      <div
+        class="greg-output"
+      ></div>
+
+      <span
+        class="stream-cursor"
+      ></span>
+
+    </div>
+
+  `;
+
+
+  el.messages.appendChild(
+    row
+  );
+
+
+  scrollBottom();
+
+
+  return {
+
+    row:
+      row,
+
+    output:
+      row.querySelector(
+        ".greg-output"
+      ),
+
+    cursor:
+      row.querySelector(
+        ".stream-cursor"
+      ),
+
+    thinkingPanel:
+      row.querySelector(
+        ".thinking-panel"
+      ),
+
+    thinkingLabel:
+      row.querySelector(
+        ".thinking-label"
+      ),
+
+    thinkingContent:
+      row.querySelector(
+        ".thinking-content"
+      ),
+
+    thinkingBuffer:
+      "",
+
+    thinkingMode:
+      false,
+
+    thinkingStarted:
+      false,
+
+    thinkingEnded:
+      false,
+
+    thinkingCharIndex:
+      0,
+
+    answerText:
+      "",
+
+    metaFound:
+      false,
+
+    metaBuffer:
+      "",
+
+    metaScanBuffer:
+      "",
+
+    imageDescription:
+      null,
+
+    imageCount:
+      0,
+
+    fileCount:
+      0,
+
+    files:
+      [],
+
+    generatedFiles:
+      [],
+
+    imageRequest:
+      null,
+
+    imageResult:
+      null
+
+  };
+
+}
+
+
+/* ========================================================
+   TYPEWRITER
+   ======================================================== */
+
+async function typeText(
+  element,
+  text,
+  delay = 5
+) {
+
+  const chars =
+    Array.from(
+      String(text)
+    );
+
+
+  for (
+    let i = 0;
+    i < chars.length;
+    i++
+  ) {
+
+    const ch =
+      chars[i];
+
+
+    element.textContent +=
+      ch;
+
+
+    let wait =
+      delay;
+
+
+    if (
+      ch === " "
+    ) {
+
+      wait +=
+        10;
+
+    } else if (
+      ch === ","
+    ) {
+
+      wait +=
+        40;
+
+    } else if (
+      ch === "."
+    ) {
+
+      wait +=
+        80;
+
+    } else if (
+      ch === "!"
+    ) {
+
+      wait +=
+        90;
+
+    } else if (
+      ch === "?"
+    ) {
+
+      wait +=
+        90;
+
+    } else if (
+      ch === "\n"
+    ) {
+
+      wait +=
+        120;
+
+    }
+
+
+    await sleep(
+      wait
+    );
+
+  }
+
+}
+
+
+/* ========================================================
+   CODE BLOCK
+   ======================================================== */
+
+function createCodeBlock(
+  language
+) {
+
+  const shell =
+    document.createElement(
+      "div"
+    );
+
+
+  shell.className =
+    "code-block-shell";
+
+
+  const inner =
+    document.createElement(
+      "div"
+    );
+
+
+  inner.className =
+    "code-block-inner";
+
+
+  const block =
+    document.createElement(
+      "div"
+    );
+
+
+  block.className =
+    "code-block live";
+
+
+  const header =
+    document.createElement(
+      "div"
+    );
+
+
+  header.className =
+    "code-header";
+
+
+  const languageLabel =
+    document.createElement(
+      "span"
+    );
+
+
+  languageLabel.className =
+    "code-language";
+
+
+  languageLabel.textContent =
+    language ||
+    "code";
+
+
+  const copyButton =
+    document.createElement(
+      "button"
+    );
+
+
+  copyButton.className =
+    "code-copy";
+
+
+  copyButton.type =
+    "button";
+
+
+  copyButton.textContent =
+    "Copy";
+
+
+  const codeContent =
+    document.createElement(
+      "div"
+    );
+
+
+  codeContent.className =
+    "code-content";
+
+
+  codeContent.textContent =
+    "";
+
+
+  copyButton.addEventListener(
+    "click",
+    async event => {
+
+      event.stopPropagation();
+
+
+      playClick();
+
+
+      try {
+
+        await navigator.clipboard.writeText(
+          codeContent.textContent
         );
 
 
-        if (
-          stream.cursor &&
-          stream.cursor.parentNode
-        ) {
-
-          stream.cursor.remove();
+        copyButton.textContent =
+          "Copied!";
 
 
-        if (
-          stream.imageResult
-        ) {
-          addGeneratedImage(
-            stream.row,
-            stream.imageResult
-          );
-        }
-
-        }
-
-
-        /*
-        * Put generated files directly into
-        * the SAME Greg message row.
-        */
-
-        if (
-          Array.isArray(
-            stream.generatedFiles
-          ) &&
-          stream.generatedFiles.length
-        ) {
-
-          const messageContent =
-            stream.row.querySelector(
-              ".message-content"
-            );
-
-
-          if (
-            messageContent
-          ) {
-
-            const strip =
-              document.createElement(
-                "div"
-              );
-
-
-            strip.className =
-              "sent-file-strip";
-
-
-            stream.generatedFiles.forEach(
-              file => {
-
-                const card =
-                  createFileCard(
-                    file.filename ||
-                    "greg_file",
-                    file.type ||
-                    "file",
-                    true,
-                    file
-                  );
-
-
-                strip.appendChild(
-                  card
-                );
-
-              }
-            );
-
-
-            messageContent.appendChild(
-              strip
-            );
-
-
-            scrollBottom();
-
-          }
-
-        }
-
-
-        completed =
-          true;
-
-
-        return {
-
-          answer:
-            stream.answerText.trim(),
-
-          imageDescription:
-            stream.imageDescription,
-
-          imageCount:
-            stream.imageCount,
-
-          fileCount:
-            stream.fileCount,
-
-          files:
-            stream.files,
-
-          generatedFiles:
-            stream.generatedFiles,
-
-          imageRequest:
-            stream.imageRequest,
-
-          imageResult:
-            stream.imageResult
-
-        };
-
-
-      } finally {
-
-        clearTimeout(
-          timeout
+        setTimeout(
+          () =>
+            copyButton.textContent =
+              "Copy",
+          1200
         );
 
 
-        finishThinkingUI(
-          stream
+      } catch {
+
+        copyButton.textContent =
+          "Copy failed";
+
+
+        setTimeout(
+          () =>
+            copyButton.textContent =
+              "Copy",
+          1200
         );
-
-
-        if (
-          !completed
-        ) {
-
-          parser.finish();
-
-
-          await renderer.finish()
-            .catch(
-              () => {}
-            );
-
-        }
-
-
-        if (
-          stream.cursor &&
-          stream.cursor.parentNode
-        ) {
-
-          stream.cursor.remove();
-
-        }
 
       }
 
     }
+  );
 
 
-    /* ========================================================
-       STATIC CODE BLOCK
-       ======================================================== */
+  header.appendChild(
+    languageLabel
+  );
 
-    function createStaticCodeBlock(
-      language,
-      code
+
+  header.appendChild(
+    copyButton
+  );
+
+
+  block.appendChild(
+    header
+  );
+
+
+  block.appendChild(
+    codeContent
+  );
+
+
+  inner.appendChild(
+    block
+  );
+
+
+  shell.appendChild(
+    inner
+  );
+
+
+  requestAnimationFrame(
+    () => {
+
+      requestAnimationFrame(
+        () => {
+
+          shell.classList.add(
+            "open"
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+  return {
+
+    shell,
+    block,
+    codeContent,
+    languageLabel
+
+  };
+
+}
+
+
+/* ========================================================
+   ORDERED RENDER QUEUE
+   ======================================================== */
+
+class OrderedRenderer {
+
+  constructor(
+    stream
+  ) {
+
+    this.stream =
+      stream;
+
+    this.queue =
+      [];
+
+    this.running =
+      false;
+
+    this.finished =
+      false;
+
+    this.waiter =
+      null;
+
+    this.code =
+      null;
+
+    this.textElement =
+      null;
+
+  }
+
+
+  enqueue(
+    operation
+  ) {
+
+    this.queue.push(
+      operation
+    );
+
+
+    this.wake();
+
+
+    this.run();
+
+  }
+
+
+  wake() {
+
+    if (
+      this.waiter
     ) {
 
-      const codeBlock =
-        createCodeBlock(
-          language
-        );
+      const resolve =
+        this.waiter;
 
 
-      codeBlock.shell.classList.add(
-        "open"
-      );
+      this.waiter =
+        null;
 
 
-      codeBlock.block.classList.remove(
-        "live"
-      );
+      resolve();
+
+    }
+
+  }
 
 
-      codeBlock.codeContent.textContent =
-        code;
+  async waitForQueue() {
 
+    if (
+      this.queue.length
+    ) {
 
-      return codeBlock.shell;
+      return;
 
     }
 
 
-    /* ========================================================
-       STATIC MESSAGE
-       ======================================================== */
-
-    function renderStaticMessage(
-      container,
-      text
+    if (
+      this.finished
     ) {
 
-      let cursor =
-        0;
+      return;
 
+    }
+
+
+    await new Promise(
+      resolve => {
+
+        this.waiter =
+          resolve;
+
+      }
+    );
+
+  }
+
+
+  async run() {
+
+    if (
+      this.running
+    ) {
+
+      return;
+
+    }
+
+
+    this.running =
+      true;
+
+
+    try {
 
       while (
-        cursor <
-        text.length
+        !this.finished ||
+        this.queue.length
       ) {
 
-        const start =
-          text.indexOf(
-            "```",
-            cursor
+        if (
+          !this.queue.length
+        ) {
+
+          await this.waitForQueue();
+
+
+          continue;
+
+        }
+
+
+        const operation =
+          this.queue.shift();
+
+
+        await this.renderOperation(
+          operation
+        );
+
+      }
+
+    } finally {
+
+      this.running =
+        false;
+
+    }
+
+  }
+
+
+  async renderOperation(
+    operation
+  ) {
+
+    if (
+      operation.type ===
+      "text"
+    ) {
+
+      await this.renderText(
+        operation.text
+      );
+
+
+      return;
+
+    }
+
+
+    if (
+      operation.type ===
+      "code-open"
+    ) {
+
+      await this.renderCodeOpen(
+        operation.language
+      );
+
+
+      return;
+
+    }
+
+
+    if (
+      operation.type ===
+      "code-text"
+    ) {
+
+      this.renderCodeText(
+        operation.text
+      );
+
+
+      return;
+
+    }
+
+
+    if (
+      operation.type ===
+      "code-close"
+    ) {
+
+      this.renderCodeClose();
+
+    }
+
+  }
+
+
+  async renderText(
+    text
+  ) {
+
+    if (
+      !text
+    ) {
+
+      return;
+
+    }
+
+
+    const span =
+      document.createElement(
+        "span"
+      );
+
+
+    span.className =
+      "message-text";
+
+
+    this.stream.output.appendChild(
+      span
+    );
+
+
+    this.textElement =
+      span;
+
+
+    await typeText(
+      span,
+      text,
+      25
+    );
+
+
+    scrollBottom(
+      false
+    );
+
+  }
+
+
+  async renderCodeOpen(
+    language
+  ) {
+
+    const code =
+      createCodeBlock(
+        language
+      );
+
+
+    this.stream.output.appendChild(
+      code.shell
+    );
+
+
+    this.code =
+      code;
+
+
+    scrollBottom(
+      false
+    );
+
+
+    await sleep(
+      30
+    );
+
+  }
+
+
+  renderCodeText(
+    text
+  ) {
+
+    if (
+      !this.code ||
+      !text
+    ) {
+
+      return;
+
+    }
+
+
+    this.code.codeContent.textContent +=
+      text;
+
+
+    scrollBottom(
+      false
+    );
+
+  }
+
+
+  renderCodeClose() {
+
+    if (
+      !this.code
+    ) {
+
+      return;
+
+    }
+
+
+    this.code.block.classList.remove(
+      "live"
+    );
+
+
+    this.code =
+      null;
+
+
+    scrollBottom(
+      false
+    );
+
+  }
+
+
+  async finish() {
+
+    this.finished =
+      true;
+
+
+    this.wake();
+
+
+    while (
+      this.running ||
+      this.queue.length
+    ) {
+
+      await sleep(
+        10
+      );
+
+    }
+
+  }
+
+}
+
+
+/* ========================================================
+   STREAM PARSER
+   ======================================================== */
+
+class StreamParser {
+
+  constructor(
+    renderer
+  ) {
+
+    this.renderer =
+      renderer;
+
+    this.mode =
+      "text";
+
+    this.pending =
+      "";
+
+    this.finished =
+      false;
+
+  }
+
+
+  feed(
+    incoming
+  ) {
+
+    if (
+      !incoming ||
+      this.finished
+    ) {
+
+      return;
+
+    }
+
+
+    this.pending +=
+      incoming;
+
+
+    this.process();
+
+  }
+
+
+  process() {
+
+    while (
+      this.pending.length
+    ) {
+
+      if (
+        this.mode ===
+        "text"
+      ) {
+
+        const markerIndex =
+          this.pending.indexOf(
+            "```"
           );
 
 
         if (
-          start ===
+          markerIndex ===
           -1
         ) {
 
-          const normal =
-            text.slice(
-              cursor
-            );
-
-
           if (
-            normal
+            this.pending.length <=
+            2
           ) {
 
-            const span =
-              document.createElement(
-                "span"
-              );
-
-
-            span.className =
-              "message-text";
-
-
-            span.textContent =
-              normal;
-
-
-            container.appendChild(
-              span
-            );
+            return;
 
           }
 
 
-          break;
+          const safeText =
+            this.pending.slice(
+              0,
+              this.pending.length - 2
+            );
+
+
+          this.pending =
+            this.pending.slice(
+              -2
+            );
+
+
+          this.renderer.enqueue({
+
+            type:
+              "text",
+
+            text:
+              safeText
+
+          });
+
+
+          continue;
 
         }
 
 
+        const textBefore =
+          this.pending.slice(
+            0,
+            markerIndex
+          );
+
+
         if (
-          start >
-          cursor
+          textBefore
         ) {
 
-          const normal =
-            text.slice(
-              cursor,
-              start
-            );
+          this.renderer.enqueue({
 
+            type:
+              "text",
 
-          const span =
-            document.createElement(
-              "span"
-            );
+            text:
+              textBefore
 
-
-          span.className =
-            "message-text";
-
-
-          span.textContent =
-            normal;
-
-
-          container.appendChild(
-            span
-          );
+          });
 
         }
 
 
-        const languageStart =
-          start +
-          3;
+        this.pending =
+          this.pending.slice(
+            markerIndex + 3
+          );
 
 
-        const languageEnd =
-          text.indexOf(
-            "\n",
-            languageStart
+        this.mode =
+          "language";
+
+
+        continue;
+
+      }
+
+
+      if (
+        this.mode ===
+        "language"
+      ) {
+
+        const newlineIndex =
+          this.pending.indexOf(
+            "\n"
           );
 
 
         if (
-          languageEnd ===
+          newlineIndex ===
           -1
         ) {
 
-          const literal =
-            document.createElement(
-              "span"
-            );
-
-
-          literal.className =
-            "message-text";
-
-
-          literal.textContent =
-            text.slice(
-              start
-            );
-
-
-          container.appendChild(
-            literal
-          );
-
-
-          break;
+          return;
 
         }
 
 
         const language =
-          text.slice(
-            languageStart,
-            languageEnd
-          ).trim();
+          this.pending
+            .slice(
+              0,
+              newlineIndex
+            )
+            .trim();
 
 
-        const codeEnd =
-          text.indexOf(
-            "```",
-            languageEnd +
-            1
+        this.pending =
+          this.pending.slice(
+            newlineIndex + 1
+          );
+
+
+        this.renderer.enqueue({
+
+          type:
+            "code-open",
+
+          language:
+            language ||
+            "code"
+
+        });
+
+
+        this.mode =
+          "code";
+
+
+        continue;
+
+      }
+
+
+      if (
+        this.mode ===
+        "code"
+      ) {
+
+        const markerIndex =
+          this.pending.indexOf(
+            "```"
           );
 
 
         if (
-          codeEnd ===
+          markerIndex ===
           -1
         ) {
 
-          container.appendChild(
+          if (
+            this.pending.length <=
+            2
+          ) {
 
-            createStaticCodeBlock(
+            return;
 
-              language ||
-              "code",
-
-              text.slice(
-                languageEnd +
-                1
-              )
-
-            )
-
-          );
+          }
 
 
-          break;
+          const safeCode =
+            this.pending.slice(
+              0,
+              this.pending.length - 2
+            );
+
+
+          this.pending =
+            this.pending.slice(
+              -2
+            );
+
+
+          this.renderer.enqueue({
+
+            type:
+              "code-text",
+
+            text:
+              safeCode
+
+          });
+
+
+          continue;
 
         }
 
 
-        const code =
-          text.slice(
-
-            languageEnd +
-            1,
-
-            codeEnd
-
+        const codeBefore =
+          this.pending.slice(
+            0,
+            markerIndex
           );
 
 
-        container.appendChild(
+        if (
+          codeBefore
+        ) {
 
-          createStaticCodeBlock(
+          this.renderer.enqueue({
 
-            language ||
-            "code",
+            type:
+              "code-text",
 
-            code
+            text:
+              codeBefore
 
-          )
+          });
 
-        );
+        }
 
 
-        cursor =
-          codeEnd +
-          3;
+        this.pending =
+          this.pending.slice(
+            markerIndex + 3
+          );
+
+
+        this.renderer.enqueue({
+
+          type:
+            "code-close"
+
+        });
+
+
+        this.mode =
+          "text";
+
+
+        continue;
+
+      }
+
+    }
+
+  }
+
+
+  finish() {
+
+    if (
+      this.finished
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      this.pending
+    ) {
+
+      if (
+        this.mode ===
+        "text"
+      ) {
+
+        this.renderer.enqueue({
+
+          type:
+            "text",
+
+          text:
+            this.pending
+
+        });
+
+      } else if (
+        this.mode ===
+        "code"
+      ) {
+
+        this.renderer.enqueue({
+
+          type:
+            "code-text",
+
+          text:
+            this.pending
+
+        });
+
+      } else if (
+        this.mode ===
+        "language"
+      ) {
+
+        this.renderer.enqueue({
+
+          type:
+            "text",
+
+          text:
+            "```" +
+            this.pending
+
+        });
 
       }
 
     }
 
 
-    /* ========================================================
-       STATIC GREG MESSAGE
-       ======================================================== */
+    this.pending =
+      "";
 
-    function addStaticGregMessage(
-      text,
-      generatedFiles = [],
-      generatedImage = null
+
+    this.finished =
+      true;
+
+  }
+
+}
+
+
+/* ========================================================
+   METADATA
+   ======================================================== */
+
+function processStreamChunkWithMetadata(
+  chunk,
+  parser,
+  stream
+) {
+
+  if (
+    !chunk
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    stream.metaFound
+  ) {
+
+    stream.metaBuffer +=
+      chunk;
+
+
+    return;
+
+  }
+
+
+  stream.metaScanBuffer +=
+    chunk;
+
+
+  const markerIndex =
+    stream.metaScanBuffer.indexOf(
+      META_MARKER
+    );
+
+
+  if (
+    markerIndex ===
+    -1
+  ) {
+
+    const keepLength =
+      META_MARKER.length -
+      1;
+
+
+    if (
+      stream.metaScanBuffer.length <=
+      keepLength
     ) {
 
-      const row =
-        document.createElement(
-          "div"
-        );
+      return;
+
+    }
 
 
-      row.className =
-        "message-row greg";
+    const safeLength =
+      stream.metaScanBuffer.length -
+      keepLength;
 
 
-      row.innerHTML = `
-
-        <div class="avatar">
-          G
-        </div>
-
-        <div class="message-content">
-
-          <div class="message-name">
-            Greg
-          </div>
-
-          <div class="static-output"></div>
-
-        </div>
-
-      `;
-
-
-      renderStaticMessage(
-
-        row.querySelector(
-          ".static-output"
-        ),
-
-        text
-
+    const safeText =
+      stream.metaScanBuffer.slice(
+        0,
+        safeLength
       );
 
 
-      if (
-        generatedImage
-      ) {
-        addGeneratedImage(
-          row,
-          generatedImage
+    stream.metaScanBuffer =
+      stream.metaScanBuffer.slice(
+        safeLength
+      );
+
+
+    processThinkingStream(
+      safeText,
+      parser,
+      stream
+    );
+
+
+    return;
+
+  }
+
+
+  const answerBeforeMetadata =
+    stream.metaScanBuffer.slice(
+      0,
+      markerIndex
+    );
+
+
+  if (
+    answerBeforeMetadata
+  ) {
+
+    processThinkingStream(
+      answerBeforeMetadata,
+      parser,
+      stream
+    );
+
+  }
+
+
+  stream.metaFound =
+    true;
+
+
+  stream.metaBuffer =
+    stream.metaScanBuffer.slice(
+
+      markerIndex +
+      META_MARKER.length
+
+    );
+
+
+  stream.metaScanBuffer =
+    "";
+
+}
+
+
+function finishStreamMetadata(
+  parser,
+  stream
+) {
+
+  if (
+    !stream.metaFound
+  ) {
+
+    if (
+      stream.metaScanBuffer
+    ) {
+
+      processThinkingStream(
+        stream.metaScanBuffer,
+        parser,
+        stream
+      );
+
+    }
+
+
+    stream.metaScanBuffer =
+      "";
+
+
+    return;
+
+  }
+
+
+  try {
+
+    const metadata =
+      JSON.parse(
+        stream.metaBuffer.trim()
+      );
+
+
+    if (
+      metadata &&
+      typeof metadata ===
+      "object"
+    ) {
+
+      stream.imageDescription =
+
+        typeof metadata.image_description ===
+        "string"
+
+          ? metadata.image_description.trim()
+
+          : null;
+
+
+      stream.imageCount =
+        Number(
+          metadata.image_count ||
+          0
         );
+
+
+      stream.fileCount =
+        Number(
+          metadata.file_count ||
+          0
+        );
+
+
+      stream.files =
+        Array.isArray(
+          metadata.files
+        )
+          ? metadata.files
+          : [];
+
+
+      stream.generatedFiles =
+        Array.isArray(
+          metadata.generated_files
+        )
+          ? metadata.generated_files
+          : [];
+
+
+      stream.imageRequest =
+        metadata.image_request &&
+        typeof metadata.image_request ===
+        "object"
+          ? metadata.image_request
+          : null;
+
+
+      stream.imageResult =
+        normalizeGregImageResult(
+          metadata.image_result ||
+          metadata.generated_image ||
+          metadata.image ||
+          null
+        );
+
+    }
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "Could not parse Greg metadata:",
+      error
+    );
+
+  }
+
+}
+
+
+/* ========================================================
+   STREAM MESSAGE
+   ======================================================== */
+
+async function streamMessage(
+  userText,
+  images = [],
+  files = []
+) {
+
+  const controller =
+    new AbortController();
+
+
+  const timeout =
+    setTimeout(
+      () =>
+        controller.abort(),
+      1800000
+    );
+
+
+  const stream =
+    createGregStream();
+
+
+  const renderer =
+    new OrderedRenderer(
+      stream
+    );
+
+
+  const parser =
+    new StreamParser(
+      renderer
+    );
+
+
+  let completed =
+    false;
+
+
+  const recentMessages =
+    state.conversation
+      .slice(
+        -MEMORY_LIMIT
+      )
+      .map(
+        item => {
+
+          const speaker =
+            item.role ===
+            "user"
+              ? "User"
+              : "Greg";
+
+
+          let result =
+            `${speaker}: ${
+              item.content || ""
+            }`;
+
+
+          if (
+            item.role === "user" &&
+            item.imageDescription
+          ) {
+
+            result +=
+              "\n[Visual information from "
+              +
+              "images attached to this earlier "
+              +
+              "message:]\n"
+              +
+              item.imageDescription;
+
+          }
+
+
+          if (
+            item.role === "user" &&
+            Array.isArray(
+              item.files
+            ) &&
+            item.files.length
+          ) {
+
+            result +=
+              "\n[Files attached to this earlier "
+              +
+              "message:]\n";
+
+
+            item.files.forEach(
+              file => {
+
+                result +=
+                  `File: ${
+                    file.name ||
+                    "file"
+                  }`;
+
+                if (
+                  file.fileType
+                ) {
+
+                  result +=
+                    ` (${file.fileType})`;
+
+                }
+
+                result +=
+                  "\n";
+
+              }
+            );
+
+          }
+
+
+          return result;
+
+        }
+      )
+      .join(
+        "\n\n"
+      );
+
+
+  const imagePayload =
+    images.map(
+      image =>
+        image.dataUrl
+    );
+
+
+  try {
+
+    const response =
+      await fetch(
+        `${API_URL}/chat/stream`,
+        {
+          method:
+            "POST",
+
+          headers:
+            {
+              "Content-Type":
+                "application/json"
+            },
+
+          body:
+            JSON.stringify({
+
+              message:
+                userText,
+
+              memory:
+                recentMessages,
+
+              params:
+                state.params,
+
+              images:
+                imagePayload,
+
+              files:
+                files
+
+            }),
+
+          signal:
+            controller.signal
+
+        }
+      );
+
+
+    if (
+      !response.ok
+    ) {
+
+      const errorText =
+        await response.text();
+
+
+      throw new Error(
+        `HTTP ${response.status}: ${
+          errorText ||
+          "Request failed"
+        }`
+      );
+
+    }
+
+
+    if (
+      !response.body
+    ) {
+
+      throw new Error(
+        "Browser streaming is unavailable."
+      );
+
+    }
+
+
+    const reader =
+      response.body.getReader();
+
+
+    const decoder =
+      new TextDecoder(
+        "utf-8"
+      );
+
+
+    while (true) {
+
+      const result =
+        await reader.read();
+
+
+      if (
+        result.done
+      ) {
+
+        break;
+
       }
 
 
+      const chunk =
+        decoder.decode(
+          result.value,
+          {
+            stream:
+              true
+          }
+        );
+
+
       if (
-        Array.isArray(
-          generatedFiles
-        ) &&
-        generatedFiles.length
+        !chunk
+      ) {
+
+        continue;
+
+      }
+
+
+      processStreamChunkWithMetadata(
+        chunk,
+        parser,
+        stream
+      );
+
+
+      scrollBottom(
+        false
+      );
+
+    }
+
+
+    const finalChunk =
+      decoder.decode();
+
+
+    if (
+      finalChunk
+    ) {
+
+      processStreamChunkWithMetadata(
+        finalChunk,
+        parser,
+        stream
+      );
+
+    }
+
+
+    finishStreamMetadata(
+      parser,
+      stream
+    );
+
+
+    finishThinkingStream(
+      parser,
+      stream
+    );
+
+
+    parser.finish();
+
+
+    await renderer.finish();
+
+
+    finishThinkingUI(
+      stream
+    );
+
+
+    if (
+      stream.cursor &&
+      stream.cursor.parentNode
+    ) {
+
+      stream.cursor.remove();
+
+    }
+
+
+    if (
+      stream.imageResult
+    ) {
+
+      addGeneratedImage(
+        stream.row,
+        stream.imageResult
+      );
+
+    }
+
+
+    /*
+     * Put generated files directly into
+     * the SAME Greg message row.
+     */
+
+    if (
+      Array.isArray(
+        stream.generatedFiles
+      ) &&
+      stream.generatedFiles.length
+    ) {
+
+      const messageContent =
+        stream.row.querySelector(
+          ".message-content"
+        );
+
+
+      if (
+        messageContent
       ) {
 
         const strip =
@@ -5745,10 +5533,10 @@
           "sent-file-strip";
 
 
-        generatedFiles.forEach(
+        stream.generatedFiles.forEach(
           file => {
 
-            strip.appendChild(
+            const card =
               createFileCard(
                 file.filename ||
                 "greg_file",
@@ -5756,277 +5544,861 @@
                 "file",
                 true,
                 file
-              )
+              );
+
+
+            strip.appendChild(
+              card
             );
 
           }
         );
 
 
-        row
-          .querySelector(
-            ".message-content"
-          )
-          .appendChild(
-            strip
+        messageContent.appendChild(
+          strip
+        );
+
+
+        scrollBottom();
+
+      }
+
+    }
+
+
+    completed =
+      true;
+
+
+    return {
+
+      answer:
+        stream.answerText.trim(),
+
+      imageDescription:
+        stream.imageDescription,
+
+      imageCount:
+        stream.imageCount,
+
+      fileCount:
+        stream.fileCount,
+
+      files:
+        stream.files,
+
+      generatedFiles:
+        stream.generatedFiles,
+
+      imageRequest:
+        stream.imageRequest,
+
+      imageResult:
+        stream.imageResult
+
+    };
+
+
+  } finally {
+
+    clearTimeout(
+      timeout
+    );
+
+
+    finishThinkingUI(
+      stream
+    );
+
+
+    if (
+      !completed
+    ) {
+
+      parser.finish();
+
+
+      await renderer.finish()
+        .catch(
+          () => {}
+        );
+
+    }
+
+
+    if (
+      stream.cursor &&
+      stream.cursor.parentNode
+    ) {
+
+      stream.cursor.remove();
+
+    }
+
+  }
+
+}
+
+
+/* ========================================================
+   STATIC CODE BLOCK
+   ======================================================== */
+
+function createStaticCodeBlock(
+  language,
+  code
+) {
+
+  const codeBlock =
+    createCodeBlock(
+      language
+    );
+
+
+  codeBlock.shell.classList.add(
+    "open"
+  );
+
+
+  codeBlock.block.classList.remove(
+    "live"
+  );
+
+
+  codeBlock.codeContent.textContent =
+    code;
+
+
+  return codeBlock.shell;
+
+}
+
+
+/* ========================================================
+   STATIC MESSAGE
+   ======================================================== */
+
+function renderStaticMessage(
+  container,
+  text
+) {
+
+  let cursor =
+    0;
+
+
+  while (
+    cursor <
+    text.length
+  ) {
+
+    const start =
+      text.indexOf(
+        "```",
+        cursor
+      );
+
+
+    if (
+      start ===
+      -1
+    ) {
+
+      const normal =
+        text.slice(
+          cursor
+        );
+
+
+      if (
+        normal
+      ) {
+
+        const span =
+          document.createElement(
+            "span"
           );
+
+
+        span.className =
+          "message-text";
+
+
+        span.textContent =
+          normal;
+
+
+        container.appendChild(
+          span
+        );
 
       }
 
 
-      el.messages.appendChild(
-        row
+      break;
+
+    }
+
+
+    if (
+      start >
+      cursor
+    ) {
+
+      const normal =
+        text.slice(
+          cursor,
+          start
+        );
+
+
+      const span =
+        document.createElement(
+          "span"
+        );
+
+
+      span.className =
+        "message-text";
+
+
+      span.textContent =
+        normal;
+
+
+      container.appendChild(
+        span
       );
 
+    }
+
+
+    const languageStart =
+      start +
+      3;
+
+
+    const languageEnd =
+      text.indexOf(
+        "\n",
+        languageStart
+      );
+
+
+    if (
+      languageEnd ===
+      -1
+    ) {
+
+      const literal =
+        document.createElement(
+          "span"
+        );
+
+
+      literal.className =
+        "message-text";
+
+
+      literal.textContent =
+        text.slice(
+          start
+        );
+
+
+      container.appendChild(
+        literal
+      );
+
+
+      break;
+
+    }
+
+
+    const language =
+      text.slice(
+        languageStart,
+        languageEnd
+      ).trim();
+
+
+    const codeEnd =
+      text.indexOf(
+        "```",
+        languageEnd +
+        1
+      );
+
+
+    if (
+      codeEnd ===
+      -1
+    ) {
+
+      container.appendChild(
+
+        createStaticCodeBlock(
+
+          language ||
+          "code",
+
+          text.slice(
+            languageEnd +
+            1
+          )
+
+        )
+
+      );
+
+
+      break;
+
+    }
+
+
+    const code =
+      text.slice(
+
+        languageEnd +
+        1,
+
+        codeEnd
+
+      );
+
+
+    container.appendChild(
+
+      createStaticCodeBlock(
+
+        language ||
+        "code",
+
+        code
+
+      )
+
+    );
+
+
+    cursor =
+      codeEnd +
+      3;
+
+  }
+
+}
+
+
+/* ========================================================
+   STATIC GREG MESSAGE
+   ======================================================== */
+
+function addStaticGregMessage(
+  text,
+  generatedFiles = [],
+  generatedImage = null
+) {
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+
+  row.className =
+    "message-row greg";
+
+
+  row.innerHTML = `
+
+    <div class="avatar">
+      G
+    </div>
+
+    <div class="message-content">
+
+      <div class="message-name">
+        Greg
+      </div>
+
+      <div class="static-output"></div>
+
+    </div>
+
+  `;
+
+
+  renderStaticMessage(
+
+    row.querySelector(
+      ".static-output"
+    ),
+
+    text
+
+  );
+
+
+  if (
+    generatedImage
+  ) {
+
+    addGeneratedImage(
+      row,
+      generatedImage
+    );
+
+  }
+
+
+  if (
+    Array.isArray(
+      generatedFiles
+    ) &&
+    generatedFiles.length
+  ) {
+
+    const strip =
+      document.createElement(
+        "div"
+      );
+
+
+    strip.className =
+      "sent-file-strip";
+
+
+    generatedFiles.forEach(
+      file => {
+
+        strip.appendChild(
+          createFileCard(
+            file.filename ||
+            "greg_file",
+            file.type ||
+            "file",
+            true,
+            file
+          )
+        );
+
+      }
+    );
+
+
+    row
+      .querySelector(
+        ".message-content"
+      )
+      .appendChild(
+        strip
+      );
+
+  }
+
+
+  el.messages.appendChild(
+    row
+  );
+
+
+  scrollBottom(
+    false
+  );
+
+
+  return row;
+
+}
+
+
+/* ========================================================
+   UPDATE UI
+   ======================================================== */
+
+function updateUI() {
+
+  el.statusLine.textContent =
+    connected
+      ? "Greg API connected"
+      : "API offline";
+
+
+  el.orb.classList.toggle(
+    "online",
+    connected
+  );
+
+
+  el.sendBtn.disabled =
+    isSending;
+
+
+  el.input.disabled =
+    false;
+
+
+  if (
+    isSending
+  ) {
+
+    el.memoryHint.textContent =
+      "Greg is generating...";
+
+  } else if (
+    connected
+  ) {
+
+    el.memoryHint.textContent =
+      `Preset: ${
+        activePreset
+          .charAt(0)
+          .toUpperCase()
+        +
+        activePreset.slice(1)
+      }`;
+
+  } else {
+
+    el.memoryHint.textContent =
+      "Waiting for connection";
+
+  }
+
+}
+
+
+/* ========================================================
+   PAGE NAVIGATION
+   ======================================================== */
+
+function showHome() {
+
+  el.homeScreen.style.display =
+    "flex";
+
+
+  el.chatScreen.style.display =
+    "none";
+
+
+  el.homeNavButton.classList.add(
+    "active"
+  );
+
+
+  el.chatNavButton.classList.remove(
+    "active"
+  );
+
+}
+
+
+function showChat() {
+
+  el.homeScreen.style.display =
+    "none";
+
+
+  el.chatScreen.style.display =
+    "flex";
+
+
+  el.homeNavButton.classList.remove(
+    "active"
+  );
+
+
+  el.chatNavButton.classList.add(
+    "active"
+  );
+
+
+  requestAnimationFrame(
+    () => {
 
       scrollBottom(
         false
       );
 
 
-      return row;
+      el.input.focus();
 
     }
+  );
+
+}
 
 
-    /* ========================================================
-       UPDATE UI
-       ======================================================== */
+el.homeNavButton.addEventListener(
+  "click",
+  () => {
 
-    function updateUI() {
-
-      el.statusLine.textContent =
-        connected
-          ? "Greg API connected"
-          : "API offline";
+    playClick();
 
 
-      el.orb.classList.toggle(
-        "online",
-        connected
+    showHome();
+
+  }
+);
+
+
+el.chatNavButton.addEventListener(
+  "click",
+  () => {
+
+    playClick();
+
+
+    showChat();
+
+  }
+);
+
+
+/* ========================================================
+   API TEST
+   ======================================================== */
+
+async function testApi() {
+
+  el.testBtn.disabled =
+    true;
+
+
+  const oldHint =
+    el.memoryHint.textContent;
+
+
+  el.memoryHint.textContent =
+    "Testing connection...";
+
+
+  try {
+
+    const response =
+      await fetch(
+
+        `${API_URL}/chat`,
+
+        {
+
+          method:
+            "POST",
+
+          headers:
+            {
+              "Content-Type":
+                "application/json"
+            },
+
+          body:
+            JSON.stringify({
+
+              message:
+                "ping",
+
+              params:
+                {
+
+                  max_new_tokens:
+                    1,
+
+                  temperature:
+                    0.01,
+
+                  top_p:
+                    0.01,
+
+                  top_k:
+                    1,
+
+                  repetition_penalty:
+                    1,
+
+                  no_repeat_ngram_size:
+                    0
+
+                }
+
+            })
+
+        }
+
       );
 
 
-      el.sendBtn.disabled =
-        isSending;
+    if (
+      !response.ok
+    ) {
 
-
-      el.input.disabled =
-        false;
-
-
-      if (
-        isSending
-      ) {
-
-        el.memoryHint.textContent =
-          "Greg is generating...";
-
-      } else if (
-        connected
-      ) {
-
-        el.memoryHint.textContent =
-          `Preset: ${
-            activePreset
-              .charAt(0)
-              .toUpperCase()
-            +
-            activePreset.slice(1)
-          }`;
-
-      } else {
-
-        el.memoryHint.textContent =
-          "Waiting for connection";
-
-      }
+      throw new Error(
+        `HTTP ${response.status}`
+      );
 
     }
 
 
-    /* ========================================================
-       API TEST
-       ======================================================== */
-
-    async function testApi() {
-
-      el.testBtn.disabled =
-        true;
+    connected =
+      true;
 
 
-      const oldHint =
-        el.memoryHint.textContent;
+  } catch (
+    error
+  ) {
 
+    console.error(
+      error
+    );
+
+
+    connected =
+      false;
+
+  } finally {
+
+    el.testBtn.disabled =
+      false;
+
+
+    if (
+      !isSending
+    ) {
 
       el.memoryHint.textContent =
-        "Testing connection...";
-
-
-      try {
-
-        const response =
-          await fetch(
-
-            `${API_URL}/chat`,
-
-            {
-
-              method:
-                "POST",
-
-              headers:
-                {
-                  "Content-Type":
-                    "application/json"
-                },
-
-              body:
-                JSON.stringify({
-
-                  message:
-                    "ping",
-
-                  params:
-                    {
-
-                      max_new_tokens:
-                        1,
-
-                      temperature:
-                        0.01,
-
-                      top_p:
-                        0.01,
-
-                      top_k:
-                        1,
-
-                      repetition_penalty:
-                        1,
-
-                      no_repeat_ngram_size:
-                        0
-
-                    }
-
-                })
-
-            }
-
-          );
-
-
-        if (
-          !response.ok
-        ) {
-
-          throw new Error(
-            `HTTP ${response.status}`
-          );
-
-        }
-
-
-        connected =
-          true;
-
-
-      } catch (
-        error
-      ) {
-
-        console.error(
-          error
-        );
-
-
-        connected =
-          false;
-
-      } finally {
-
-        el.testBtn.disabled =
-          false;
-
-
-        if (
-          !isSending
-        ) {
-
-          el.memoryHint.textContent =
-            connected
-              ? `Preset: ${
-                  activePreset
-                    .charAt(0)
-                    .toUpperCase()
-                  +
-                  activePreset.slice(1)
-                }`
-              : oldHint;
-
-        }
-
-
-        updateUI();
-
-      }
+        connected
+          ? `Preset: ${
+              activePreset
+                .charAt(0)
+                .toUpperCase()
+              +
+              activePreset.slice(1)
+            }`
+          : oldHint;
 
     }
 
 
-    /* ========================================================
-       SEND MESSAGE
-       ======================================================== */
+    updateUI();
 
-    async function sendMessage() {
+  }
 
-      const text =
-        el.input.value.trim();
+}
 
 
-      if (
+/* ========================================================
+   SEND MESSAGE
+   ======================================================== */
 
-        (
-          !text &&
-          !pendingImages.length &&
-          !pendingFiles.length
-        )
+async function sendMessage() {
 
-        ||
-
-        isSending
-
-      ) {
-
-        return;
-
-      }
+  const text =
+    el.input.value.trim();
 
 
-      removeWelcome();
+  if (
+
+    (
+      !text &&
+      !pendingImages.length &&
+      !pendingFiles.length
+    )
+
+    ||
+
+    isSending
+
+  ) {
+
+    return;
+
+  }
 
 
-      const imagesForMessage =
-        cloneImagesForStorage(
-          pendingImages
-        );
+  removeWelcome();
 
 
-      const filesForMessage =
-        cloneFilesForStorage(
-          pendingFiles
-        );
+  const imagesForMessage =
+    cloneImagesForStorage(
+      pendingImages
+    );
 
 
-      el.input.value =
-        "";
+  const filesForMessage =
+    cloneFilesForStorage(
+      pendingFiles
+    );
 
 
-      resizeInput();
+  el.input.value =
+    "";
 
 
-      addUserMessage(
+  resizeInput();
+
+
+  addUserMessage(
+
+    text,
+
+    imagesForMessage,
+
+    filesForMessage
+
+  );
+
+
+  pendingImages =
+    [];
+
+
+  pendingFiles =
+    [];
+
+
+  renderImagePreviews();
+
+
+  renderFilePreviews();
+
+
+  isSending =
+    true;
+
+
+  updateUI();
+
+
+  saveState();
+
+
+  const thinking =
+    addThinkingMessage();
+
+
+  try {
+
+    await sleep(
+      180
+    );
+
+
+    if (
+      thinking &&
+      thinking.parentNode
+    ) {
+
+      thinking.remove();
+
+    }
+
+
+    const result =
+      await streamMessage(
 
         text,
 
@@ -6037,787 +6409,743 @@
       );
 
 
-      pendingImages =
-        [];
+    state.conversation.push({
 
+      role:
+        "user",
 
-      pendingFiles =
-        [];
+      content:
+        text,
 
+      images:
+        imagesForMessage,
 
-      renderImagePreviews();
+      files:
+        filesForMessage.map(
+          file => ({
 
+            id:
+              file.id,
 
-      renderFilePreviews();
+            name:
+              file.name,
 
+            type:
+              file.type,
 
-      isSending =
-        true;
+            size:
+              file.size,
 
+            fileType:
+              file.fileType,
 
-      updateUI();
+            dataUrl:
+              file.dataUrl
 
+          })
+        ),
 
-      saveState();
+      imageDescription:
+        result.imageDescription ||
+        null
 
+    });
 
-      const thinking =
-        addThinkingMessage();
 
+    state.conversation.push({
 
-      try {
+      role:
+        "assistant",
 
-        await sleep(
-          180
-        );
+      content:
+        result.answer,
 
+      images:
+        [],
 
-        if (
-          thinking &&
-          thinking.parentNode
-        ) {
+      files:
+        [],
 
-          thinking.remove();
+      imageDescription:
+        null,
 
-        }
+      generatedFiles:
+        result.generatedFiles ||
+        [],
 
+      generatedImage:
+        result.imageResult ||
+        null
 
-        const result =
-          await streamMessage(
+    });
 
-            text,
 
-            imagesForMessage,
+    state.conversation =
+      state.conversation.slice(
+        -80
+      );
 
-            filesForMessage
 
-          );
+    saveState();
 
 
-        state.conversation.push({
+    connected =
+      true;
 
-          role:
-            "user",
 
-          content:
-            text,
+  } catch (
+    error
+  ) {
 
-          images:
-            imagesForMessage,
+    console.error(
+      error
+    );
 
-          files:
-            filesForMessage.map(
-              file => ({
 
-                id:
-                  file.id,
-
-                name:
-                  file.name,
-
-                type:
-                  file.type,
-
-                size:
-                  file.size,
-
-                fileType:
-                  file.fileType,
-
-                dataUrl:
-                  file.dataUrl
-
-              })
-            ),
-
-          imageDescription:
-            result.imageDescription ||
-            null
-
-        });
-
-
-        state.conversation.push({
-
-          role:
-            "assistant",
-
-          content:
-            result.answer,
-
-          images:
-            [],
-
-          files:
-            [],
-
-          imageDescription:
-            null,
-
-          generatedFiles:
-            result.generatedFiles ||
-            [],
-
-          generatedImage:
-            result.imageResult ||
-            null
-
-        });
-
-
-        state.conversation =
-          state.conversation.slice(
-            -80
-          );
-
-
-        saveState();
-
-
-        connected =
-          true;
-
-
-      } catch (
-        error
-      ) {
-
-        console.error(
-          error
-        );
-
-
-        if (
-          thinking &&
-          thinking.parentNode
-        ) {
-
-          thinking.remove();
-
-        }
-
-
-        connected =
-          false;
-
-
-        const errorMessage =
-          error &&
-          error.name ===
-          "AbortError"
-
-            ? "Request timed out."
-
-            : "Uh Oh! Server is having problems";
-
-
-        addStaticGregMessage(
-          errorMessage
-        );
-
-      } finally {
-
-        isSending =
-          false;
-
-
-        updateUI();
-
-
-        el.input.focus();
-
-      }
-
-    }
-
-
-    /* ========================================================
-       PRESETS
-       ======================================================== */
-
-    function updatePresetUI() {
-
-      const labels = {
-
-        default:
-          "Default",
-
-        fast:
-          "Fast",
-
-        smart:
-          "Smart"
-
-      };
-
-
-      el.presetButtonText.textContent =
-        labels[
-          activePreset
-        ] ||
-        "Default";
-
-
-      document
-        .querySelectorAll(
-          ".preset-option"
-        )
-        .forEach(
-          button => {
-
-            const active =
-              button.dataset.preset ===
-              activePreset;
-
-
-            button.classList.toggle(
-              "active",
-              active
-            );
-
-
-            const check =
-              button.querySelector(
-                ".preset-check"
-              );
-
-
-            if (
-              check
-            ) {
-
-              check.textContent =
-                active
-                  ? "✓"
-                  : "";
-
-            }
-
-          }
-        );
-
-    }
-
-
-    function setPreset(
-      preset
+    if (
+      thinking &&
+      thinking.parentNode
     ) {
 
-      if (
-        !PRESET_PARAMS[preset]
-      ) {
-
-        preset =
-          "default";
-
-      }
-
-
-      activePreset =
-        preset;
-
-
-      state.preset =
-        preset;
-
-
-      state.params =
-        {
-          ...PRESET_PARAMS[preset]
-        };
-
-
-      saveState();
-
-
-      updatePresetUI();
-
-
-      el.presetMenu.classList.remove(
-        "open"
-      );
-
-
-      el.memoryHint.textContent =
-        `Preset: ${
-          preset
-            .charAt(0)
-            .toUpperCase()
-          +
-          preset.slice(1)
-        }`;
+      thinking.remove();
 
     }
 
 
-    /* ========================================================
-       ATTACH MENU
-       ======================================================== */
-
-    el.attachButton.addEventListener(
-      "click",
-      event => {
-
-        event.stopPropagation();
+    connected =
+      false;
 
 
-        el.attachMenu.classList.toggle(
-          "open"
-        );
+    const errorMessage =
+      error &&
+      error.name ===
+      "AbortError"
+
+        ? "Request timed out."
+
+        : "Uh Oh! Server is having problems";
 
 
-        el.attachButton.classList.toggle(
-          "open"
-        );
-
-
-        el.presetMenu.classList.remove(
-          "open"
-        );
-
-      }
+    addStaticGregMessage(
+      errorMessage
     );
 
+  } finally {
 
-    el.uploadImageOption.addEventListener(
-      "click",
-      () => {
-
-        el.imageInput.click();
-
-      }
-    );
-
-
-    el.uploadFileOption.addEventListener(
-      "click",
-      () => {
-
-        el.fileInput.click();
-
-      }
-    );
-
-
-    el.imageInput.addEventListener(
-      "change",
-      event => {
-
-        addImageFiles(
-          event.target.files
-        );
-
-      }
-    );
-
-
-    el.fileInput.addEventListener(
-      "change",
-      event => {
-
-        addFileFiles(
-          event.target.files
-        );
-
-      }
-    );
-
-
-    /* ========================================================
-       PRESET MENU
-       ======================================================== */
-
-    el.presetButton.addEventListener(
-      "click",
-      event => {
-
-        event.stopPropagation();
-
-
-        el.presetMenu.classList.toggle(
-          "open"
-        );
-
-
-        el.attachMenu.classList.remove(
-          "open"
-        );
-
-
-        el.attachButton.classList.remove(
-          "open"
-        );
-
-      }
-    );
-
-
-    document.addEventListener(
-      "click",
-      event => {
-
-        if (
-          !el.presetMenu.contains(
-            event.target
-          ) &&
-          event.target !==
-          el.presetButton
-        ) {
-
-          el.presetMenu.classList.remove(
-            "open"
-          );
-
-        }
-
-
-        if (
-          !el.attachMenu.contains(
-            event.target
-          ) &&
-          event.target !==
-          el.attachButton
-        ) {
-
-          el.attachMenu.classList.remove(
-            "open"
-          );
-
-
-          el.attachButton.classList.remove(
-            "open"
-          );
-
-        }
-
-      }
-    );
-
-
-    document
-      .querySelectorAll(
-        ".preset-option"
-      )
-      .forEach(
-        button => {
-
-          button.addEventListener(
-            "click",
-            () =>
-              setPreset(
-                button.dataset.preset
-              )
-          );
-
-        }
-      );
-
-
-    activePreset =
-      "default";
-
-
-    state.preset =
-      "default";
-
-
-    state.params =
-      {
-        ...PRESET_PARAMS.default
-      };
-
-
-    updatePresetUI();
-
-
-    /* ========================================================
-       CLEAR CHAT
-       ======================================================== */
-
-    function clearChat() {
-
-      if (
-        !confirm(
-          "Clear this single chat?"
-        )
-      ) {
-
-        return;
-
-      }
-
-
-      state.conversation =
-        [];
-
-
-      saveState();
-
-
-      pendingImages =
-        [];
-
-
-      pendingFiles =
-        [];
-
-
-      renderImagePreviews();
-
-
-      renderFilePreviews();
-
-
-      el.messages.innerHTML =
-        "";
-
-
-      showWelcome();
-
-
-      el.input.focus();
-
-    }
-
-
-    /* ========================================================
-       EXPORT
-       ======================================================== */
-
-    function exportChat() {
-
-      const blob =
-        new Blob(
-
-          [
-            JSON.stringify(
-              state,
-              null,
-              2
-            )
-          ],
-
-          {
-            type:
-              "application/json"
-          }
-
-        );
-
-
-      const url =
-        URL.createObjectURL(
-          blob
-        );
-
-
-      const a =
-        document.createElement(
-          "a"
-        );
-
-
-      a.href =
-        url;
-
-
-      a.download =
-        "greg_chat_state.json";
-
-
-      document.body.appendChild(
-        a
-      );
-
-
-      a.click();
-
-
-      a.remove();
-
-
-      URL.revokeObjectURL(
-        url
-      );
-
-    }
-
-
-    /* ========================================================
-       REPLAY
-       ======================================================== */
-
-    function replayConversation() {
-
-      el.messages.innerHTML =
-        "";
-
-
-      if (
-        state.conversation.length ===
-        0
-      ) {
-
-        showWelcome();
-
-
-        return;
-
-      }
-
-
-      for (
-        const item
-        of state.conversation
-      ) {
-
-        if (
-          item.role ===
-          "user"
-        ) {
-
-          const storedFiles =
-            Array.isArray(
-              item.files
-            )
-              ? item.files
-              : [];
-
-
-          addUserMessage(
-
-            item.content ||
-            "",
-
-            Array.isArray(
-              item.images
-            )
-              ? item.images
-              : [],
-
-            storedFiles
-
-          );
-
-        } else if (
-          item.role ===
-          "assistant"
-        ) {
-
-          addStaticGregMessage(
-
-            item.content ||
-            "",
-
-            Array.isArray(
-              item.generatedFiles
-            )
-              ? item.generatedFiles
-              : []
-
-          );
-
-        }
-
-      }
-
-
-      scrollBottom(
-        false
-      );
-
-    }
-
-
-    /* ========================================================
-       INPUT
-       ======================================================== */
-
-    el.input.addEventListener(
-      "input",
-      resizeInput
-    );
-
-
-    el.input.addEventListener(
-      "keydown",
-      event => {
-
-        if (
-          event.key ===
-          "Enter" &&
-          !event.shiftKey
-        ) {
-
-          event.preventDefault();
-
-
-          sendMessage();
-
-        }
-
-      }
-    );
-
-
-    /* ========================================================
-       BUTTONS
-       ======================================================== */
-
-    el.sendBtn.addEventListener(
-      "click",
-      sendMessage
-    );
-
-
-    el.testBtn.addEventListener(
-      "click",
-      testApi
-    );
-
-
-    el.clearBtn.addEventListener(
-      "click",
-      clearChat
-    );
-
-
-    el.exportBtn.addEventListener(
-      "click",
-      exportChat
-    );
-
-
-    /* ========================================================
-       STARTUP
-       ======================================================== */
-
-    replayConversation();
+    isSending =
+      false;
 
 
     updateUI();
 
 
-    resizeInput();
+    el.input.focus();
+
+  }
+
+}
 
 
-    renderImagePreviews();
+/* ========================================================
+   PRESETS
+   ======================================================== */
+
+function updatePresetUI() {
+
+  const labels = {
+
+    default:
+      "Default",
+
+    fast:
+      "Fast",
+
+    smart:
+      "Smart"
+
+  };
 
 
-    renderFilePreviews();
+  el.presetButtonText.textContent =
+    labels[
+      activePreset
+    ] ||
+    "Default";
 
 
-    setTimeout(
-      testApi,
-      500
+  document
+    .querySelectorAll(
+      ".preset-option"
+    )
+    .forEach(
+      button => {
+
+        const active =
+          button.dataset.preset ===
+          activePreset;
+
+
+        button.classList.toggle(
+          "active",
+          active
+        );
+
+
+        const check =
+          button.querySelector(
+            ".preset-check"
+          );
+
+
+        if (
+          check
+        ) {
+
+          check.textContent =
+            active
+              ? "✓"
+              : "";
+
+        }
+
+      }
+    );
+
+}
+
+
+function setPreset(
+  preset
+) {
+
+  if (
+    !PRESET_PARAMS[preset]
+  ) {
+
+    preset =
+      "default";
+
+  }
+
+
+  activePreset =
+    preset;
+
+
+  state.preset =
+    preset;
+
+
+  state.params =
+    {
+      ...PRESET_PARAMS[preset]
+    };
+
+
+  saveState();
+
+
+  updatePresetUI();
+
+
+  el.presetMenu.classList.remove(
+    "open"
+  );
+
+
+  el.memoryHint.textContent =
+    `Preset: ${
+      preset
+        .charAt(0)
+        .toUpperCase()
+      +
+      preset.slice(1)
+    }`;
+
+}
+
+
+/* ========================================================
+   ATTACH MENU
+   ======================================================== */
+
+el.attachButton.addEventListener(
+  "click",
+  event => {
+
+    event.stopPropagation();
+
+
+    el.attachMenu.classList.toggle(
+      "open"
     );
 
 
-    setTimeout(
-      () => {
-
-        el.input.focus();
-
-      },
-      700
+    el.attachButton.classList.toggle(
+      "open"
     );
+
+
+    el.presetMenu.classList.remove(
+      "open"
+    );
+
+  }
+);
+
+
+el.uploadImageOption.addEventListener(
+  "click",
+  () => {
+
+    el.imageInput.click();
+
+  }
+);
+
+
+el.uploadFileOption.addEventListener(
+  "click",
+  () => {
+
+    el.fileInput.click();
+
+  }
+);
+
+
+el.imageInput.addEventListener(
+  "change",
+  event => {
+
+    addImageFiles(
+      event.target.files
+    );
+
+  }
+);
+
+
+el.fileInput.addEventListener(
+  "change",
+  event => {
+
+    addFileFiles(
+      event.target.files
+    );
+
+  }
+);
+
+
+/* ========================================================
+   PRESET MENU
+   ======================================================== */
+
+el.presetButton.addEventListener(
+  "click",
+  event => {
+
+    event.stopPropagation();
+
+
+    el.presetMenu.classList.toggle(
+      "open"
+    );
+
+
+    el.attachMenu.classList.remove(
+      "open"
+    );
+
+
+    el.attachButton.classList.remove(
+      "open"
+    );
+
+  }
+);
+
+
+document.addEventListener(
+  "click",
+  event => {
+
+    if (
+      !el.presetMenu.contains(
+        event.target
+      ) &&
+      event.target !==
+      el.presetButton
+    ) {
+
+      el.presetMenu.classList.remove(
+        "open"
+      );
+
+    }
+
+
+    if (
+      !el.attachMenu.contains(
+        event.target
+      ) &&
+      event.target !==
+      el.attachButton
+    ) {
+
+      el.attachMenu.classList.remove(
+        "open"
+      );
+
+
+      el.attachButton.classList.remove(
+        "open"
+      );
+
+    }
+
+  }
+);
+
+
+document
+  .querySelectorAll(
+    ".preset-option"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () =>
+          setPreset(
+            button.dataset.preset
+          )
+      );
+
+    }
+  );
+
+
+activePreset =
+  state.preset &&
+  PRESET_PARAMS[
+    state.preset
+  ]
+    ? state.preset
+    : "default";
+
+
+state.preset =
+  activePreset;
+
+
+state.params =
+  {
+    ...PRESET_PARAMS[
+      activePreset
+    ]
+  };
+
+
+updatePresetUI();
+
+
+/* ========================================================
+   CLEAR CHAT
+   ======================================================== */
+
+function clearChat() {
+
+  if (
+    !confirm(
+      "Clear this single chat?"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  state.conversation =
+    [];
+
+
+  saveState();
+
+
+  pendingImages =
+    [];
+
+
+  pendingFiles =
+    [];
+
+
+  renderImagePreviews();
+
+
+  renderFilePreviews();
+
+
+  el.messages.innerHTML =
+    "";
+
+
+  showWelcome();
+
+
+  el.input.focus();
+
+}
+
+
+/* ========================================================
+   EXPORT
+   ======================================================== */
+
+function exportChat() {
+
+  const blob =
+    new Blob(
+
+      [
+        JSON.stringify(
+          state,
+          null,
+          2
+        )
+      ],
+
+      {
+        type:
+          "application/json"
+      }
+
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href =
+    url;
+
+
+  a.download =
+    "greg_chat_state.json";
+
+
+  document.body.appendChild(
+    a
+  );
+
+
+  a.click();
+
+
+  a.remove();
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+}
+
+
+/* ========================================================
+   REPLAY
+   ======================================================== */
+
+function replayConversation() {
+
+  el.messages.innerHTML =
+    "";
+
+
+  if (
+    state.conversation.length ===
+    0
+  ) {
+
+    showWelcome();
+
+
+    return;
+
+  }
+
+
+  for (
+    const item
+    of state.conversation
+  ) {
+
+    if (
+      item.role ===
+      "user"
+    ) {
+
+      const storedFiles =
+        Array.isArray(
+          item.files
+        )
+          ? item.files
+          : [];
+
+
+      addUserMessage(
+
+        item.content ||
+        "",
+
+        Array.isArray(
+          item.images
+        )
+          ? item.images
+          : [],
+
+        storedFiles
+
+      );
+
+    } else if (
+      item.role ===
+      "assistant"
+    ) {
+
+      addStaticGregMessage(
+
+        item.content ||
+        "",
+
+        Array.isArray(
+          item.generatedFiles
+        )
+          ? item.generatedFiles
+          : [],
+
+        item.generatedImage ||
+        null
+
+      );
+
+    }
+
+  }
+
+
+  scrollBottom(
+    false
+  );
+
+}
+
+
+/* ========================================================
+   INPUT
+   ======================================================== */
+
+el.input.addEventListener(
+  "input",
+  resizeInput
+);
+
+
+el.input.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key ===
+      "Enter" &&
+      !event.shiftKey
+    ) {
+
+      event.preventDefault();
+
+
+      sendMessage();
+
+    }
+
+  }
+);
+
+
+/* ========================================================
+   BUTTONS
+   ======================================================== */
+
+el.sendBtn.addEventListener(
+  "click",
+  sendMessage
+);
+
+
+el.testBtn.addEventListener(
+  "click",
+  testApi
+);
+
+
+el.clearBtn.addEventListener(
+  "click",
+  clearChat
+);
+
+
+el.exportBtn.addEventListener(
+  "click",
+  exportChat
+);
+
+
+/* ========================================================
+   STARTUP
+   ======================================================== */
+
+replayConversation();
+
+
+updateUI();
+
+
+resizeInput();
+
+
+renderImagePreviews();
+
+
+renderFilePreviews();
+
+
+showHome();
+
+
+setTimeout(
+  testApi,
+  500
+);
+
+
+setTimeout(
+  () => {
+
+    el.input.focus();
+
+  },
+  700
+);
