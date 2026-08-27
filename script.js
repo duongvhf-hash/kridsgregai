@@ -715,7 +715,7 @@ requestAnimationFrame(
 	drawCanvasBg
 );
 
-const API_URL = "https://divorce-aims-mono-cylinder.trycloudflare.com";
+const API_URL = "https://intent-ted-solomon-ensures.trycloudflare.com";
 
 const STORAGE_KEY =
 	"greg_ui_api_v6";
