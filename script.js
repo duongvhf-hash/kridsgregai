@@ -592,7 +592,7 @@ requestAnimationFrame(
    API
    ======================================================== */
 
-const API_URL = "https://different-bailey-expansion-dose.trycloudflare.com";
+const API_URL = "https://charts-status-dated-prefix.trycloudflare.com";
 
 
 /* ========================================================
@@ -5224,8 +5224,7 @@ async function streamMessage(
         item => {
 
           const speaker =
-            item.role ===
-            "user"
+            item.role === "user"
               ? "User"
               : "Greg";
 
@@ -5276,6 +5275,7 @@ async function streamMessage(
                     "file"
                   }`;
 
+
                 if (
                   file.fileType
                 ) {
@@ -5284,6 +5284,7 @@ async function streamMessage(
                     ` (${file.fileType})`;
 
                 }
+
 
                 result +=
                   "\n";
@@ -5304,9 +5305,39 @@ async function streamMessage(
 
 
   const imagePayload =
-    images.map(
-      image =>
-        image.dataUrl
+    images
+      .map(
+        image =>
+          image.dataUrl
+      )
+      .filter(
+        Boolean
+      );
+
+
+  const filePayload =
+    files.map(
+      file => ({
+
+        id:
+          file.id,
+
+        name:
+          file.name,
+
+        type:
+          file.type,
+
+        size:
+          file.size,
+
+        fileType:
+          file.fileType,
+
+        dataUrl:
+          file.dataUrl
+
+      })
     );
 
 
@@ -5316,6 +5347,7 @@ async function streamMessage(
       await fetch(
         `${API_URL}/chat/stream`,
         {
+
           method:
             "POST",
 
@@ -5341,7 +5373,7 @@ async function streamMessage(
                 imagePayload,
 
               files:
-                files
+                filePayload
 
             }),
 
@@ -5391,7 +5423,9 @@ async function streamMessage(
       );
 
 
-    while (true) {
+    while (
+      true
+    ) {
 
       const result =
         await reader.read();
@@ -5490,7 +5524,9 @@ async function streamMessage(
 
 
     if (
-      stream.imageResult
+      stream.imageResult &&
+      typeof stream.imageResult ===
+        "object"
     ) {
 
       addGeneratedImage(
@@ -5500,11 +5536,6 @@ async function streamMessage(
 
     }
 
-
-    /*
-     * Put generated files directly into
-     * the SAME Greg message row.
-     */
 
     if (
       Array.isArray(
@@ -5536,12 +5567,21 @@ async function streamMessage(
         stream.generatedFiles.forEach(
           file => {
 
+            if (
+              !file
+            ) {
+
+              return;
+
+            }
+
+
             const card =
               createFileCard(
                 file.filename ||
-                "greg_file",
+                  "greg_file",
                 file.type ||
-                "file",
+                  "file",
                 true,
                 file
               );
@@ -5555,9 +5595,15 @@ async function streamMessage(
         );
 
 
-        messageContent.appendChild(
-          strip
-        );
+        if (
+          strip.children.length
+        ) {
+
+          messageContent.appendChild(
+            strip
+          );
+
+        }
 
 
         scrollBottom();
@@ -5568,6 +5614,10 @@ async function streamMessage(
 
 
     completed =
+      true;
+
+
+    connected =
       true;
 
 
@@ -5586,10 +5636,18 @@ async function streamMessage(
         stream.fileCount,
 
       files:
-        stream.files,
+        Array.isArray(
+          stream.files
+        )
+          ? stream.files
+          : [],
 
       generatedFiles:
-        stream.generatedFiles,
+        Array.isArray(
+          stream.generatedFiles
+        )
+          ? stream.generatedFiles
+          : [],
 
       imageRequest:
         stream.imageRequest,
@@ -5599,6 +5657,21 @@ async function streamMessage(
 
     };
 
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "Greg stream error:",
+      error
+    );
+
+
+    connected =
+      false;
+
+
+    throw error;
 
   } finally {
 
@@ -5616,13 +5689,22 @@ async function streamMessage(
       !completed
     ) {
 
-      parser.finish();
+      try {
 
+        parser.finish();
 
-      await renderer.finish()
-        .catch(
-          () => {}
+        await renderer.finish();
+
+      } catch (
+        cleanupError
+      ) {
+
+        console.error(
+          "Greg renderer cleanup error:",
+          cleanupError
         );
+
+      }
 
     }
 
