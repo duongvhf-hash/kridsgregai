@@ -592,7 +592,7 @@ requestAnimationFrame(
    API
    ======================================================== */
 
-const API_URL = "https://charts-status-dated-prefix.trycloudflare.com";
+const API_URL = "https://sensor-pose-scanner-speaks.trycloudflare.com";
 
 
 /* ========================================================
@@ -5224,7 +5224,8 @@ async function streamMessage(
         item => {
 
           const speaker =
-            item.role === "user"
+            item.role ===
+            "user"
               ? "User"
               : "Greg";
 
@@ -5305,39 +5306,9 @@ async function streamMessage(
 
 
   const imagePayload =
-    images
-      .map(
-        image =>
-          image.dataUrl
-      )
-      .filter(
-        Boolean
-      );
-
-
-  const filePayload =
-    files.map(
-      file => ({
-
-        id:
-          file.id,
-
-        name:
-          file.name,
-
-        type:
-          file.type,
-
-        size:
-          file.size,
-
-        fileType:
-          file.fileType,
-
-        dataUrl:
-          file.dataUrl
-
-      })
+    images.map(
+      image =>
+        image.dataUrl
     );
 
 
@@ -5347,7 +5318,6 @@ async function streamMessage(
       await fetch(
         `${API_URL}/chat/stream`,
         {
-
           method:
             "POST",
 
@@ -5373,7 +5343,7 @@ async function streamMessage(
                 imagePayload,
 
               files:
-                filePayload
+                files
 
             }),
 
@@ -5423,9 +5393,7 @@ async function streamMessage(
       );
 
 
-    while (
-      true
-    ) {
+    while (true) {
 
       const result =
         await reader.read();
@@ -5523,10 +5491,13 @@ async function streamMessage(
     }
 
 
+    /*
+     * Add the generated image directly to
+     * the SAME Greg message row.
+     */
+
     if (
-      stream.imageResult &&
-      typeof stream.imageResult ===
-        "object"
+      stream.imageResult
     ) {
 
       addGeneratedImage(
@@ -5536,6 +5507,11 @@ async function streamMessage(
 
     }
 
+
+    /*
+     * Put generated files directly into
+     * the SAME Greg message row.
+     */
 
     if (
       Array.isArray(
@@ -5567,21 +5543,12 @@ async function streamMessage(
         stream.generatedFiles.forEach(
           file => {
 
-            if (
-              !file
-            ) {
-
-              return;
-
-            }
-
-
             const card =
               createFileCard(
                 file.filename ||
-                  "greg_file",
+                "greg_file",
                 file.type ||
-                  "file",
+                "file",
                 true,
                 file
               );
@@ -5595,15 +5562,9 @@ async function streamMessage(
         );
 
 
-        if (
-          strip.children.length
-        ) {
-
-          messageContent.appendChild(
-            strip
-          );
-
-        }
+        messageContent.appendChild(
+          strip
+        );
 
 
         scrollBottom();
@@ -5614,10 +5575,6 @@ async function streamMessage(
 
 
     completed =
-      true;
-
-
-    connected =
       true;
 
 
@@ -5636,18 +5593,10 @@ async function streamMessage(
         stream.fileCount,
 
       files:
-        Array.isArray(
-          stream.files
-        )
-          ? stream.files
-          : [],
+        stream.files,
 
       generatedFiles:
-        Array.isArray(
-          stream.generatedFiles
-        )
-          ? stream.generatedFiles
-          : [],
+        stream.generatedFiles,
 
       imageRequest:
         stream.imageRequest,
@@ -5657,21 +5606,6 @@ async function streamMessage(
 
     };
 
-  } catch (
-    error
-  ) {
-
-    console.error(
-      "Greg stream error:",
-      error
-    );
-
-
-    connected =
-      false;
-
-
-    throw error;
 
   } finally {
 
@@ -5689,22 +5623,13 @@ async function streamMessage(
       !completed
     ) {
 
-      try {
+      parser.finish();
 
-        parser.finish();
 
-        await renderer.finish();
-
-      } catch (
-        cleanupError
-      ) {
-
-        console.error(
-          "Greg renderer cleanup error:",
-          cleanupError
+      await renderer.finish()
+        .catch(
+          () => {}
         );
-
-      }
 
     }
 
