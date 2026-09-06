@@ -592,7 +592,7 @@ requestAnimationFrame(
    API
    ======================================================== */
 
-const API_URL = "https://craps-settings-comparable-pensions.trycloudflare.com";
+const API_URL = "https://tied-corners-gets-ignored.trycloudflare.com";
 
 
 /* ========================================================
