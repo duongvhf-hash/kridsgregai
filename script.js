@@ -592,7 +592,7 @@ requestAnimationFrame(
    API
    ======================================================== */
 
-const API_URL = "https://aimed-sword-permission-cup.trycloudflare.com";
+const API_URL = "https://statements-hotels-arabia-grow.trycloudflare.com";
 
 
 /* ========================================================
