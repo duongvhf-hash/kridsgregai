@@ -592,7 +592,7 @@ requestAnimationFrame(
    API
    ======================================================== */
 
-const API_URL = "https://industry-abilities-rings-moore.trycloudflare.com";
+const API_URL = "https://sas-signatures-cost-told.trycloudflare.com";
 
 
 /* ========================================================
@@ -643,7 +643,7 @@ const PRESET_PARAMS = {
   default: {
 
     max_new_tokens:
-      2000,
+      2500,
 
     temperature:
       0.6,
