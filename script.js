@@ -592,7 +592,7 @@ requestAnimationFrame(
    API
    ======================================================== */
 
-const API_URL = "https://solid-files-weighted-biography.trycloudflare.com";
+const API_URL = "https://homeless-hourly-poems-revolutionary.trycloudflare.com";
 
 
 /* ========================================================
@@ -1521,6 +1521,7 @@ function readFileDataUrl(
 }
 
 
+
 async function addFileFiles(
   files
 ) {
@@ -1614,6 +1615,457 @@ async function addFileFiles(
 }
 
 
+// DRAG AND DROP + COPY AND PASTE
+
+(function setupDragDropAndPaste() {
+
+  let dragCounter = 0;
+
+
+  const dropOverlay =
+    document.createElement(
+      "div"
+    );
+
+
+  dropOverlay.id =
+    "greg-drop-overlay";
+
+
+  dropOverlay.textContent =
+    "Drop images and files to attach";
+
+
+  Object.assign(
+    dropOverlay.style,
+    {
+      position: "fixed",
+      inset: "16px",
+      zIndex: "99999",
+      display: "none",
+      alignItems: "center",
+      justifyContent: "center",
+      border: "3px dashed #4e79a7",
+      borderRadius: "22px",
+      background: "rgba(78, 121, 167, 0.18)",
+      color: "inherit",
+      fontSize: "22px",
+      fontWeight: "700",
+      textAlign: "center",
+      pointerEvents: "none",
+      backdropFilter: "blur(3px)"
+    }
+  );
+
+
+  document.body.appendChild(
+    dropOverlay
+  );
+
+
+  function isImageFile(
+    file
+  ) {
+
+    if (
+      file.type &&
+      file.type.startsWith(
+        "image/"
+      )
+    ) {
+
+      return true;
+
+    }
+
+
+    return /\.(png|jpe?g|webp|gif|bmp|tiff?|avif|ico)$/i.test(
+      file.name || ""
+    );
+
+  }
+
+
+  function routeFiles(
+    fileList
+  ) {
+
+    const files =
+      Array.from(
+        fileList || []
+      );
+
+
+    const images = [];
+    const otherFiles = [];
+    const seen = new Set();
+
+
+    for (
+      const file
+      of files
+    ) {
+
+      if (
+        !(file instanceof File)
+      ) {
+
+        continue;
+
+      }
+
+
+      const key =
+        `${file.name}|${file.size}|${file.lastModified}|${file.type}`;
+
+
+      if (
+        seen.has(key)
+      ) {
+
+        continue;
+
+      }
+
+
+      seen.add(
+        key
+      );
+
+
+      if (
+        isImageFile(
+          file
+        )
+      ) {
+
+        images.push(
+          file
+        );
+
+      } else {
+
+        otherFiles.push(
+          file
+        );
+
+      }
+
+    }
+
+
+    if (
+      images.length
+    ) {
+
+      addImageFiles(
+        images
+      );
+
+    }
+
+
+    if (
+      otherFiles.length
+    ) {
+
+      addFileFiles(
+        otherFiles
+      );
+
+    }
+
+
+    if (
+      el.attachMenu
+    ) {
+
+      el.attachMenu.classList.remove(
+        "open"
+      );
+
+    }
+
+
+    if (
+      el.attachButton
+    ) {
+
+      el.attachButton.classList.remove(
+        "open"
+      );
+
+    }
+
+  }
+
+
+  function hasFiles(
+    event
+  ) {
+
+    return Array.from(
+      event.dataTransfer?.types || []
+    ).includes(
+      "Files"
+    );
+
+  }
+
+
+  function showOverlay() {
+
+    dropOverlay.style.display =
+      "flex";
+
+  }
+
+
+  function hideOverlay() {
+
+    dropOverlay.style.display =
+      "none";
+
+  }
+
+
+  document.addEventListener(
+    "dragenter",
+    event => {
+
+      if (
+        !hasFiles(
+          event
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      event.preventDefault();
+
+
+      dragCounter++;
+
+
+      showOverlay();
+
+    }
+  );
+
+
+  document.addEventListener(
+    "dragover",
+    event => {
+
+      if (
+        !hasFiles(
+          event
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      event.preventDefault();
+
+
+      if (
+        event.dataTransfer
+      ) {
+
+        event.dataTransfer.dropEffect =
+          "copy";
+
+      }
+
+
+      showOverlay();
+
+    }
+  );
+
+
+  document.addEventListener(
+    "dragleave",
+    event => {
+
+      if (
+        !hasFiles(
+          event
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      event.preventDefault();
+
+
+      dragCounter =
+        Math.max(
+          0,
+          dragCounter - 1
+        );
+
+
+      if (
+        dragCounter === 0
+      ) {
+
+        hideOverlay();
+
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "drop",
+    event => {
+
+      if (
+        !hasFiles(
+          event
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      event.preventDefault();
+
+
+      dragCounter = 0;
+
+
+      hideOverlay();
+
+
+      routeFiles(
+        event.dataTransfer.files
+      );
+
+    }
+  );
+
+
+  window.addEventListener(
+    "blur",
+    () => {
+
+      dragCounter = 0;
+
+
+      hideOverlay();
+
+    }
+  );
+
+
+  document.addEventListener(
+    "paste",
+    event => {
+
+      const clipboard =
+        event.clipboardData;
+
+
+      if (
+        !clipboard
+      ) {
+
+        return;
+
+      }
+
+
+      const files = [];
+
+
+      if (
+        clipboard.files
+      ) {
+
+        files.push(
+          ...Array.from(
+            clipboard.files
+          )
+        );
+
+      }
+
+
+      if (
+        clipboard.items
+      ) {
+
+        for (
+          const item
+          of Array.from(
+            clipboard.items
+          )
+        ) {
+
+          if (
+            item.kind !== "file"
+          ) {
+
+            continue;
+
+          }
+
+
+          const file =
+            item.getAsFile();
+
+
+          if (
+            file
+          ) {
+
+            files.push(
+              file
+            );
+
+          }
+
+        }
+
+      }
+
+
+      if (
+        !files.length
+      ) {
+
+        return;
+
+      }
+
+
+      event.preventDefault();
+
+
+      routeFiles(
+        files
+      );
+
+    }
+  );
+
+})();
+
+
 function removePendingFile(
   id
 ) {
@@ -1673,6 +2125,7 @@ function removePendingFile(
   renderFilePreviews();
 
 }
+
 
 
 function renderFilePreviews() {
