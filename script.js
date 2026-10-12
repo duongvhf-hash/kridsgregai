@@ -592,7 +592,7 @@ requestAnimationFrame(
    API
    ======================================================== */
 
-const API_URL = "https://tracker-overnight-belly-treated.trycloudflare.com";
+const API_URL = "https://walt-claimed-product-silent.trycloudflare.com";
 
 
 /* ========================================================
@@ -2856,234 +2856,84 @@ function finishThinkingUI(
 }
 
 
-function processThinkingStream(
-  chunk,
-  parser,
-  stream
-) {
+function processThinkingStream(chunk, parser, stream) {
+  if (!chunk) return;
 
-  if (
-    !chunk
-  ) {
+  stream.thinkingBuffer += chunk;
 
-    return;
+  while (stream.thinkingBuffer.length) {
+    if (!stream.thinkingMode) {
+      const thinkTag = stream.thinkingBuffer.indexOf("<think>");
+      const headingMatch = stream.thinkingBuffer.match(/Thinking\s+Process\s*:\s*/i);
+      const headingIndex = headingMatch ? headingMatch.index : -1;
 
-  }
+      let startIndex = -1;
+      let startLength = 0;
 
+      if (thinkTag !== -1 && (headingIndex === -1 || thinkTag <= headingIndex)) {
+        startIndex = thinkTag;
+        startLength = "<think>".length;
+      } else if (headingIndex !== -1) {
+        startIndex = headingIndex;
+        startLength = headingMatch[0].length;
+      }
 
-  stream.thinkingBuffer +=
-    chunk;
+      if (startIndex === -1) {
+        const keepLength = Math.max("<think>".length, "Thinking Process:".length) - 1;
 
+        if (stream.thinkingBuffer.length <= keepLength) return;
 
-  while (
-    stream.thinkingBuffer.length
-  ) {
+        const safeLength = stream.thinkingBuffer.length - keepLength;
+        const safeText = stream.thinkingBuffer.slice(0, safeLength);
 
-    if (
-      !stream.thinkingMode
-    ) {
+        stream.thinkingBuffer = stream.thinkingBuffer.slice(safeLength);
 
-      const startIndex =
-        stream.thinkingBuffer.indexOf(
-          "<think>"
-        );
-
-
-      if (
-        startIndex ===
-        -1
-      ) {
-
-        const keepLength =
-          "<think>".length -
-          1;
-
-
-        if (
-          stream.thinkingBuffer.length <=
-          keepLength
-        ) {
-
-          return;
-
+        if (safeText) {
+          stream.answerText += safeText;
+          parser.feed(safeText);
         }
-
-
-        const safeLength =
-          stream.thinkingBuffer.length -
-          keepLength;
-
-
-        const safeText =
-          stream.thinkingBuffer.slice(
-            0,
-            safeLength
-          );
-
-
-        stream.thinkingBuffer =
-          stream.thinkingBuffer.slice(
-            safeLength
-          );
-
-
-        if (
-          safeText
-        ) {
-
-          stream.answerText +=
-            safeText;
-
-
-          parser.feed(
-            safeText
-          );
-
-        }
-
 
         continue;
-
       }
 
+      const answerBeforeThink = stream.thinkingBuffer.slice(0, startIndex);
 
-      const answerBeforeThink =
-        stream.thinkingBuffer.slice(
-          0,
-          startIndex
-        );
-
-
-      if (
-        answerBeforeThink
-      ) {
-
-        stream.answerText +=
-          answerBeforeThink;
-
-
-        parser.feed(
-          answerBeforeThink
-        );
-
+      if (answerBeforeThink) {
+        stream.answerText += answerBeforeThink;
+        parser.feed(answerBeforeThink);
       }
 
-
-      stream.thinkingBuffer =
-        stream.thinkingBuffer.slice(
-          startIndex +
-          "<think>".length
-        );
-
-
-      stream.thinkingMode =
-        true;
-
-
-      startThinkingUI(
-        stream
-      );
-
-
+      stream.thinkingBuffer = stream.thinkingBuffer.slice(startIndex + startLength);
+      stream.thinkingMode = true;
+      startThinkingUI(stream);
       continue;
-
     }
 
+    const endTag = stream.thinkingBuffer.indexOf("</think>");
 
-    const endIndex =
-      stream.thinkingBuffer.indexOf(
-        "</think>"
-      );
+    if (endTag === -1) {
+      const keepLength = "</think>".length - 1;
 
+      if (stream.thinkingBuffer.length <= keepLength) return;
 
-    if (
-      endIndex ===
-      -1
-    ) {
+      const safeLength = stream.thinkingBuffer.length - keepLength;
+      const thinkingText = stream.thinkingBuffer.slice(0, safeLength);
 
-      const keepLength =
-        "</think>".length -
-        1;
-
-
-      if (
-        stream.thinkingBuffer.length <=
-        keepLength
-      ) {
-
-        return;
-
-      }
-
-
-      const safeLength =
-        stream.thinkingBuffer.length -
-        keepLength;
-
-
-      const thinkingText =
-        stream.thinkingBuffer.slice(
-          0,
-          safeLength
-        );
-
-
-      stream.thinkingBuffer =
-        stream.thinkingBuffer.slice(
-          safeLength
-        );
-
-
-      appendThinkingText(
-        stream,
-        thinkingText
-      );
-
-
+      stream.thinkingBuffer = stream.thinkingBuffer.slice(safeLength);
+      appendThinkingText(stream, thinkingText);
       continue;
-
     }
 
+    const thinkingText = stream.thinkingBuffer.slice(0, endTag);
 
-    const thinkingText =
-      stream.thinkingBuffer.slice(
-        0,
-        endIndex
-      );
-
-
-    if (
-      thinkingText
-    ) {
-
-      appendThinkingText(
-        stream,
-        thinkingText
-      );
-
+    if (thinkingText) {
+      appendThinkingText(stream, thinkingText);
     }
 
-
-    stream.thinkingBuffer =
-      stream.thinkingBuffer.slice(
-        endIndex +
-        "</think>".length
-      );
-
-
-    stream.thinkingMode =
-      false;
-
-
-    finishThinkingUI(
-      stream
-    );
-
-
-    continue;
-
+    stream.thinkingBuffer = stream.thinkingBuffer.slice(endTag + "</think>".length);
+    stream.thinkingMode = false;
+    finishThinkingUI(stream);
   }
-
 }
 
 
