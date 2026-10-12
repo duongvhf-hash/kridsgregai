@@ -592,7 +592,7 @@ requestAnimationFrame(
    API
    ======================================================== */
 
-const API_URL = "https://enforcement-enlargement-sierra-percentage.trycloudflare.com";
+const API_URL = "https://solid-files-weighted-biography.trycloudflare.com";
 
 
 /* ========================================================
@@ -643,7 +643,7 @@ const PRESET_PARAMS = {
   default: {
 
     max_new_tokens:
-      2500,
+      5500,
 
     temperature:
       0.6,
@@ -689,7 +689,7 @@ const PRESET_PARAMS = {
   smart: {
 
     max_new_tokens:
-      3000,
+      6000,
 
     temperature:
       0.7,
