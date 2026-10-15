@@ -592,7 +592,7 @@ requestAnimationFrame(
    API
    ======================================================== */
 
-const API_URL = "https://flows-diabetes-early-incentive.trycloudflare.com";
+const API_URL = "https://perception-edward-mixer-demonstration.trycloudflare.com";
 
 
 /* ========================================================
@@ -639,75 +639,32 @@ const DEFAULT_PARAMS = {
 
 
 const PRESET_PARAMS = {
-
   default: {
-
-    max_new_tokens:
-      5500,
-
-    temperature:
-      0.6,
-
-    top_p:
-      0.85,
-
-    top_k:
-      40,
-
-    repetition_penalty:
-      1.0,
-
-    no_repeat_ngram_size:
-      0
-
+    max_new_tokens: 5500,
+    temperature: 0.6,
+    top_p: 0.9,
+    top_k: 40,
+    repetition_penalty: 1.0,
+    no_repeat_ngram_size: 0
   },
-
 
   fast: {
-
-    max_new_tokens:
-      2500,
-
-    temperature:
-      0.5,
-
-    top_p:
-      0.8,
-
-    top_k:
-      30,
-
-    repetition_penalty:
-      1.0,
-
-    no_repeat_ngram_size:
-      0
-
+    max_new_tokens: 2500,
+    temperature: 0.5,
+    top_p: 0.85,
+    top_k: 30,
+    repetition_penalty: 1.0,
+    no_repeat_ngram_size: 0
   },
 
-
   smart: {
-
-    max_new_tokens:
-      6000,
-
-    temperature:
-      0.7,
-
-    top_p:
-      0.9,
-
-    top_k:
-      50,
-
-    repetition_penalty:
-      1.0,
-
-    no_repeat_ngram_size:
-      0
-
+    max_new_tokens: 6000,
+    temperature: 0.6,
+    top_p: 0.95,
+    top_k: 40,
+    repetition_penalty: 1.0,
+    no_repeat_ngram_size: 0
   }
-
 };
 
 
