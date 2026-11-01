@@ -1,1 +1,1 @@
-https://treasures-limit-rational-familiar.trycloudflare.com/chat
+https://api.trycloudflare.com/chat

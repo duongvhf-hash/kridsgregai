@@ -592,7 +592,7 @@ requestAnimationFrame(
    API
    ======================================================== */
 
-const API_URL = "https://treasures-limit-rational-familiar.trycloudflare.com";
+const API_URL = "https://api.trycloudflare.com";
 
 
 /* ========================================================
