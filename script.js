@@ -592,7 +592,7 @@ requestAnimationFrame(
    API
    ======================================================== */
 
-const API_URL = "https://api.trycloudflare.com";
+const API_URL = "https://licenses-suffered-revealed-courtesy.trycloudflare.com";
 
 
 /* ========================================================
